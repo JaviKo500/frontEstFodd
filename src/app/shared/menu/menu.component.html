@@ -1,1 +1,5 @@
-<p>menu works!</p>
+<p-sidebar [(visible)]="menuService.display" [modal]="false">
+    <br>
+    <p-menu [styleClass]="'w-full mt-2 border-none'" [model]="items"></p-menu>
+</p-sidebar>
+<button pButton pRipple (click)="menuService.display = !menuService.display" type="button" icon="pi pi-bars" class="p-button-text"></button>
