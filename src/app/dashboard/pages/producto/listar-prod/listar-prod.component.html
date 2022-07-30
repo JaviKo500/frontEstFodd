@@ -7,17 +7,72 @@
                 </div>
             </ng-template>
             <div class="grid">
-                <div class="col-12" >
+                <div class="col-12">
                     <div class="flex justify-content-between flex-wrap">
-                        <button pButton pRipple type="button" class="p-button-success" label="Nuevo" icon="pi pi-plus"></button>
+                        <button pButton pRipple type="button" class="p-button-success" label="Nuevo"
+                            icon="pi pi-plus"></button>
                         <div class="">
-                            <input type="text" pInputText placeholder="Buscar"> 
+                            <input type="text" pInputText placeholder="Buscar">
                             <button pButton pRipple type="button" icon="pi pi-search"></button>
                         </div>
                     </div>
                 </div>
                 <div class="col-12">
-                    
+                    <p-table [value]="productos" [rows]="10" [paginator]="true"
+                        responsiveLayout="scroll" [rowHover]="true" dataKey="id"
+                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos"
+                        [showCurrentPageReport]="true">
+                        <ng-template pTemplate="header">
+                            <tr>
+
+                                <th pSortableColumn="codigoProducto">Cod<p-sortIcon field="codigoProducto"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="descripcionProducto">Nombre<p-sortIcon field="descripcionProducto"></p-sortIcon>
+                                </th>
+                                <th>Image</th>
+                                <th pSortableColumn="precioVentaProducto">Precio <p-sortIcon field="precioVentaProducto"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="stockProducto">Stock<p-sortIcon field="stockProducto"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="estadoProducto">Estado<p-sortIcon field="estadoProducto"></p-sortIcon>
+                                </th>
+                                <th>Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-producto>
+                            <tr>
+                                <td>{{producto.codigoProducto}}</td>
+                                <td>{{producto.descripcionProducto}}</td>
+                                <td>N/A</td>
+                                <td>{{producto.precioVentaProducto}}</td>
+                                <td>{{producto.stockProducto}}</td>
+                                <td>
+                                    <div class="" *ngIf="producto.estadoProducto; else baja">
+                                        Disponible
+                                    </div>
+                                    <ng-template #baja>
+                                        No Disponible
+                                    </ng-template>
+                                    
+                                </td>
+                                <td>
+                                    <div class="grid">
+                                        <div class="col-12">
+                                            <div class="flex justify-content-between flex-wrap">
+                                                <button pButton pRipple type="button" class="p-button-help" icon="pi pi-eye"></button>
+                                                <button pButton pRipple type="button" class="p-button-warning" icon="pi pi-pencil"></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="summary">
+                            <div class="flex align-items-center justify-content-between">
+                                En total existen {{productos ? productos.length : 0 }} productos.
+                            </div>
+                        </ng-template>
+                    </p-table>
                 </div>
             </div>
         </p-card>

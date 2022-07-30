@@ -5,6 +5,7 @@ import {CardModule} from 'primeng/card';
 import {InputTextModule} from 'primeng/inputtext';
 import {MenuModule} from 'primeng/menu';
 import {SidebarModule} from 'primeng/sidebar';
+import {TableModule} from 'primeng/table';
 import {ToolbarModule} from 'primeng/toolbar';
 
 @NgModule({
@@ -14,6 +15,7 @@ import {ToolbarModule} from 'primeng/toolbar';
     InputTextModule,
     MenuModule,
     SidebarModule,
+    TableModule,
     ToolbarModule,
   ]
 })
