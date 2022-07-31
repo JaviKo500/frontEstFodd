@@ -5,6 +5,7 @@ export interface RespuestaProd {
     mensaje:  string;
     respuesta: any;
     ok:       boolean;
+    error: any;
 }
 
 export class Producto {
@@ -16,6 +17,7 @@ export class Producto {
     precioVentaProducto?: number;
     stockProducto?:       number;
     estadoProducto?:      boolean;
+    menuCliente?:         boolean;
     marca?:               Marca;
     presentacion?:        Presentacion;
     zona?:                Zona;

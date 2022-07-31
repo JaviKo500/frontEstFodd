@@ -9,16 +9,16 @@
             <div class="grid">
                 <div class="col-12">
                     <div class="flex justify-content-between flex-wrap">
-                        <button pButton pRipple type="button" class="p-button-success" label="Nuevo"
+                        <button pButton pRipple type="button" class="p-button-success" label="Nuevo" [routerLink]="['/dashboard/producto/gestion/crear']"
                             icon="pi pi-plus"></button>
                         <div class="">
-                            <input type="text" pInputText placeholder="Buscar">
-                            <button pButton pRipple type="button" icon="pi pi-search"></button>
+                            <input type="text" pInputText placeholder="Buscar" [(ngModel)]="termino" (keyup)="verificarTermino()" (keyup.enter)="buscarPorTermino()">
+                            <button pButton pRipple type="button" icon="pi pi-search" (click)="buscarPorTermino()"></button>
                         </div>
                     </div>
                 </div>
                 <div class="col-12">
-                    <p-table [value]="productos" [rows]="10" [paginator]="true"
+                    <p-table [value]="productos" [rows]="5" [paginator]="true"
                         responsiveLayout="scroll" [rowHover]="true" dataKey="id"
                         currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos"
                         [showCurrentPageReport]="true">
@@ -59,8 +59,20 @@
                                     <div class="grid">
                                         <div class="col-12">
                                             <div class="flex justify-content-between flex-wrap">
-                                                <button pButton pRipple type="button" class="p-button-help" icon="pi pi-eye"></button>
-                                                <button pButton pRipple type="button" class="p-button-warning" icon="pi pi-pencil"></button>
+                                                <button pButton 
+                                                        pRipple 
+                                                        type="button" 
+                                                        class="p-button-help" 
+                                                        icon="pi pi-eye"
+                                                        (click)="showDialog(producto)">
+                                                </button>
+                                                <button pButton 
+                                                        pRipple 
+                                                        type="button" 
+                                                        class="p-button-warning" 
+                                                        icon="pi pi-pencil"
+                                                        [routerLink]="['/dashboard/producto/gestion/editar', producto.idProducto]">
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -78,3 +90,51 @@
         </p-card>
     </div>
 </div>
+
+<p-dialog header="Detalles" [(visible)]="displayDetalles" [breakpoints]="[{'960px': '75vw'}]" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false" (onHide)="closeDialog()">
+    <div class="grid" *ngIf="selectedProducto">
+        <div class="col-12">
+            <p-table [value]="[selectedProducto]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>IVA</th>
+                        <th>Marca</th>
+                        <th>Presentacion</th>
+                        <th>Zona</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-producto>
+                    <tr>
+                        <td>{{producto.fechaIngreso}}</td>
+                        <td>{{producto.ivaProducto}}</td>
+                        <td>
+                            <div class="" *ngIf="producto?.marca; else na">
+                                {{producto?.marca?.nombreMarca}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="" *ngIf="producto?.presentacion; else na">
+                                {{producto?.presentacion?.nombrePresentacion}}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="" *ngIf="producto?.zona; else na">
+                                {{producto?.zona?.nombreZona}}
+                            </div>
+                            
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <ng-template #na>
+                N/A
+            </ng-template>
+            
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button (click)="closeDialog()" label="Cerrar" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

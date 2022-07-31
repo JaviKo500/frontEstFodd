@@ -1,1 +1,163 @@
-<p>gestion-prod works!</p>
+<div class="grid text-layout">
+    <div class="col-12">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="text-center">
+                    <h1>Gestión Productos</h1>
+                </div>
+            </ng-template>
+            <form [formGroup]="productoForm">
+                <div class="grid">
+                    <div class="col-4">
+                        <div class="field">
+                            <label for="nombre" class="block">Nombre:</label>
+                            <input type="text" pInputText placeholder="Nombre" formControlName="descripcionProducto" />
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('descripcionProducto')">
+                                Campo requerido.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="codigo" class="block">Código:</label>
+                            <input type="text" pInputText placeholder="Código" formControlName="codigoProducto" />
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('codigoProducto')">
+                                Campo requerido.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="stockProducto" class="block">Stock:</label>
+                            <input type="number" pInputText placeholder="Stock" formControlName="stockProducto" />
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('stockProducto')">
+                                {{errorMsg('stockProducto')}}
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="field">
+                            <label for="precioVentaProducto" class="block">Precio Público:</label>
+                            <span class="p-input-icon-left">
+                                <p-inputNumber  inputId="locale-us" 
+                                                placeholder="$0.0.." 
+                                                mode="decimal" 
+                                                prefix="$" 
+                                                locale="en-US" 
+                                                [minFractionDigits]="2"
+                                                formControlName="precioVentaProducto">
+                                </p-inputNumber>
+                            </span>
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('precioVentaProducto')">
+                                {{errorMsg('precioVentaProducto')}}
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="ivaProducto" class="block">IVA:</label>
+                            <p-inputNumber  inputId="percent" prefix="%" value="12" formControlName="ivaProducto" >
+                            </p-inputNumber>
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('ivaProducto')">
+                                {{errorMsg('ivaProducto')}}
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="fechaIngreso" class="block">Fecha:</label>
+                            <span class="p-input-icon-left">
+                                <p-calendar  dateFormat="yy-mm-dd" inputId="dateformat" placeholder="yyyy/mm/dd" formControlName="fechaIngreso">
+                                </p-calendar>
+                            </span>
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('fechaIngreso')">
+                                Campo requerido.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="">
+                            <h4 class="mt-0">Detalles:</h4>
+                            <div class="">
+                                <button pButton pRipple type="button" label="Agregar" (click)="showDialog()" class="p-button-help"></button>
+                            </div>
+                        </div>
+                        <div class="grid mt-2">
+                            <div class="col-12">
+                                Imagen
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="grid">
+                <div class="col-12 flex justify-content-evenly mt-2">
+                    <button pButton pRipple type="button" label="Guardar" (click)="realizarAccion()"></button>
+                    <button pButton pRipple type="button" label="Eliminar" (click)="eliminar($event)" class="p-button-danger" *ngIf="id && selectedProducto"></button>
+                    <button pButton pRipple type="button" label="Cancelar" [routerLink]="'/dashboard/producto'" class="p-button-raised p-button-text"></button>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
+<!-- popup de confirmacion de eliminar  -->
+<p-confirmPopup></p-confirmPopup>
+
+<!-- Modal detalles -->
+<p-dialog header="Detalles" [(visible)]="displayDetalles" [breakpoints]="[{'960px': '75vw'}]" [style]="{width: '50vw'}"
+    [draggable]="false" [resizable]="false">
+    <div class="grid">
+        <div class="col-2"></div>
+        <div class="col-5">Nombre</div>
+        <div class="col-5">Descripción</div>
+    </div>
+    <form [formGroup]="detallesForm">
+        <div class="grid" formGroupName="marca">
+            <div class="col-2">
+                <h4 class="mt-0">Marca</h4>
+            </div>
+            <div class="col-5" >
+                <div class="field">
+                    <input type="text" pInputText formControlName="nombreMarca"/>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="field">
+                    <input type="text" pInputText formControlName="descripcionMarca"/>
+                </div>
+            </div>
+        </div>
+        <div class="grid" formGroupName="presentacion">
+            <div class="col-2">
+                <h4 class="mt-0">Presentación</h4>
+            </div>
+            <div class="col-5">
+                <div class="field">
+                    <input type="text" pInputText formControlName="nombrePresentacion"/>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="field">
+                    <input type="text" pInputText formControlName="descripcionPresentacion" />
+                </div>
+            </div>
+        </div>
+        <div class="grid" formGroupName="zona">
+            <div class="col-2">
+                <h4 class="mt-0">Zona</h4>
+            </div>
+            <div class="col-5">
+                <div class="field">
+                    <input type="text" pInputText formControlName="nombreZona"/>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="field">
+                    <input type="text" pInputText formControlName="descripcionZona"/>
+                </div>
+            </div>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button (click)="closeDialog()" label="Cancelar" styleClass="p-button-text"></p-button>
+        <button pButton pRipple type="button" (click)="GuardarDetalles()" label="Guardar"></button>
+    </ng-template>
+</p-dialog>
