@@ -82,7 +82,18 @@
                         </div>
                         <div class="grid mt-2">
                             <div class="col-12">
-                                Imagen
+                                <p-fileUpload #upLoad  [multiple]="false" 
+                                                accept="image/*"
+                                                [files]="[]"
+                                                [maxFileSize]="1000000" 
+                                                [showUploadButton]="false" 
+                                                [showCancelButton]="false" 
+                                                (onSelect)="selecionarImagen($event)"
+                                                [chooseLabel]="'Seleccionar'"
+                                                [invalidFileTypeMessageSummary] = "'{0}: Tipo archivo inválido'"
+                                                [invalidFileTypeMessageDetail] = "'Tipos de archivo permitidos: {0}.'" 
+                                                >
+                                </p-fileUpload>
                             </div>
                         </div>
                     </div>

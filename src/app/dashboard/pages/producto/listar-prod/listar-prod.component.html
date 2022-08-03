@@ -43,7 +43,33 @@
                             <tr>
                                 <td>{{producto.codigoProducto}}</td>
                                 <td>{{producto.descripcionProducto}}</td>
-                                <td>N/A</td>
+                                <td>
+                                    <img    class="img-container p-shadow-4"
+                                            src="{{ baseUrl }}/{{ producto.imgProducto }}"
+                                            [alt]="producto.descripcionPresentacion"
+                                            *ngIf="producto.imgProducto"/>
+                                        <!-- <p-galleria  [(visible)]="displayCustom" [value]="[producto.imgProducto]"
+                                            [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '850px'}" [circular]="true"
+                                            [fullScreen]="true" [showThumbnails]="false" [baseZIndex]="100000">
+                                            <ng-template pTemplate="item" let-item>
+                                                <img src="{{ baseUrl }}/{{producto.imgProducto}}" style="width: 100%; display: block;" />
+                                            </ng-template>
+                                            <ng-template pTemplate="thumbnail" let-item>
+                                                <div class="p-grid p-nogutter p-justify-center">
+                                                    <img src="{{ baseUrl }}/{{producto.imgProducto}}" style="display: block;" />
+                                                </div>
+                                            </ng-template>
+                                        </p-galleria>
+                                        <div *ngIf="producto.imgProducto" class="p-grid" style="max-width: 400px;">
+                                            <div class="p-col-3" key="index">
+                                                <img    src="{{ baseUrl }}/{{ producto.imgProducto }}" 
+                                                        [alt]="producto.descripcionPresentacion" 
+                                                        style="cursor: pointer" 
+                                                        class="img-container p-shadow-4"
+                                                        (click)="imageClick()" />
+                                            </div>
+                                        </div> -->
+                                </td>
                                 <td>{{producto.precioVentaProducto}}</td>
                                 <td>{{producto.stockProducto}}</td>
                                 <td>
