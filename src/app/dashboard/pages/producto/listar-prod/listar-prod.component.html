@@ -9,8 +9,7 @@
             <div class="grid">
                 <div class="col-12">
                     <div class="flex justify-content-between flex-wrap">
-                        <button pButton pRipple type="button" class="p-button-success" label="Nuevo" [routerLink]="['/dashboard/producto/gestion/crear']"
-                            icon="pi pi-plus"></button>
+                        <button pButton pRipple type="button" class="p-button-success" label="Nuevo" [routerLink]="['/dashboard/producto/gestion/crear']" icon="pi pi-plus"></button>
                         <div class="">
                             <input type="text" pInputText placeholder="Buscar" [(ngModel)]="termino" (keyup)="verificarTermino()" (keyup.enter)="buscarPorTermino()">
                             <button pButton pRipple type="button" icon="pi pi-search" (click)="buscarPorTermino()"></button>
@@ -18,23 +17,25 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <p-table [value]="productos" [rows]="5" [paginator]="true"
-                        responsiveLayout="scroll" [rowHover]="true" dataKey="id"
-                        currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos"
-                        [showCurrentPageReport]="true">
+                    <p-table [value]="productos" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [showCurrentPageReport]="true">
                         <ng-template pTemplate="header">
                             <tr>
 
-                                <th pSortableColumn="codigoProducto">Cod<p-sortIcon field="codigoProducto"></p-sortIcon>
+                                <th pSortableColumn="codigoProducto">Cod
+                                    <p-sortIcon field="codigoProducto"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="descripcionProducto">Nombre<p-sortIcon field="descripcionProducto"></p-sortIcon>
+                                <th pSortableColumn="descripcionProducto">Nombre
+                                    <p-sortIcon field="descripcionProducto"></p-sortIcon>
                                 </th>
                                 <th>Image</th>
-                                <th pSortableColumn="precioVentaProducto">Precio <p-sortIcon field="precioVentaProducto"></p-sortIcon>
+                                <th pSortableColumn="precioVentaProducto">Precio
+                                    <p-sortIcon field="precioVentaProducto"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="stockProducto">Stock<p-sortIcon field="stockProducto"></p-sortIcon>
+                                <th pSortableColumn="stockProducto">Stock
+                                    <p-sortIcon field="stockProducto"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="estadoProducto">Estado<p-sortIcon field="estadoProducto"></p-sortIcon>
+                                <th pSortableColumn="estadoProducto">Estado
+                                    <p-sortIcon field="estadoProducto"></p-sortIcon>
                                 </th>
                                 <th>Acciones</th>
                             </tr>
@@ -53,25 +54,15 @@
                                     <ng-template #baja>
                                         No Disponible
                                     </ng-template>
-                                    
+
                                 </td>
                                 <td>
                                     <div class="grid">
                                         <div class="col-12">
                                             <div class="flex justify-content-between flex-wrap">
-                                                <button pButton 
-                                                        pRipple 
-                                                        type="button" 
-                                                        class="p-button-help" 
-                                                        icon="pi pi-eye"
-                                                        (click)="showDialog(producto)">
+                                                <button pButton pRipple type="button" class="p-button-help" icon="pi pi-eye" (click)="showDialog(producto)">
                                                 </button>
-                                                <button pButton 
-                                                        pRipple 
-                                                        type="button" 
-                                                        class="p-button-warning" 
-                                                        icon="pi pi-pencil"
-                                                        [routerLink]="['/dashboard/producto/gestion/editar', producto.idProducto]">
+                                                <button pButton pRipple type="button" class="p-button-warning" icon="pi pi-pencil" [routerLink]="['/dashboard/producto/gestion/editar', producto.idProducto]">
                                                 </button>
                                             </div>
                                         </div>
@@ -91,8 +82,7 @@
     </div>
 </div>
 
-<p-dialog header="Detalles" [(visible)]="displayDetalles" [breakpoints]="[{'960px': '75vw'}]" [style]="{width: '50vw'}" [baseZIndex]="10000"
-    [draggable]="false" [resizable]="false" (onHide)="closeDialog()">
+<p-dialog header="Detalles" [(visible)]="displayDetalles" [breakpoints]="[{'960px': '75vw'}]" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" (onHide)="closeDialog()">
     <div class="grid" *ngIf="selectedProducto">
         <div class="col-12">
             <p-table [value]="[selectedProducto]">
@@ -101,7 +91,7 @@
                         <th>Fecha</th>
                         <th>IVA</th>
                         <th>Marca</th>
-                        <th>Presentacion</th>
+                        <th>Presentación</th>
                         <th>Zona</th>
                     </tr>
                 </ng-template>
@@ -123,7 +113,7 @@
                             <div class="" *ngIf="producto?.zona; else na">
                                 {{producto?.zona?.nombreZona}}
                             </div>
-                            
+
                         </td>
                     </tr>
                 </ng-template>
@@ -131,7 +121,7 @@
             <ng-template #na>
                 N/A
             </ng-template>
-            
+
         </div>
     </div>
     <ng-template pTemplate="footer">

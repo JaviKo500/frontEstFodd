@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "appEstFood"
+  "defaultProject": "appEstFood",
+  "cli": {
+    "analytics": "1c30702e-2dfb-468f-bbda-222e9896a56f"
+  }
 }
