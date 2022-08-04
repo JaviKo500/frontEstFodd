@@ -20,6 +20,7 @@ export class ListarProdComponent implements OnInit {
 
   public selectedProducto?: Producto | null;
 
+
   public baseUrl: string = `${environment.baseUrl}/uploads/img`;
   responsiveOptions:any[] = [
     {
@@ -28,11 +29,11 @@ export class ListarProdComponent implements OnInit {
     },
     {
         breakpoint: '768px',
-        numVisible: 3
+        numVisible: 5
     },
     {
         breakpoint: '560px',
-        numVisible: 1
+        numVisible: 5
     }
 ];
   constructor(
@@ -77,8 +78,9 @@ export class ListarProdComponent implements OnInit {
     
   }
 
-  imageClick() {
+  imageClick( producto: Producto ) {
     this.displayCustom = true;
+    this.selectedProducto = producto;
   }
   showDialog = (producto: Producto) => {
     this.displayDetalles = true;
@@ -87,6 +89,7 @@ export class ListarProdComponent implements OnInit {
   
   closeDialog = () => {
     this.displayDetalles = false;
+    this.displayCustom = false;
     this.selectedProducto = null;
   }
 
