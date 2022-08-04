@@ -3,6 +3,7 @@ import { Producto, RespuestaProd } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
+import { environment } from 'src/environments/environment.prod';
 
 @Component({
   selector: 'app-listar-prod',
@@ -15,8 +16,26 @@ export class ListarProdComponent implements OnInit {
   public termino: string = '';
 
   public displayDetalles: boolean= false;
+  public displayCustom: boolean = false;
 
   public selectedProducto?: Producto | null;
+
+
+  public baseUrl: string = `${environment.baseUrl}/uploads/img`;
+  responsiveOptions:any[] = [
+    {
+        breakpoint: '1024px',
+        numVisible: 5
+    },
+    {
+        breakpoint: '768px',
+        numVisible: 5
+    },
+    {
+        breakpoint: '560px',
+        numVisible: 5
+    }
+];
   constructor(
     private _productoService: ProductoService,
     private _msgSweetAlertService: MsgSweetAlertService,
@@ -59,6 +78,10 @@ export class ListarProdComponent implements OnInit {
     
   }
 
+  imageClick( producto: Producto ) {
+    this.displayCustom = true;
+    this.selectedProducto = producto;
+  }
   showDialog = (producto: Producto) => {
     this.displayDetalles = true;
     this.selectedProducto = producto;
@@ -66,6 +89,7 @@ export class ListarProdComponent implements OnInit {
   
   closeDialog = () => {
     this.displayDetalles = false;
+    this.displayCustom = false;
     this.selectedProducto = null;
   }
 

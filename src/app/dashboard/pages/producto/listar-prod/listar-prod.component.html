@@ -40,11 +40,21 @@
                                 <th>Acciones</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-producto>
+                        <ng-template pTemplate="body" let-producto let-index>
                             <tr>
                                 <td>{{producto.codigoProducto}}</td>
                                 <td>{{producto.descripcionProducto}}</td>
-                                <td>N/A</td>
+                                <td>
+                                    <div *ngIf="producto.imgProducto" class="grid" style="max-width: 400px;">
+                                        <div class="col-12" >
+                                            <img    src="{{ baseUrl }}/{{ producto.imgProducto }}" 
+                                                    [alt]="producto.descripcionPresentacion" 
+                                                    style="cursor: pointer" 
+                                                    class="img-container p-shadow-4"
+                                                    (click)="imageClick(producto)" />
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{producto.precioVentaProducto}}</td>
                                 <td>{{producto.stockProducto}}</td>
                                 <td>
@@ -122,6 +132,21 @@
                 N/A
             </ng-template>
 
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button (click)="closeDialog()" label="Cerrar" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog header="Imagen" [(visible)]="displayCustom" [breakpoints]="[{'960px': '75vw'}]" [style]="{width: '50vw'}" [baseZIndex]="10000"
+    [draggable]="false" [resizable]="false" (onHide)="closeDialog()" >
+    <div *ngIf="selectedProducto" class="grid" >
+        <div class="col-12 w-full text-center" >
+            <img    src="{{ baseUrl }}/{{ selectedProducto.imgProducto }}" 
+                    [alt]="selectedProducto.descripcionProducto" 
+                    style="max-width: 400px; max-height: 400px;"
+                    class="w-full p-shadow-4" />
         </div>
     </div>
     <ng-template pTemplate="footer">

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
@@ -33,6 +33,13 @@ export class ProductoService {
     return this._http.put<RespuestaProd>(`${this._url}/${id}`, producto);
   }
 
+  subirFoto = (archivo: File, id: number): Observable<HttpEvent<{}>> => {
+    let formData = new FormData();
+    formData.append("archivo", archivo);
+    formData.append("id", id.toString());
+    const req = new HttpRequest('POST',`${this._url}/upload`, formData);
+    return this._http.request(req);
+  }
   eliminar = (id: number): Observable<RespuestaProd> => {
     return this._http.delete<RespuestaProd>(`${this._url}/${id}`);
   }

@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto, RespuestaProd } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
+import { FileUpload } from 'primeng/fileupload';
 
 @Component({
   selector: 'app-gestion-prod',
@@ -15,13 +16,15 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class GestionProdComponent implements OnInit {
 
+  @ViewChild("upLoad") upLoad?: FileUpload;
+
   public productoForm: FormGroup = this._formBuilder.group({
     descripcionProducto :[ , [ Validators.required ] ],
     codigoProducto      :[ , [ Validators.required ] ],
     stockProducto       :[ , [ Validators.required, Validators.min(0) ] ],
     precioVentaProducto :[ , [ Validators.required, Validators.min(0)] ],
     ivaProducto         :[ 12 , [ Validators.required, Validators.min(0) ] ],
-    fechaIngreso        :[ , [ Validators.required ] ],   
+    fechaIngreso        :[ , [ Validators.required ] ],
   });
 
   public detallesForm: FormGroup = this._formBuilder.group({
@@ -36,8 +39,9 @@ export class GestionProdComponent implements OnInit {
     zona                : this._formBuilder.group({
       nombreZona              : [ , [ Validators.required] ],
       descripcionZona         : [],
-    }), 
+    })
   });
+
 
 
   public displayDetalles: boolean= false;
@@ -45,6 +49,9 @@ export class GestionProdComponent implements OnInit {
   public producto?: Producto;
   public selectedProducto?: Producto;
   public id?: number;
+
+  public uploadedFiles: any[] = [];
+  public imagenSeleccionada?: File | null;
   constructor(
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
@@ -99,12 +106,14 @@ export class GestionProdComponent implements OnInit {
   realizarAccion = () => {
     if (this.productoForm.valid) {
       this.producto = this.productoForm.value;
-      this.verificarCamposDetalle();
+      this.verificarCamposDetalle();      
       // TODO: verificar si tiene id
       if (this.id) {
         this.actualizarProducto();
       }else {
+        this.producto!.menuClienteProducto = false;
         this.producto!.estadoProducto = true;
+        this.producto!.imgProducto = '';
         this.crearProducto(this.producto!);
       }
     } else {
@@ -136,7 +145,10 @@ export class GestionProdComponent implements OnInit {
         this.productoForm.reset();
         this.detallesForm.reset();
         this.productoForm.get('ivaProducto')?.patchValue(12);
-        this._msgSweetAlertService.mensajeOk('Producto Guardado')
+        this._msgSweetAlertService.mensajeOk('Producto Guardado');
+        console.log(resp);
+        
+        this.subirImagen(resp.respuesta.idProducto);
       }, 
       error: (err: HttpErrorResponse) => {
         if (err.status === 409) {
@@ -154,6 +166,7 @@ export class GestionProdComponent implements OnInit {
     this.producto!.estadoProducto = this.selectedProducto?.estadoProducto;
     this._productoService.actualizar(this.id!, this.producto!).subscribe({
       next: (resp: RespuestaProd) => {
+        this.subirImagen(this.id!);
         this._msgSweetAlertService.mensajeOk('Producto Guardado')
         this._router.navigate(['/dashboard/producto']);
       }, 
@@ -191,6 +204,29 @@ export class GestionProdComponent implements OnInit {
         }
     });
   }
+  selecionarImagen = (event: any) => {
+    this.imagenSeleccionada = event.currentFiles[0];
+    if ( !this.imagenSeleccionada ) {
+      this.imagenSeleccionada = null;
+      return;
+    }
+    
+  }
+
+  subirImagen = (id: number) => {    
+    if (this.imagenSeleccionada) {
+      this._productoService.subirFoto(this.imagenSeleccionada, id).subscribe({
+        next: (resp) => {
+          this.upLoad?.clear()
+          this.imagenSeleccionada = null;
+        },
+        error: (err) => {
+          this.upLoad?.clear();
+          this.imagenSeleccionada = null;
+        }
+      })
+    }
+  }
 
   showDialog = () => {
     this.displayDetalles = true;
@@ -202,6 +238,7 @@ export class GestionProdComponent implements OnInit {
       this.detallesForm.reset();
     }
   }
+
   GuardarDetalles = () => {
     this.displayDetalles = false;
   }

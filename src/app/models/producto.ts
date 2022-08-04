@@ -11,13 +11,14 @@ export interface RespuestaProd {
 export class Producto {
     idProducto?:          number;
     descripcionProducto?: string;
+    imgProducto?:         string;
     fechaIngreso?:        Date;
     codigoProducto?:      string;
     ivaProducto?:         number;
     precioVentaProducto?: number;
     stockProducto?:       number;
     estadoProducto?:      boolean;
-    menuCliente?:         boolean;
+    menuClienteProducto?: boolean;
     marca?:               Marca;
     presentacion?:        Presentacion;
     zona?:                Zona;
