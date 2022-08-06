@@ -16,7 +16,6 @@ export class Producto {
     codigoProducto?:      string;
     ivaProducto?:         number;
     precioVentaProducto?: number;
-    stockProducto?:       number;
     estadoProducto?:      boolean;
     menuClienteProducto?: boolean;
     marca?:               Marca;

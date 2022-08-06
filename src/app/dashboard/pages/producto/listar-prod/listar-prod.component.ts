@@ -22,6 +22,7 @@ export class ListarProdComponent implements OnInit {
 
 
   public baseUrl: string = `${environment.baseUrl}/uploads/img`;
+  public urlNoImage: string = `${environment.UlrNoImage}/images/no-image.jpg`;
   responsiveOptions:any[] = [
     {
         breakpoint: '1024px',
@@ -76,6 +77,17 @@ export class ListarProdComponent implements OnInit {
       })
     }
     
+  }
+
+  actualizarEstado = (producto: Producto) => {
+    this._productoService.actualizarEstado( producto.idProducto! ).subscribe({
+      next: ( resp: RespuestaProd ) => {
+        this._msgSweetAlertService.mensajeOk( producto.estadoProducto ? 'El producto se encuentra disponible' : 'Producto dado de baja');
+      },
+      error: (err) => {
+        this._msgSweetAlertService.mensajeAdvertencia('Upps!', 'No se pudo cambiar el estado');
+      }
+    })
   }
 
   imageClick( producto: Producto ) {

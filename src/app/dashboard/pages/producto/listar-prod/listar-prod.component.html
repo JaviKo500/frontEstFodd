@@ -45,7 +45,7 @@
                                 <td>{{producto.codigoProducto}}</td>
                                 <td>{{producto.descripcionProducto}}</td>
                                 <td>
-                                    <div *ngIf="producto.imgProducto" class="grid" style="max-width: 400px;">
+                                    <div *ngIf="producto.imgProducto; else noImage" class="grid" style="max-width: 400px;">
                                         <div class="col-12" >
                                             <img    src="{{ baseUrl }}/{{ producto.imgProducto }}" 
                                                     [alt]="producto.descripcionPresentacion" 
@@ -54,16 +54,35 @@
                                                     (click)="imageClick(producto)" />
                                         </div>
                                     </div>
+                                    <ng-template #noImage>
+                                        <div class="grid" style="max-width: 400px;">
+                                            <div class="col-12" >
+                                                <img    src="{{ urlNoImage }}" 
+                                                        [alt]="'no-image'" 
+                                                        class="img-container p-shadow-4"/>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    
                                 </td>
                                 <td>{{producto.precioVentaProducto}}</td>
                                 <td>{{producto.stockProducto}}</td>
                                 <td>
-                                    <div class="" *ngIf="producto.estadoProducto; else baja">
-                                        Disponible
+                                    <div class="field-checkbox">
+                                        <p-checkbox [(ngModel)]="producto.estadoProducto" 
+                                                    [binary]="true" 
+                                                    inputId="binary"
+                                                    (onChange)="actualizarEstado(producto)">
+                                        </p-checkbox>
+                                        <div class=" ml-2" *ngIf="producto.estadoProducto; else baja">
+                                            Disponible
+                                        </div>
+                                        <ng-template #baja>
+                                            <div class="ml-2">
+                                                No Disponible
+                                            </div>
+                                        </ng-template>
                                     </div>
-                                    <ng-template #baja>
-                                        No Disponible
-                                    </ng-template>
 
                                 </td>
                                 <td>

@@ -32,6 +32,9 @@ export class ProductoService {
   actualizar = (id: number, producto: Producto): Observable<RespuestaProd> => {
     return this._http.put<RespuestaProd>(`${this._url}/${id}`, producto);
   }
+  actualizarEstado = (id: number): Observable<RespuestaProd> => {
+    return this._http.put<RespuestaProd>(`${this._url}/estado/${id}`, {});
+  }
 
   subirFoto = (archivo: File, id: number): Observable<HttpEvent<{}>> => {
     let formData = new FormData();

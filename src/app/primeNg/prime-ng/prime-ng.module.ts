@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {ButtonModule} from 'primeng/button';
 import {CalendarModule} from 'primeng/calendar';
 import {CardModule} from 'primeng/card';
+import {CheckboxModule} from 'primeng/checkbox';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {DialogModule} from 'primeng/dialog';
 import {FileUploadModule} from 'primeng/fileupload';
@@ -19,6 +20,7 @@ import {ToolbarModule} from 'primeng/toolbar';
     ButtonModule,
     CalendarModule,
     CardModule,
+    CheckboxModule,
     ConfirmPopupModule,
     DialogModule,
     GalleriaModule,

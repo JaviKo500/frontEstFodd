@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Producto, RespuestaProd } from '../../../../models/producto';
 import { ProductoService } from '../../../../services/producto.service';
@@ -23,22 +23,18 @@ export class GestionProdComponent implements OnInit {
     codigoProducto      :[ , [ Validators.required ] ],
     stockProducto       :[ , [ Validators.required, Validators.min(0) ] ],
     precioVentaProducto :[ , [ Validators.required, Validators.min(0)] ],
-    ivaProducto         :[ 12 , [ Validators.required, Validators.min(0) ] ],
     fechaIngreso        :[ , [ Validators.required ] ],
   });
 
   public detallesForm: FormGroup = this._formBuilder.group({
     marca               : this._formBuilder.group({
       nombreMarca             : [ , [ Validators.required] ],
-      descripcionMarca        : [],
     }),        
     presentacion        : this._formBuilder.group({
       nombrePresentacion      : [ , [ Validators.required] ],
-      descripcionPresentacion : [],
     }),    
     zona                : this._formBuilder.group({
       nombreZona              : [ , [ Validators.required] ],
-      descripcionZona         : [],
     })
   });
 
@@ -124,16 +120,19 @@ export class GestionProdComponent implements OnInit {
   verificarCamposDetalle = () => {
     if ( this.detallesForm.get('marca')?.valid ) {
       this.producto!.marca = this.detallesForm.get('marca')?.value;
+      this.producto!.marca!.idMarca = this.selectedProducto?.marca?.idMarca;
     } else {
       this.producto!.marca = undefined;
     }
     if ( this.detallesForm.get('presentacion')?.valid ) {
-      this.producto!.presentacion = this.detallesForm.get('presentacion')?.value;  
+      this.producto!.presentacion = this.detallesForm.get('presentacion')?.value;
+      this.producto!.presentacion!.idPresentacion = this.selectedProducto?.presentacion?.idPresentacion;  
     } else {
       this.producto!.presentacion = undefined;
     }
     if ( this.detallesForm.get('zona')?.valid) {
-      this.producto!.zona = this.detallesForm.get('zona')?.value;  
+      this.producto!.zona = this.detallesForm.get('zona')?.value;
+      this.producto!.zona!.idZona = this.selectedProducto?.zona?.idZona;   
     } else {
       this.producto!.zona = undefined;
     }
