@@ -1,14 +1,14 @@
-import { Ciudad } from './ciudad';
+import { DetalleProveedor } from './detalleProveedor';
 
 export class Proveedor {
-    idProveedor?:           number;
-    descripcionProveedor?:  string;
-    nombreProveedor?:       string;
-    rucProveedor?:          string;
-    direccionProveedor?:    string;
-    estadoProveedor?:       boolean;
-    fechaIngresoProveedor?: Date;
-    ciudad?:                Ciudad;
+    idProveedor?:        number;
+    nombreProveedor?:    string;
+    emailProveedor?:     string;
+    movilProveedor?:     string;
+    telefonoProveedor?:  string;
+    rucProveedor?:       string;
+    direccionProveedor?: string;
+    estadoProveedor?:    boolean;
+    detalleProveedor?:   DetalleProveedor;
 }
-
 

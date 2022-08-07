@@ -155,10 +155,8 @@ export class GestionProdComponent implements OnInit {
         } else {
           this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo guardar el producto');
         }
-        
       }
     });
-    
   }
 
   actualizarProducto = () => {
@@ -166,7 +164,7 @@ export class GestionProdComponent implements OnInit {
     this._productoService.actualizar(this.id!, this.producto!).subscribe({
       next: (resp: RespuestaServer) => {
         this.subirImagen(this.id!);
-        this._msgSweetAlertService.mensajeOk('Producto Guardado')
+        this._msgSweetAlertService.mensajeOk('Producto Guardado');
         this._router.navigate(['/dashboard/producto']);
       }, 
       error: (err: HttpErrorResponse) => {

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Proveedor } from '../../../../models/proveedor/proveedor';
-import { ProductoService } from '../../../../services/producto.service';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
 import { ProveedorService } from '../../../../services/proveedor.service';
 import { RespuestaServer } from '../../../../models/response';
@@ -18,7 +17,6 @@ export class ListarProvComponent implements OnInit {
   public termino: string = '';
 
   public displayDetalles: boolean= false;
-  public displayCustom: boolean = false;
 
   public selectedProveedor?: Proveedor | null;
   constructor(
@@ -71,6 +69,16 @@ export class ListarProvComponent implements OnInit {
         this._msgSweetAlertService.mensajeAdvertencia('Upps!', 'No se pudo cambiar el estado');
       }
     })
+  }
+
+  showDialog = (proveedor: Proveedor) => {
+    this.displayDetalles = true;
+    this.selectedProveedor= proveedor;
+  }
+  
+  closeDialog = () => {
+    this.displayDetalles = false;
+    this.selectedProveedor= null;
   }
 
 }

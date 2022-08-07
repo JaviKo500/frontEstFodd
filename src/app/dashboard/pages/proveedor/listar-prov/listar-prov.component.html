@@ -17,30 +17,23 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <p-table [value]="proveedores" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} proveedores" [showCurrentPageReport]="true">
+                    <p-table [value]="proveedores" [autoLayout]="true" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} proveedores" [showCurrentPageReport]="true">
                         <ng-template pTemplate="header">
                             <tr>
-
-                                <th pSortableColumn="idProveedor">Id
-                                    <p-sortIcon field="idProveedor"></p-sortIcon>
-                                </th>
                                 <th pSortableColumn="nombreProveedor">Nombre
                                     <p-sortIcon field="nombreProveedor"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="rucProveedor">RUC
                                     <p-sortIcon field="rucProveedor"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="descripcionProveedor">Detalle
-                                    <p-sortIcon field="descripcionProveedor"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="fechaIngresoProveedor">Fecha
-                                    <p-sortIcon field="fechaIngresoProveedor"></p-sortIcon>
+                                <th pSortableColumn="emailProveedor">Email
+                                    <p-sortIcon field="emailProveedor"></p-sortIcon>
                                 </th>
                                 <th>
-                                    Ciudad
+                                    Móvil
                                 </th>
                                 <th>
-                                    Direccion
+                                    Teléfono
                                 </th>
                                 <th pSortableColumn="estadoProveedor">Estado
                                     <p-sortIcon field="estadoProveedor"></p-sortIcon>
@@ -50,13 +43,11 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-proveedor>
                             <tr>
-                                <td>{{proveedor.idProveedor}}</td>
                                 <td>{{proveedor.nombreProveedor}}</td>
                                 <td>{{proveedor.rucProveedor}}</td>
-                                <td>{{proveedor.descripcionProveedor}}</td>
-                                <td>{{proveedor.fechaIngresoProveedor}}</td>
-                                <td>{{proveedor?.ciudad?.nombreCiudad || 'N/A'}}</td>
-                                <td>{{proveedor.direccionProveedor}}</td>
+                                <td>{{proveedor.emailProveedor}}</td>
+                                <td>{{proveedor?.movilProveedor || 'N/A'}}</td>
+                                <td>{{proveedor?.telefonoProveedor || 'N/A'}}</td>
                                 <td>
                                     <div class="field-checkbox">
                                         <p-checkbox [(ngModel)]="proveedor.estadoProveedor" 
@@ -79,6 +70,8 @@
                                     <div class="grid">
                                         <div class="col-12">
                                             <div class="flex justify-content-between flex-wrap">
+                                                <button pButton pRipple type="button" class="p-button-help" icon="pi pi-eye" (click)="showDialog(proveedor)">
+                                                </button>
                                                 <button pButton pRipple type="button" class="p-button-warning" icon="pi pi-pencil" [routerLink]="['/dashboard/proveedor/gestion/editar', proveedor.idProveedor]">
                                                 </button>
                                             </div>
@@ -98,3 +91,31 @@
         </p-card>
     </div>
 </div>
+
+<p-dialog header="Detalles" [(visible)]="displayDetalles" [breakpoints]="[{'960px': '75vw'}]" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" (onHide)="closeDialog()">
+    <div class="grid" *ngIf="selectedProveedor">
+        <div class="col-12">
+            <p-table [value]="[selectedProveedor]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Ciudad</th>
+                        <th>Dirección</th>
+                        <th>F. Ingreso</th>
+                        <th>Detalle</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-proveedor>
+                    <tr>
+                        <td>{{proveedor?.detalleProveedor?.cuidadDetalleProveedor || 'N/A'}}</td>
+                        <td>{{proveedor?.direccionProveedor || 'N/A'}}</td>
+                        <td>{{proveedor?.detalleProveedor?.fechaIngresoDetalleProveedor || 'N/A'}}</td>
+                        <td>{{proveedor?.detalleProveedor?.descripcionDetalleProveedor || 'N/A'}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button (click)="closeDialog()" label="Cerrar" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>

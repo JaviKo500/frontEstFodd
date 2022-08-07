@@ -17,7 +17,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <p-table [value]="productos" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [showCurrentPageReport]="true">
+                    <p-table [value]="productos" [autoLayout]="true" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [showCurrentPageReport]="true">
                         <ng-template pTemplate="header">
                             <tr>
 
