@@ -10,6 +10,7 @@ import { GestionProdComponent } from './pages/producto/gestion-prod/gestion-prod
 import { ListarProdComponent } from './pages/producto/listar-prod/listar-prod.component';
 import { ListarProvComponent } from './pages/proveedor/listar-prov/listar-prov.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GestionProvComponent } from './pages/proveedor/gestion-prov/gestion-prov.component';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DashboardComponent, 
     GestionProdComponent, 
     ListarProdComponent, 
-    ListarProvComponent
+    ListarProvComponent, GestionProvComponent
   ],
   imports: [
     CommonModule,

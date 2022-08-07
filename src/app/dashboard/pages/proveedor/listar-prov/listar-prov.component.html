@@ -1,1 +1,100 @@
-<p>listar-prov works!</p>
+<div class="grid text-layout">
+    <div class="col-12">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="text-center">
+                    <h1>Proveedores</h1>
+                </div>
+            </ng-template>
+            <div class="grid">
+                <div class="col-12">
+                    <div class="flex justify-content-between flex-wrap">
+                        <button pButton pRipple type="button" class="p-button-success" label="Nuevo" [routerLink]="['/dashboard/proveedor/gestion/crear']" icon="pi pi-plus"></button>
+                        <div class="">
+                            <input type="text" pInputText placeholder="Buscar" [(ngModel)]="termino" (keyup)="verificarTermino()" (keyup.enter)="buscarPorTermino()">
+                            <button pButton pRipple type="button" icon="pi pi-search" (click)="buscarPorTermino()"></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <p-table [value]="proveedores" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} proveedores" [showCurrentPageReport]="true">
+                        <ng-template pTemplate="header">
+                            <tr>
+
+                                <th pSortableColumn="idProveedor">Id
+                                    <p-sortIcon field="idProveedor"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="nombreProveedor">Nombre
+                                    <p-sortIcon field="nombreProveedor"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="rucProveedor">RUC
+                                    <p-sortIcon field="rucProveedor"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="descripcionProveedor">Detalle
+                                    <p-sortIcon field="descripcionProveedor"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="fechaIngresoProveedor">Fecha
+                                    <p-sortIcon field="fechaIngresoProveedor"></p-sortIcon>
+                                </th>
+                                <th>
+                                    Ciudad
+                                </th>
+                                <th>
+                                    Direccion
+                                </th>
+                                <th pSortableColumn="estadoProveedor">Estado
+                                    <p-sortIcon field="estadoProveedor"></p-sortIcon>
+                                </th>
+                                <th>Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-proveedor>
+                            <tr>
+                                <td>{{proveedor.idProveedor}}</td>
+                                <td>{{proveedor.nombreProveedor}}</td>
+                                <td>{{proveedor.rucProveedor}}</td>
+                                <td>{{proveedor.descripcionProveedor}}</td>
+                                <td>{{proveedor.fechaIngresoProveedor}}</td>
+                                <td>{{proveedor?.ciudad?.nombreCiudad || 'N/A'}}</td>
+                                <td>{{proveedor.direccionProveedor}}</td>
+                                <td>
+                                    <div class="field-checkbox">
+                                        <p-checkbox [(ngModel)]="proveedor.estadoProveedor" 
+                                                    [binary]="true" 
+                                                    inputId="binary"
+                                                    (onChange)="actualizarEstado(proveedor)">
+                                        </p-checkbox>
+                                        <div class=" ml-2" *ngIf="proveedor.estadoProveedor; else baja">
+                                            Disponible
+                                        </div>
+                                        <ng-template #baja>
+                                            <div class="ml-2">
+                                                No Disponible
+                                            </div>
+                                        </ng-template>
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <div class="grid">
+                                        <div class="col-12">
+                                            <div class="flex justify-content-between flex-wrap">
+                                                <button pButton pRipple type="button" class="p-button-warning" icon="pi pi-pencil" [routerLink]="['/dashboard/proveedor/gestion/editar', proveedor.idProveedor]">
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="summary">
+                            <div class="flex align-items-center justify-content-between">
+                                En total existen {{proveedores ? proveedores.length : 0 }} proveedores.
+                            </div>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>

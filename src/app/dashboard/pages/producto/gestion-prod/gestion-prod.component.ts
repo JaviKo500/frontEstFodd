@@ -1,12 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Producto, RespuestaProd } from '../../../../models/producto';
-import { ProductoService } from '../../../../services/producto.service';
-import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
+
+import { Producto } from '../../../../models/producto/producto';
+import { ProductoService } from '../../../../services/producto.service';
+import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
+import { RespuestaServer } from '../../../../models/response';
 
 @Component({
   selector: 'app-gestion-prod',
@@ -37,8 +39,6 @@ export class GestionProdComponent implements OnInit {
       nombreZona              : [ , [ Validators.required] ],
     })
   });
-
-
 
   public displayDetalles: boolean= false;
 
@@ -74,7 +74,7 @@ export class GestionProdComponent implements OnInit {
 
   getProductoPorId = (id: number) => {
     this._productoService.getPorId(id).subscribe({
-      next: (resp: RespuestaProd) => {
+      next: (resp: RespuestaServer) => {
         this.selectedProducto = resp.respuesta;
         this.productoForm.patchValue(resp.respuesta);
         this.verificarDetallesProducto(resp.respuesta);
@@ -140,7 +140,7 @@ export class GestionProdComponent implements OnInit {
 
   crearProducto = (producto: Producto) => {
     this._productoService.crear( producto ).subscribe({
-      next: (resp: RespuestaProd) => {
+      next: (resp: RespuestaServer) => {
         this.productoForm.reset();
         this.detallesForm.reset();
         this.productoForm.get('ivaProducto')?.patchValue(12);
@@ -164,7 +164,7 @@ export class GestionProdComponent implements OnInit {
   actualizarProducto = () => {
     this.producto!.estadoProducto = this.selectedProducto?.estadoProducto;
     this._productoService.actualizar(this.id!, this.producto!).subscribe({
-      next: (resp: RespuestaProd) => {
+      next: (resp: RespuestaServer) => {
         this.subirImagen(this.id!);
         this._msgSweetAlertService.mensajeOk('Producto Guardado')
         this._router.navigate(['/dashboard/producto']);
@@ -190,7 +190,7 @@ export class GestionProdComponent implements OnInit {
         acceptLabel: 'Si',
         accept: () => {
             this._productoService.eliminar(this.id!).subscribe({
-              next: (resp: RespuestaProd) => {
+              next: (resp: RespuestaServer) => {
                 this._msgSweetAlertService.mensajeOk('Producto Eliminado')
                 this._router.navigate(['/dashboard/producto']);
               }, 

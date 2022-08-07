@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Producto, RespuestaProd } from '../../../../models/producto';
-import { ProductoService } from '../../../../services/producto.service';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { Producto } from '../../../../models/producto/producto';
+import { ProductoService } from '../../../../services/producto.service';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
+import { RespuestaServer } from './../../../../models/response';
 import { environment } from 'src/environments/environment.prod';
 
 @Component({
@@ -23,20 +25,7 @@ export class ListarProdComponent implements OnInit {
 
   public baseUrl: string = `${environment.baseUrl}/uploads/img`;
   public urlNoImage: string = `${environment.UlrNoImage}/images/no-image.jpg`;
-  responsiveOptions:any[] = [
-    {
-        breakpoint: '1024px',
-        numVisible: 5
-    },
-    {
-        breakpoint: '768px',
-        numVisible: 5
-    },
-    {
-        breakpoint: '560px',
-        numVisible: 5
-    }
-];
+
   constructor(
     private _productoService: ProductoService,
     private _msgSweetAlertService: MsgSweetAlertService,
@@ -48,7 +37,7 @@ export class ListarProdComponent implements OnInit {
 
   listarProductos = () => {
     this._productoService.productos().subscribe({
-      next: ( resp : RespuestaProd ) => {        
+      next: ( resp : RespuestaServer ) => {        
         this.productos = resp.respuesta as Producto[];        
       },
       error: (err) => this.productos = []
@@ -62,7 +51,7 @@ export class ListarProdComponent implements OnInit {
   buscarPorTermino = () => {
     if (this.termino.length > 0) {
       this._productoService.getPorTermino(this.termino.toLowerCase()).subscribe({
-        next: (resp: RespuestaProd) => {
+        next: (resp: RespuestaServer) => {
           this.productos = resp.respuesta;
         },
         error: (err: HttpErrorResponse) => {
@@ -81,7 +70,7 @@ export class ListarProdComponent implements OnInit {
 
   actualizarEstado = (producto: Producto) => {
     this._productoService.actualizarEstado( producto.idProducto! ).subscribe({
-      next: ( resp: RespuestaProd ) => {
+      next: ( resp: RespuestaServer ) => {
         this._msgSweetAlertService.mensajeOk( producto.estadoProducto ? 'El producto se encuentra disponible' : 'Producto dado de baja');
       },
       error: (err) => {

@@ -1,13 +1,6 @@
 import { Presentacion } from './presentacion';
 import { Zona } from './zona';
 import { Marca } from './marca';
-export interface RespuestaProd {
-    mensaje:  string;
-    respuesta: any;
-    ok:       boolean;
-    error: any;
-}
-
 export class Producto {
     idProducto?:          number;
     descripcionProducto?: string;
@@ -22,3 +15,4 @@ export class Producto {
     presentacion?:        Presentacion;
     zona?:                Zona;
 }
+

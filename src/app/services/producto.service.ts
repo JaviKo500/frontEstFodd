@@ -2,7 +2,8 @@ import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
-import { RespuestaProd, Producto } from '../models/producto';
+import { Producto } from '../models/producto/producto';
+import { RespuestaServer } from '../models/response';
 
 @Injectable({
   providedIn: 'root'
@@ -13,27 +14,27 @@ export class ProductoService {
     private _http: HttpClient
   ) { }
 
-  productos = (): Observable<RespuestaProd> => {    
-    return this._http.get<RespuestaProd>(`${this._url}`);
+  productos = (): Observable<RespuestaServer> => {    
+    return this._http.get<RespuestaServer>(`${this._url}`);
   }
 
-  getPorId = (id: number): Observable<RespuestaProd> => {
-    return this._http.get<RespuestaProd>(`${this._url}/${id}`)
+  getPorId = (id: number): Observable<RespuestaServer> => {
+    return this._http.get<RespuestaServer>(`${this._url}/${id}`)
   }
 
-  getPorTermino = (termino: string): Observable<RespuestaProd> => {
-    return this._http.get<RespuestaProd>(`${this._url}/buscar/${termino}`)
+  getPorTermino = (termino: string): Observable<RespuestaServer> => {
+    return this._http.get<RespuestaServer>(`${this._url}/buscar/${termino}`)
   }
 
-  crear = (producto: Producto): Observable<RespuestaProd> => {
-    return this._http.post<RespuestaProd>(`${this._url}`, producto);
+  crear = (producto: Producto): Observable<RespuestaServer> => {
+    return this._http.post<RespuestaServer>(`${this._url}`, producto);
   }
 
-  actualizar = (id: number, producto: Producto): Observable<RespuestaProd> => {
-    return this._http.put<RespuestaProd>(`${this._url}/${id}`, producto);
+  actualizar = (id: number, producto: Producto): Observable<RespuestaServer> => {
+    return this._http.put<RespuestaServer>(`${this._url}/${id}`, producto);
   }
-  actualizarEstado = (id: number): Observable<RespuestaProd> => {
-    return this._http.put<RespuestaProd>(`${this._url}/estado/${id}`, {});
+  actualizarEstado = (id: number): Observable<RespuestaServer> => {
+    return this._http.put<RespuestaServer>(`${this._url}/estado/${id}`, {});
   }
 
   subirFoto = (archivo: File, id: number): Observable<HttpEvent<{}>> => {
@@ -43,8 +44,8 @@ export class ProductoService {
     const req = new HttpRequest('POST',`${this._url}/upload`, formData);
     return this._http.request(req);
   }
-  eliminar = (id: number): Observable<RespuestaProd> => {
-    return this._http.delete<RespuestaProd>(`${this._url}/${id}`);
+  eliminar = (id: number): Observable<RespuestaServer> => {
+    return this._http.delete<RespuestaServer>(`${this._url}/${id}`);
   }
 
 
