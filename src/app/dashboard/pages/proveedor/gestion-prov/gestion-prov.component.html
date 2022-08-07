@@ -1,1 +1,75 @@
-<p>gestion-prov works!</p>
+<div class="grid text-layout">
+    <div class="col-12">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="text-center">
+                    <h1>Gestión Proveedores</h1>
+                </div>
+            </ng-template>
+            <form>
+                <div class="grid border-1 border-300 border-round">
+                    <div class="col-4">
+                        <div class="field">
+                            <label for="nombre" class="block">Nombre:</label>
+                            <input type="text" pInputText placeholder="Nombre"/>
+                            <!-- <small  class="p-error block"
+                                *ngIf="verificarCampo('descripcionProducto')">
+                                Campo requerido.
+                            </small> -->
+                        </div>
+                        <div class="field">
+                            <label for="rucProveedor" class="block">Ruc:</label>
+                            <input type="text" pInputText placeholder="ruc"/>
+                            <!-- <small  class="p-error block"
+                                *ngIf="verificarCampo('rucProveedorProducto')">
+                                Campo requerido.
+                            </small> -->
+                        </div>
+                        <div class="field">
+                            <label for="stockProducto" class="block">Stock:</label>
+                            <input type="number" pInputText placeholder="Stock"/>
+                            <!-- <small  class="p-error block"
+                                *ngIf="verificarCampo('stockProducto')">
+                                {{errorMsg('stockProducto')}}
+                            </small> -->
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="field">
+                            <label for="precioVentaProducto" class="block">Precio Público:</label>
+                            <input  type="number" 
+                                    pInputText
+                                    placeholder="$0.00"> 
+                            <!-- <small  class="p-error block"
+                                *ngIf="verificarCampo('precioVentaProducto')">
+                                {{errorMsg('precioVentaProducto')}}
+                            </small> -->
+                        </div>
+                        <div class="field">
+                            <label for="fechaIngreso" class="block">Fecha:</label>
+                            <span class="p-input-icon-left">
+                                <p-calendar  dateFormat="yy-mm-dd" inputId="dateformat" placeholder="yyyy/mm/dd">
+                                </p-calendar>
+                            </span>
+                            <!-- <small  class="p-error block"
+                                    *ngIf="verificarCampo('fechaIngreso')">
+                                Campo requerido.
+                            </small> -->
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- buttons -->
+            <div class="grid">
+                <hr>
+                <div class="col-12 flex justify-content-evenly mt-2">
+                    <!-- <button pButton pRipple type="button" label="Guardar" class="w-2" (click)="realizarAccion()"></button> -->
+                    <!-- <button pButton pRipple type="button" label="Eliminar" class="p-button-danger w-2" *ngIf="id && selectedProducto" (click)="eliminar($event)"></button> -->
+                    <!-- <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-text w-2" [routerLink]="'/dashboard/producto'"></button> -->
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
+<!-- popup de confirmacion de eliminar  -->
+<!-- <p-confirmPopup></p-confirmPopup> -->

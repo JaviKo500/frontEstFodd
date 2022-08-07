@@ -226,6 +226,9 @@ export class GestionProdComponent implements OnInit {
       })
     }
   }
+  vaciarInputUpload = () => {
+    this.imagenSeleccionada = null;    
+  }
 
   showDialog = () => {
     this.displayDetalles = true;

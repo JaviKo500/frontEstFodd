@@ -118,7 +118,6 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Fecha</th>
-                        <th>IVA</th>
                         <th>Marca</th>
                         <th>Presentación</th>
                         <th>Zona</th>
@@ -127,7 +126,6 @@
                 <ng-template pTemplate="body" let-producto>
                     <tr>
                         <td>{{producto.fechaIngreso}}</td>
-                        <td>{{producto.ivaProducto}}</td>
                         <td>
                             <div class="" *ngIf="producto?.marca; else na">
                                 {{producto?.marca?.nombreMarca}}

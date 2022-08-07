@@ -76,6 +76,7 @@
                                                 [showUploadButton]="false" 
                                                 [showCancelButton]="false" 
                                                 (onSelect)="selecionarImagen($event)"
+                                                (onRemove)="vaciarInputUpload()"
                                                 [chooseLabel]="'Seleccionar'"
                                                 [invalidFileTypeMessageSummary] = "'{0}: Tipo archivo inválido'"
                                                 [invalidFileTypeMessageDetail] = "'Tipos de archivo permitidos: {0}.'" 

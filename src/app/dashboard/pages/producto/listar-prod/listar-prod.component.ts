@@ -32,7 +32,9 @@ export class ListarProdComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listarProductos()
+    this.listarProductos();
+    console.log('hola');
+    
   }
 
   listarProductos = () => {
