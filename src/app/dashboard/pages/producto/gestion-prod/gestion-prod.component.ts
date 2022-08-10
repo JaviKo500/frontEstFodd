@@ -236,6 +236,8 @@ export class GestionProdComponent implements OnInit {
     this.displayDetalles = false;
     if (!this.id) {
       this.detallesForm.reset();
+    } else {
+      this.verificarDetallesProducto(this.selectedProducto!);
     }
   }
 
