@@ -18,6 +18,10 @@ export class ProductoService {
     return this._http.get<RespuestaServer>(`${this._url}`);
   }
 
+  productosPorEstado = (): Observable<RespuestaServer> => {    
+    return this._http.get<RespuestaServer>(`${this._url}/estado`);
+  }
+
   getPorId = (id: number): Observable<RespuestaServer> => {
     return this._http.get<RespuestaServer>(`${this._url}/${id}`)
   }

@@ -6,65 +6,98 @@
                     <h1>Gestión Compras</h1>
                 </div>
             </ng-template>
-            <form [formGroup]="proveedorForm">
-                <div class="grid border-1 border-300 border-round">
-                    <div class="col-4">
+            <form>
+                <div class="grid border-1 border-300 border-round mb-4">
+                    <div class="col-12 border-bottom-1 border-300"><b>Datos</b></div>
+                    <div class="col-3">
                         <div class="field">
-                            <label for="nombreProveedor" class="block">Nombre:</label>
-                            <!-- <input type="text" pInputText placeholder="Nombre" formControlName="nombreProveedor" /> -->
-                            <!-- <small class="p-error block" *ngIf="verificarCampo('nombreProveedor')">
+                            <label for="codigoCompra" class="block">Código Fact:</label>
+                            <input type="text" pInputText placeholder="Código"  />
+                            <!-- <small class="p-error block" *ngIf="verificarCampo('codigoCompra')">
                                 Campo requerido.
                             </small> -->
                         </div>
+                    </div>
+                    <div class="col-3">
                         <div class="field">
-                            <label for="rucProveedor" class="block">Ruc:</label>
-                            <input type="text" pInputText placeholder="ruc" formControlName="rucProveedor" />
-                            <!-- <small  class="p-error block"
-                                *ngIf="verificarCampo('rucProveedor')">
-                                {{rucErrorMsg()}}
-                            </small> -->
-                        </div>
-                        <div class="field">
-                            <label for="emailProveedor" class="block">Email:</label>
-                            <input type="email" pInputText placeholder="Email" formControlName="emailProveedor" />
-                            <!-- <small  class="p-error block"
-                                *ngIf="verificarCampo('emailProveedor')">
-                                {{emailErrorMsg()}}
-                            </small> -->
+                            <label for="fechaCompra" class="block">Fecha:</label>
+                            <span class="p-input-icon-left">
+                                <p-calendar  dateFormat="yy-mm-dd" inputId="dateformat" placeholder="yyyy/mm/dd">
+                                </p-calendar>
+                            </span>
                         </div>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <div class="field">
-                            <label for="telefonoProveedor" class="block">Teléfono:</label>
-                            <input type="text" pInputText placeholder="Teléfono" formControlName="telefonoProveedor">
-                            <!-- <small  class="p-error block"
-                                *ngIf="verificarCampo('telefonoProveedor')">
-                                {{numErrorMsg('telefonoProveedor')}}
-                            </small> -->
-                        </div>
-                        <div class="field">
-                            <label for="movilProveedor" class="block">Móvil:</label>
-                            <input type="text" pInputText placeholder="099...." formControlName="movilProveedor">
-                            <!-- <small  class="p-error block"
-                                *ngIf="verificarCampo('movilProveedor')">
-                                {{numErrorMsg('movilProveedor')}}
-                            </small> -->
-                        </div>
-                        <div class="field">
-                            <label for="direccionProveedor" class="block">Dirección:</label>
-                            <textarea rows="1" cols="22" pInputTextarea [autoResize]="true" formControlName="direccionProveedor"></textarea>
-                            <!-- <small  class="p-error block"
-                                *ngIf="verificarCampo('direccionProveedor')">
-                                Campo requerido
-                            </small> -->
+                            <label for="formaPago" class="block">Forma Pago:</label>
+                            <p-dropdown [options]="formasPago" 
+                                        placeholder="Seleccione..." 
+                                        optionLabel="nombreFormaPago"
+                                        [showClear]="true"
+                                        styleClass="w-8">                                
+                            </p-dropdown>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <div class="">
-                            <label for="" class="block">Detalles:</label>
-                            <div class="mt-2">
-                                <!-- <button pButton pRipple type="button" label="Agregar" (click)="showDialog()" class="p-button-help w-4"></button> -->
-                            </div>
+                    <div class="col-3">
+                        <div class="field">
+                            <label for="proveedor" class="block">Proveedor:</label>
+                            <p-dropdown [options]="proveedores" 
+                                        placeholder="Seleccione..." 
+                                        optionLabel="nombreProveedor"
+                                        [filter]="true" 
+                                        filterBy="nombreProveedor"  
+                                        [showClear]="true"
+                                        styleClass="w-8">                                
+                            </p-dropdown>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <form [formGroup]="detalleCompraForm">
+                <div class="grid border-1 border-300 border-round ">
+                    <div class="col-12 border-bottom-1 border-300"><b>Detalle</b></div>
+                    <div class="col-3">
+                        <div class="field">
+                            <label for="formaPago" class="block">Producto:</label>
+                            <p-dropdown [options]="productos" 
+                                        placeholder="Seleccione..." 
+                                        optionLabel="descripcionProducto" 
+                                        [filter]="true" 
+                                        filterBy="descripcionProducto"
+                                        [showClear]="true"
+                                        styleClass="w-8"
+                                        formControlName="producto">                                
+                            </p-dropdown>
+                            <small class="p-error block" *ngIf="verificarCampo('producto', detalleCompraForm)">
+                                Campo requerido.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="field">
+                            <label for="cantidadDetalleCompraProducto" class="block">Cantidad:</label>
+                            <input type="number" pInputText placeholder="Cantidad" formControlName="cantidadDetalleCompraProducto" />
+                            <small class="p-error block" *ngIf="verificarCampo('cantidadDetalleCompraProducto', detalleCompraForm)">
+                                Campo requerido.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="field">
+                            <label for="precioDetalleCompraProducto" class="block">Precio:</label>
+                            <input type="number" pInputText placeholder="Precio"  formControlName="precioDetalleCompraProducto"/>
+                            <small class="p-error block" *ngIf="verificarCampo('precioDetalleCompraProducto', detalleCompraForm)">
+                                Campo requerido.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="field">
+                            <label for="ivaDetalleCompraProducto" class="block">IVA:</label>
+                            <input type="number" pInputText placeholder="IVA" formControlName="ivaDetalleCompraProducto" />
+                            <small class="p-error block" *ngIf="verificarCampo('ivaDetalleCompraProducto', detalleCompraForm)">
+                                Campo requerido.
+                            </small>
                         </div>
                     </div>
                 </div>
@@ -73,10 +106,58 @@
             <div class="grid">
                 <hr>
                 <div class="col-12 flex justify-content-evenly mt-2">
-                    <!-- <button pButton pRipple type="button" label="Guardar" class="w-2" (click)="realizarAccion()"></button>
-                    <button pButton pRipple type="button" label="Eliminar" class="p-button-danger w-2" *ngIf="id && selectedProveedor" (click)="eliminar($event)"></button>
-                    <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-text w-2" [routerLink]="'/dashboard/proveedor'"></button> -->
+                    <button pButton pRipple type="button" label="Agregar" class="w-2" (click)="agregarItem()"></button>
+                    <!-- <button pButton pRipple type="button" label="Eliminar" class="p-button-danger w-2" *ngIf="id && selectedProveedor" (click)="eliminar($event)"></button> -->
+                    <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-text w-2" [routerLink]="'/dashboard/compra'"></button>
                 </div>
+            </div>
+
+            <!-- Tabla items -->
+            <div class="mt-1" *ngIf="detallesCompra.length > 0">
+                <p-table [value]="detallesCompra" [autoLayout]="true" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [showCurrentPageReport]="true">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th pSortableColumn="cantidadDetalleCompraProducto">Cantidad
+                                <p-sortIcon field="cantidadDetalleCompraProducto"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="producto.descripcionProducto">Producto
+                                <p-sortIcon field="fechaCompra"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="precioDetalleCompraProducto">Precio
+                                <p-sortIcon field="precioDetalleCompraProducto"></p-sortIcon>
+                            </th>
+                            <th pSortableColumn="totalDetalleCompraProducto">Total
+                                <p-sortIcon field="totalDetalleCompraProducto"></p-sortIcon>
+                            </th>
+                            <th>Acciones</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item let-index>
+                        <tr>
+                            <td>{{item.cantidadDetalleCompraProducto}}</td>
+                            <td>{{item.producto.descripcionProducto}}</td>
+                            <td>{{item.precioDetalleCompraProducto}}</td>
+                            <td>{{item.totalDetalleCompraProducto}}</td>
+                            <td>
+                                <div class="grid">
+                                    <div class="col-12">
+                                        <div class="flex justify-content-between flex-wrap">
+                                            <button pButton pRipple type="button" class="p-button-warning" icon="pi pi-pencil" (click)="editarDetalle(item)">
+                                            </button>
+                                            <button pButton pRipple type="button" class="p-button-danger" icon="pi pi-trash" (click)="quitarProductoItem(item.producto.idProducto)">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                        <div class="flex align-items-center justify-content-between">
+                            En total existen {{detallesCompra ? detallesCompra.length : 0 }} compras.
+                        </div>
+                    </ng-template>
+                </p-table>
             </div>
         </p-card>
     </div>

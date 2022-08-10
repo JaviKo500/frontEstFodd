@@ -6,6 +6,7 @@ import {CardModule} from 'primeng/card';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {DialogModule} from 'primeng/dialog';
+import {DropdownModule} from 'primeng/dropdown';
 import {FileUploadModule} from 'primeng/fileupload';
 import {GalleriaModule} from 'primeng/galleria';
 import {InputNumberModule} from 'primeng/inputnumber';
@@ -25,6 +26,7 @@ import {ToolbarModule} from 'primeng/toolbar';
     CheckboxModule,
     ConfirmPopupModule,
     DialogModule,
+    DropdownModule,
     GalleriaModule,
     FileUploadModule,
     InputNumberModule,
