@@ -6,6 +6,8 @@ import { GestionProdComponent } from './pages/producto/gestion-prod/gestion-prod
 import { GestionProvComponent } from './pages/proveedor/gestion-prov/gestion-prov.component';
 import { ListarProdComponent } from './pages/producto/listar-prod/listar-prod.component';
 import { ListarProvComponent } from './pages/proveedor/listar-prov/listar-prov.component';
+import { ListarCompraComponent } from './pages/compra/listar-compra/listar-compra.component';
+import { GestionCompraComponent } from './pages/compra/gestion-compra/gestion-compra.component';
 
 const routes: Routes = [
   {
@@ -35,6 +37,18 @@ const routes: Routes = [
       {
         path: 'proveedor/gestion/editar/:id',
         component: GestionProvComponent
+      },
+      {
+        path: 'compra',
+        component: ListarCompraComponent
+      },
+      {
+        path: 'compra/gestion/crear',
+        component: GestionCompraComponent
+      },
+      {
+        path: 'compra/gestion/editar/:id',
+        component: GestionCompraComponent
       },
       {
         path: '**',

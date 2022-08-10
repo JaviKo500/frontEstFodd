@@ -26,7 +26,12 @@ export class MenuService {
               command: () => this.display = !this.display,
               routerLink: 'proveedor'
             },
-            {label: 'Compras', icon: PrimeIcons.SHOPPING_CART},
+            {
+              label: 'Compras', 
+              icon: PrimeIcons.SHOPPING_CART,
+              command: () => this.display = !this.display,
+              routerLink: 'compra'
+            },
             {label: 'Ventas', icon: PrimeIcons.MONEY_BILL},
             {label: 'Clientes', icon: PrimeIcons.USERS},
             {label: 'Reportes', icon: PrimeIcons.CHART_BAR},
