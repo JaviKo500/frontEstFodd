@@ -12,6 +12,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ListarCompraComponent implements OnInit {
   
+  public diaActual: Date = new Date()
+
   public compras: Compra [] = [];
   public termino: string = '';
   public displayDetalles: boolean= false;
@@ -29,7 +31,9 @@ export class ListarCompraComponent implements OnInit {
   listarCompras = () => {
     this._compraService.compras().subscribe({
       next: ( resp : RespuestaServer ) => {        
-        this.compras = resp.respuesta as Compra[];        
+        this.compras = resp.respuesta as Compra[]; 
+        console.log(this.compras);
+               
       },
       error: (err) => this.compras= []
     })

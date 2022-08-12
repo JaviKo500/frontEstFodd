@@ -144,9 +144,7 @@ export class GestionProdComponent implements OnInit {
         this.productoForm.reset();
         this.detallesForm.reset();
         this.productoForm.get('ivaProducto')?.patchValue(12);
-        this._msgSweetAlertService.mensajeOk('Producto Guardado');
-        console.log(resp);
-        
+        this._msgSweetAlertService.mensajeOk('Producto Guardado');        
         this.subirImagen(resp.respuesta.idProducto);
       }, 
       error: (err: HttpErrorResponse) => {
@@ -170,6 +168,7 @@ export class GestionProdComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         if (err.status === 409) {
           this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Código  del producto repetido');
+          return;
         } else if(err.status === 404){
           this._msgSweetAlertService.mensajeError('Upss!', 'Ese producto no existe');
           this._router.navigate(['/dashboard/producto']);

@@ -6,25 +6,28 @@
                     <h1>Gestión Compras</h1>
                 </div>
             </ng-template>
-            <form>
+            <form [formGroup]="compraForm">
                 <div class="grid border-1 border-300 border-round mb-4">
                     <div class="col-12 border-bottom-1 border-300"><b>Datos</b></div>
                     <div class="col-3">
                         <div class="field">
                             <label for="codigoCompra" class="block">Código Fact:</label>
-                            <input type="text" pInputText placeholder="Código"  />
-                            <!-- <small class="p-error block" *ngIf="verificarCampo('codigoCompra')">
+                            <input type="text" pInputText placeholder="Código" formControlName="codigoCompra" />
+                            <small class="p-error block" *ngIf="verificarCampo('codigoCompra', compraForm)">
                                 Campo requerido.
-                            </small> -->
+                            </small>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="field">
                             <label for="fechaCompra" class="block">Fecha:</label>
                             <span class="p-input-icon-left">
-                                <p-calendar  dateFormat="yy-mm-dd" inputId="dateformat" placeholder="yyyy/mm/dd">
+                                <p-calendar  dateFormat="yy-mm-dd" inputId="dateformat" placeholder="yyyy/mm/dd" formControlName="fechaCompra">
                                 </p-calendar>
                             </span>
+                            <small class="p-error block" *ngIf="verificarCampo('fechaCompra', compraForm)">
+                                Campo requerido.
+                            </small>
                         </div>
                     </div>
                     <div class="col-3">
@@ -34,8 +37,12 @@
                                         placeholder="Seleccione..." 
                                         optionLabel="nombreFormaPago"
                                         [showClear]="true"
-                                        styleClass="w-8">                                
+                                        styleClass="w-8"
+                                        formControlName="formaPago">                                
                             </p-dropdown>
+                            <small class="p-error block" *ngIf="verificarCampo('formaPago', compraForm)">
+                                Campo requerido.
+                            </small>
                         </div>
                     </div>
                     <div class="col-3">
@@ -47,8 +54,12 @@
                                         [filter]="true" 
                                         filterBy="nombreProveedor"  
                                         [showClear]="true"
+                                        formControlName="proveedor"
                                         styleClass="w-8">                                
                             </p-dropdown>
+                            <small class="p-error block" *ngIf="verificarCampo('proveedor', compraForm)">
+                                Campo requerido.
+                            </small>
                         </div>
                     </div>
                 </div>
@@ -106,8 +117,7 @@
             <div class="grid">
                 <hr>
                 <div class="col-12 flex justify-content-evenly mt-2">
-                    <button pButton pRipple type="button" label="Agregar" class="w-2" (click)="agregarItem()"></button>
-                    <!-- <button pButton pRipple type="button" label="Eliminar" class="p-button-danger w-2" *ngIf="id && selectedProveedor" (click)="eliminar($event)"></button> -->
+                    <button pButton pRipple type="button" label="Agregar Item" class="w-2  p-button-help" (click)="agregarItem()"></button>
                     <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-text w-2" [routerLink]="'/dashboard/compra'"></button>
                 </div>
             </div>
@@ -117,18 +127,10 @@
                 <p-table [value]="detallesCompra" [autoLayout]="true" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} productos" [showCurrentPageReport]="true">
                     <ng-template pTemplate="header">
                         <tr>
-                            <th pSortableColumn="cantidadDetalleCompraProducto">Cantidad
-                                <p-sortIcon field="cantidadDetalleCompraProducto"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="producto.descripcionProducto">Producto
-                                <p-sortIcon field="fechaCompra"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="precioDetalleCompraProducto">Precio
-                                <p-sortIcon field="precioDetalleCompraProducto"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="totalDetalleCompraProducto">Total
-                                <p-sortIcon field="totalDetalleCompraProducto"></p-sortIcon>
-                            </th>
+                            <th>Cantidad</th>
+                            <th>Producto</th>
+                            <th>Precio Uni.</th>
+                            <th>Valor</th>
                             <th>Acciones</th>
                         </tr>
                     </ng-template>
@@ -157,7 +159,33 @@
                             En total existen {{detallesCompra ? detallesCompra.length : 0 }} compras.
                         </div>
                     </ng-template>
+                    <ng-template pTemplate="footer">
+                        <tr>
+                            <td colspan="3" class="text-right">Subtotal:</td>
+                            <td>{{subTotal | currency: 'USD'}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right">IVA {{ivaGeneral}}%:</td>
+                            <td>{{ivaTotal | currency: 'USD'}}</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-right">Total:</td>
+                            <td>{{totalCompra | currency: 'USD'}}</td>
+                            <td></td>
+                        </tr>
+                    </ng-template>
                 </p-table>
+            </div>
+            <!-- buttons -->
+            <div class="grid" *ngIf="detallesCompra.length > 0">
+                <hr>
+                <div class="col-12 flex justify-content-evenly mt-2">
+                    <button pButton pRipple type="button" label="Guardar Compra" class="w-2 p-button-success" (click)="realizarAccion()"></button>
+                    <button pButton pRipple type="button" label="Eliminar" class="p-button-danger w-2" *ngIf="id && selectedCompra" (click)="eliminar($event)"></button>
+                    <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-text w-2" [routerLink]="'/dashboard/compra'"></button>
+                </div>
             </div>
         </p-card>
     </div>

@@ -143,6 +143,7 @@ export class GestionProvComponent implements OnInit {
       error: (err: HttpErrorResponse) => {
         if (err.status === 409) {
           this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Ruc repetido');
+          return;
         } else if(err.status === 404){
           this._msgSweetAlertService.mensajeError('Upss!', 'Ese proveedor no existe');
           this._router.navigate(['/dashboard/proveedor']);

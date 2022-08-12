@@ -1,17 +1,21 @@
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ValidatorService } from '../../../../services/validator.service';
-import { Patter } from '../../../../models/patters';
 import { ConfirmationService } from 'primeng/api';
-import { FormaPagoService } from '../../../../services/forma-pago.service';
-import { FormaPago } from '../../../../models/compra/formaPago';
-import { RespuestaServer } from '../../../../models/response';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ProveedorService } from '../../../../services/proveedor.service';
-import { Proveedor } from '../../../../models/proveedor/proveedor';
-import { ProductoService } from '../../../../services/producto.service';
-import { Producto } from '../../../../models/producto/producto';
+
+import { Compra } from '../../../../models/compra/compra';
 import { DetalleCompraProducto } from '../../../../models/compra/detalleCompra.Producto';
+import { FormaPago } from '../../../../models/compra/formaPago';
+import { Proveedor } from '../../../../models/proveedor/proveedor';
+import { Producto } from '../../../../models/producto/producto';
+
+import { RespuestaServer } from '../../../../models/response';
+import { CompraService } from '../../../../services/compra.service';
+import { FormaPagoService } from '../../../../services/forma-pago.service';
+import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
+import { ProductoService } from '../../../../services/producto.service';
+import { ProveedorService } from '../../../../services/proveedor.service';
 
 @Component({
   selector: 'app-gestion-compra',
@@ -21,13 +25,11 @@ import { DetalleCompraProducto } from '../../../../models/compra/detalleCompra.P
 })
 export class GestionCompraComponent implements OnInit {
   
-  public proveedorForm: FormGroup = this._formBuilder.group({
-    nombreProveedor: [ , [ Validators.required ] ],
-    rucProveedor: [ , [ Validators.required, this._validatorService.validadorDeRuc ]],
-    emailProveedor: [ , [ Validators.required, Validators.pattern(Patter.emailPattern) ]],
-    telefonoProveedor: [ , [  Validators.pattern(Patter.telefonoPattern) ]],
-    movilProveedor: [, [ Validators.pattern(Patter.movilPattern)]],
-    direccionProveedor: [ , [ Validators.required ]],
+  public compraForm: FormGroup = this._formBuilder.group({
+    codigoCompra: [ , [ Validators.required ]],
+    fechaCompra : [ , [ Validators.required ]],
+    formaPago   : [ , [ Validators.required ]],
+    proveedor   : [ , [ Validators.required ]],
   });
 
   public detalleCompraForm: FormGroup = this._formBuilder.group({
@@ -45,21 +47,61 @@ export class GestionCompraComponent implements OnInit {
   public productos:   Producto [] = [];
   public detallesCompra: DetalleCompraProducto [] = [];
 
+  public subTotal: number = 0;
+  public ivaTotal: number = 0;
+  public ivaGeneral: number = 0;
+  public totalCompra: number = 0;
+
+  public id?: number;
+  public compra?: Compra;
+  public selectedCompra?: Compra;
   constructor(
     private _formBuilder: FormBuilder,
-    private _validatorService: ValidatorService,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
     private _confirmationService: ConfirmationService,
     private _formaPagoService: FormaPagoService,
     private _proveedorService: ProveedorService,
     private _productosService: ProductoService,
+    private _compraService: CompraService,
+    private _msgSweetAlertService: MsgSweetAlertService,
   ) { }
 
   ngOnInit(): void {
     this.getFormasPago();
     this.getProveedores();
     this.getProductos();
+    this.getCompraIdParam();
   }
 
+  getCompraIdParam = () => {
+    this._activatedRoute.paramMap.subscribe( params => {      
+      this.id = +params.get('id')!;
+      if ( this.id && !isNaN(this.id)) {
+        this.getCompraPorId( this.id );
+      } else {
+        this._router.navigate(['/dashboard/compra/gestion/crear']);
+      }
+    });
+  }
+
+  getCompraPorId = (id: number) => {
+    this._compraService.getPorId(id).subscribe({
+      next: (resp: RespuestaServer) => {
+        this.selectedCompra = resp.respuesta;
+        this.compraForm.patchValue(resp.respuesta);
+        this.ivaGeneral = this.selectedCompra?.ivaCompra!;
+        this.detallesCompra = this.selectedCompra?.items!;
+        this.calcularTotalFooter();
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo encontrar esa compra',);
+          this._router.navigate(['/dashboard/compra']);
+        }
+      }
+    });
+  }
   getFormasPago = () => this._formaPagoService.compras().subscribe({
       next: (resp: RespuestaServer) =>  this.formasPago = resp.respuesta, 
       error: (err: HttpErrorResponse) => this.formasPago = []
@@ -78,10 +120,12 @@ export class GestionCompraComponent implements OnInit {
     if (this.detalleCompraForm.valid) {
       let item: DetalleCompraProducto = this.detalleCompraForm.value;
       item.totalDetalleCompraProducto = this.calcularTotal(item);
+      this.ivaGeneral = item.ivaDetalleCompraProducto!;
       this.quitarProductoItem(item.producto?.idProducto!);
       this.detallesCompra.push(item);
+      this.calcularTotalFooter();
       this.detalleCompraForm.reset();
-      console.log(this.detallesCompra);
+      this.detalleCompraForm.get('ivaDetalleCompraProducto')?.patchValue(this.ivaGeneral);
     } else {
       this.detalleCompraForm.markAllAsTouched();
     }
@@ -90,25 +134,127 @@ export class GestionCompraComponent implements OnInit {
   editarDetalle = (item: DetalleCompraProducto) => {
     this.detalleCompraForm.patchValue(item);
   }
+
   quitarProductoItem = (id: number) => {
     this.detallesCompra = this.detallesCompra.filter( detalle => detalle.producto?.idProducto != id);
-    console.log(this.detallesCompra);
-  }
-  eliminarDetalle = (index: number) => {
-    this.detallesCompra.slice(index, 1);
-    console.log('hola');
-    
+    this.calcularTotalFooter();
   }
   
   calcularTotal  = (detalle: DetalleCompraProducto): number => {
     if ( detalle.ivaDetalleCompraProducto! > 0 ) {
       let subTotal = detalle.precioDetalleCompraProducto! * detalle.cantidadDetalleCompraProducto!;
-      let iva = (subTotal * detalle.ivaDetalleCompraProducto!) / 100;
-      return subTotal + iva;
+      return this.round(subTotal, 2);
     } 
-    return detalle.cantidadDetalleCompraProducto! * detalle.precioDetalleCompraProducto!;
+    return +(detalle.cantidadDetalleCompraProducto! * detalle.precioDetalleCompraProducto!).toFixed(2);
   }
 
+  round = (num: number , decimalPlaces: number = 0) => {
+    num = Math.round(+(num + 'e' + decimalPlaces));
+    return Number(num + 'e' + -decimalPlaces);
+  }
+
+  calcularTotalFooter  = () => {
+    this.vaciarTotales();
+    for (const detalle of this.detallesCompra) {
+      let subTotal = detalle.precioDetalleCompraProducto! * detalle.cantidadDetalleCompraProducto!;
+      this.subTotal += subTotal;
+      if ( detalle.ivaDetalleCompraProducto! > 0 ) {
+        let iva = (subTotal * detalle.ivaDetalleCompraProducto!) / 100;
+        this.ivaTotal += iva;
+      }
+    }
+    this.totalCompra += this.subTotal + this.ivaTotal; 
+  }
+
+  realizarAccion = () => {
+    if (this.compraForm.valid) {
+      this.compra = this.compraForm.value;
+      this.compra!.ivaCompra = this.ivaGeneral;
+      this.compra!.totalCompra = this.round(this.totalCompra, 2);
+      this.compra!.ivaTotalCompra = this.round(this.ivaTotal, 2);
+      this.compra!.subTotalCompra = this.round(this.subTotal,2);
+      if (this.id) {
+        this.actualizarProducto();
+      } else {
+        this.crearCompra(this.compra!)
+      }
+    } else {
+      this.compraForm.markAllAsTouched();
+    }
+  }
+
+  crearCompra = (compra: Compra) => {
+    compra.estadoCompra = true;
+    if ( this.detallesCompra.length <= 0 ) {
+      this._msgSweetAlertService.mensajeAdvertencia('Por favor', 'Ingrese items a la compra.');
+    } else { 
+      compra.items = this.detallesCompra;
+      this._compraService.crear(compra).subscribe({
+        next: ( resp: RespuestaServer ) => {
+          this.vaciarTotales();
+          this.detallesCompra = [];
+          this.compraForm.reset();
+          this.detalleCompraForm.get('ivaDetalleCompraProducto')?.patchValue(12);
+          this._msgSweetAlertService.mensajeOk('Compra Guardada');
+        },
+        error: ( err: HttpErrorResponse ) => {
+          if (err.status === 409) {
+            this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Código  de la factura repetido');
+          } else {
+            this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo guardar la compra');
+          }
+        }
+      });
+    }
+  }
+
+  actualizarProducto = () => {
+    this.compra!.estadoCompra = this.selectedCompra?.estadoCompra;
+    this.compra!.items = this.detallesCompra;
+    this._compraService.actualizar(this.id!, this.compra!).subscribe({
+      next: (resp: RespuestaServer) => {
+        this._msgSweetAlertService.mensajeOk('Compra Guardada');
+        this._router.navigate(['/dashboard/compra']);
+      }, 
+      error: (err: HttpErrorResponse) => {
+        if (err.status === 409) {
+          this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Código  de la compra repetido');
+          return;
+        } else if(err.status === 404){
+          this._msgSweetAlertService.mensajeError('Upss!', 'Esa compra no existe');
+          this._router.navigate(['/dashboard/compra']);
+        } 
+        this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo actualizar la compra');
+        this._router.navigate(['/dashboard/compra']);
+      }
+    });
+  }
+
+  eliminar = (event: Event) => {    
+    this._confirmationService.confirm({
+        target: event.target!,
+        message: '¿Desea eliminar esta compra?',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Si',
+        accept: () => {
+            this._compraService.eliminar( this.id!).subscribe({
+              next: (resp: RespuestaServer) => {
+                this._msgSweetAlertService.mensajeOk('Compra Eliminada')
+                this._router.navigate(['/dashboard/compra']);
+              }, 
+              error: (err: HttpErrorResponse) => {
+                this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo eliminar la compra');
+              }
+            });
+        }
+    });
+  }
+
+  vaciarTotales = () => {
+    this.subTotal = 0;
+    this.ivaTotal = 0;
+    this.totalCompra = 0;
+  }
   verificarCampo  = ( campo: string , form: FormGroup ): boolean => {
     return ( form.controls?.[campo].invalid || false) && ( form.controls?.[campo].touched || false );
   }

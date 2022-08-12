@@ -20,13 +20,19 @@
                     <p-table [value]="compras" [autoLayout]="true" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} compra" [showCurrentPageReport]="true">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="codigoCompra">Código
+                                <th pSortableColumn="codigoCompra">Código Fact.
                                     <p-sortIcon field="codigoCompra"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="fechaCompra">fecha
+                                <th pSortableColumn="fechaCompra">Fecha
                                     <p-sortIcon field="fechaCompra"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="totalCopmpra">Total
+                                <th pSortableColumn="subTotalCompra">Subtotal
+                                    <p-sortIcon field="subTotalCompra"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="ivaTotalCompra">IVA
+                                    <p-sortIcon field="ivaTotalCompra"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="totalCompra">Total
                                     <p-sortIcon field="totalCompra"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="estadoCompra">Estado
@@ -39,7 +45,9 @@
                             <tr>
                                 <td>{{compra.codigoCompra}}</td>
                                 <td>{{compra.fechaCompra}}</td>
-                                <td>{{compra.totalCompra}</td>
+                                <td>{{compra.subTotalCompra | currency: 'USD'}}</td>
+                                <td>{{compra.ivaTotalCompra | currency: 'USD'}}</td>
+                                <td>{{compra.totalCompra    | currency: 'USD'}}</td>
                                 <td>
                                     <div class="field-checkbox">
                                         <p-checkbox [(ngModel)]="compra.estadoCompra" [binary]="true" inputId="binary" (onChange)="actualizarEstado(compra)">
@@ -81,30 +89,59 @@
     </div>
 </div>
 
-<!-- <p-dialog header="Detalles" [(visible)]="displayDetalles" [breakpoints]="[{'960px': '75vw'}]" [style]="{width: '50vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" (onHide)="closeDialog()">
+<p-dialog header="Detalles" [(visible)]="displayDetalles" [breakpoints]="[{'960px': '75vw'}]" [style]="{width: '30vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" (onHide)="closeDialog()">
     <div class="grid" *ngIf="selectedCompra">
-        <div class="col-12">
-            <p-table [value]="[selectedCompra]">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Ciudad</th>
-                        <th>Dirección</th>
-                        <th>F. Ingreso</th>
-                        <th>Detalle</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-proveedor>
-                    <tr>
-                        <td>{{proveedor?.detalleProveedor?.cuidadDetalleProveedor || 'N/A'}}</td>
-                        <td>{{proveedor?.direccionProveedor || 'N/A'}}</td>
-                        <td>{{proveedor?.detalleProveedor?.fechaIngresoDetalleProveedor || 'N/A'}}</td>
-                        <td>{{proveedor?.detalleProveedor?.descripcionDetalleProveedor || 'N/A'}}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
+        <div class="col-12 text-center">
+            <h5>Bar Escolar</h5>
         </div>
+        <div class="col-12 flex justify-content-between">
+            <span>Cuenca</span>
+            <span>{{diaActual | date: 'YYYY-M-dd'}}</span>
+            <span>HORA: {{ diaActual | date: 'mediumTime'}}</span>
+        </div>
+        <div class="col-12">
+            Proveedor: {{selectedCompra.proveedor?.nombreProveedor}}
+            <br>
+            RUC: {{selectedCompra.proveedor?.rucProveedor}}
+            <br>
+            Tel/Mov: {{selectedCompra.proveedor?.telefonoProveedor || selectedCompra.proveedor?.movilProveedor || 'N/A'}} 
+            <hr>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cant.</th>
+                    <th>Producto</th>
+                    <th>Precio Uni.</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of selectedCompra.items">
+                    <td>{{item.cantidadDetalleCompraProducto}}</td>
+                    <td>{{item.producto?.descripcionProducto}}</td>
+                    <td>{{item.precioDetalleCompraProducto}}</td>
+                    <td>{{item.totalDetalleCompraProducto}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>SUBTOTAL:</td>
+                    <td>{{selectedCompra.subTotalCompra}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>IVA{{selectedCompra.ivaCompra}}%:</td>
+                    <td>{{selectedCompra.ivaTotalCompra}}</td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td>TOTAL:</td>
+                    <td>{{selectedCompra.totalCompra}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <ng-template pTemplate="footer">
         <p-button (click)="closeDialog()" label="Cerrar" styleClass="p-button-text"></p-button>
     </ng-template>
-</p-dialog> -->
+</p-dialog>
