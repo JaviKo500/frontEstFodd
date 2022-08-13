@@ -32,7 +32,7 @@ export class GestionProvComponent implements OnInit {
     cuidadDetalleProveedor: [ ],
     descripcionDetalleProveedor: [],
   });
-
+  
   public proveedor?: Proveedor;
   public selectedProveedor?: Proveedor;
   public id?: number;

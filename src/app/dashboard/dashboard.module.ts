@@ -13,6 +13,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GestionProvComponent } from './pages/proveedor/gestion-prov/gestion-prov.component';
 import { ListarCompraComponent } from './pages/compra/listar-compra/listar-compra.component';
 import { GestionCompraComponent } from './pages/compra/gestion-compra/gestion-compra.component';
+import { ListarClienteComponent } from './pages/cliente/listar-cliente/listar-cliente.component';
+import { GestionClienteComponent } from './pages/cliente/gestion-cliente/gestion-cliente.component';
+
 
 
 @NgModule({
@@ -20,7 +23,7 @@ import { GestionCompraComponent } from './pages/compra/gestion-compra/gestion-co
     DashboardComponent, 
     GestionProdComponent, 
     ListarProdComponent, 
-    ListarProvComponent, GestionProvComponent, ListarCompraComponent, GestionCompraComponent
+    ListarProvComponent, GestionProvComponent, ListarCompraComponent, GestionCompraComponent, ListarClienteComponent, GestionClienteComponent, 
   ],
   imports: [
     CommonModule,

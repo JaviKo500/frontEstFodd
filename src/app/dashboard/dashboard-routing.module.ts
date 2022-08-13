@@ -8,6 +8,8 @@ import { ListarProdComponent } from './pages/producto/listar-prod/listar-prod.co
 import { ListarProvComponent } from './pages/proveedor/listar-prov/listar-prov.component';
 import { ListarCompraComponent } from './pages/compra/listar-compra/listar-compra.component';
 import { GestionCompraComponent } from './pages/compra/gestion-compra/gestion-compra.component';
+import { ListarClienteComponent } from './pages/cliente/listar-cliente/listar-cliente.component';
+import { GestionClienteComponent } from './pages/cliente/gestion-cliente/gestion-cliente.component';
 
 const routes: Routes = [
   {
@@ -49,6 +51,18 @@ const routes: Routes = [
       {
         path: 'compra/gestion/editar/:id',
         component: GestionCompraComponent
+      },
+      {
+        path: 'cliente',
+        component: ListarClienteComponent
+      },
+      {
+        path: 'cliente/gestion/crear',
+        component: GestionClienteComponent
+      },
+      {
+        path: 'cliente/gestion/editar/:id',
+        component: GestionClienteComponent
       },
       {
         path: '**',
