@@ -26,11 +26,10 @@ export class ListarClienteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    
+    this.listarClientes();
   }
   listarClientes = () => {
-    this._clienteService.cliente().subscribe({
+    this._clienteService.clientes().subscribe({
       next: ( resp : RespuestaServer ) => {        
         this.clientes = resp.respuesta as Cliente[];        
       },

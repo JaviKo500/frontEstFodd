@@ -1,0 +1,83 @@
+<div class="grid text-layout">
+    <div class="col-12">
+        <p-card>
+            <ng-template pTemplate="header">
+                <div class="text-center">
+                    <h1>Gestión Clientes</h1>
+                </div>
+            </ng-template>
+            <form [formGroup]="clienteForm">
+                <div class="grid border-1 border-300 border-round">
+                    <div class="col-6">
+                        <div class="field">
+                            <label for="nombreProveedor" class="block">Nombres:</label>
+                            <input type="text" pInputText placeholder="Nombre" formControlName="nombreProveedor" />
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('nombreProveedor')">
+                                Campo requerido.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="nombreProveedor" class="block">Apellidos:</label>
+                            <input type="text" pInputText placeholder="Apellidos" formControlName="nombreProveedor" />
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('nombreProveedor')">
+                                Campo requerido.
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="rucProveedor" class="block">Cédula:</label>
+                            <input type="text" pInputText placeholder="cédula" formControlName="rucProveedor" />
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('rucProveedor')">
+                                Campo requerido
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="field">
+                            <label for="emailProveedor" class="block">Email:</label>
+                            <input type="email" pInputText placeholder="Email" formControlName="emailProveedor"/>
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('emailProveedor')">
+                                Campo requerido
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="telefonoProveedor" class="block">Teléfono/Móvil:</label>
+                            <input  type="text" 
+                                    pInputText
+                                    placeholder="número" formControlName="telefonoProveedor"> 
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('telefonoProveedor')">
+                                Campo requerido
+                            </small>
+                        </div>
+                        <div class="field">
+                            <label for="movilProveedor" class="block">Tipo Cliente:</label>
+                            <input  type="text" 
+                                    pInputText
+                                    placeholder="099...."
+                                    formControlName="movilProveedor"> 
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('movilProveedor')">
+                                Campo requerido
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- buttons -->
+            <div class="grid">
+                <hr>
+                <div class="col-12 flex justify-content-evenly mt-2">
+                    <!-- <button pButton pRipple type="button" label="Guardar" class="w-2" (click)="realizarAccion()"></button> -->
+                    <!-- <button pButton pRipple type="button" label="Eliminar" class="p-button-danger w-2" *ngIf="id && selectedProveedor" (click)="eliminar($event)"></button> -->
+                    <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-text w-2" [routerLink]="'/dashboard/proveedor'"></button>
+                </div>
+            </div>
+        </p-card>
+    </div>
+</div>
+<!-- popup de confirmacion de eliminar  -->
+<p-confirmPopup></p-confirmPopup>

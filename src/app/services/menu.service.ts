@@ -34,12 +34,11 @@ export class MenuService {
             },
             {
               label: 'Clientes', 
-              icon: PrimeIcons.SHOPPING_CART,
+              icon: PrimeIcons.USERS,
               command: () => this.display = !this.display,
               routerLink: 'cliente'
             },
             {label: 'Ventas', icon: PrimeIcons.MONEY_BILL},
-            {label: 'Clientes', icon: PrimeIcons.USERS},
             {label: 'Reportes', icon: PrimeIcons.CHART_BAR},
         ]
       },

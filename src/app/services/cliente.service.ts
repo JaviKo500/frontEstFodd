@@ -15,7 +15,7 @@ export class ClienteService {
     private _http: HttpClient
   ) { }
 
-  cliente = (): Observable<RespuestaServer> => {    
+  clientes = (): Observable<RespuestaServer> => {    
     return this._http.get<RespuestaServer>(`${this._url}`);
   }
 

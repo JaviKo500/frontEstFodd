@@ -20,7 +20,7 @@
                     <p-table [value]="clientes" [autoLayout]="true" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes" [showCurrentPageReport]="true">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="persona.cedulaPersona ">Cédula/RUC
+                                <th pSortableColumn="persona.cedulaPersona">Cédula/RUC
                                     <p-sortIcon field="persona.cedulaPersona"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="persona.nombresPersona">Nombres
@@ -49,11 +49,11 @@
                         <ng-template pTemplate="body" let-cliente>
                             <tr>
                                 <td>{{cliente?.persona.cedulaPersona}}</td>
-                                <td>{{cliente?.persona.nombrePersona}}</td>
+                                <td>{{cliente?.persona.nombresPersona}}</td>
                                 <td>{{cliente?.persona.apellidosPersona}}</td>
-                                <td>{{cliente?.persona.emailPersona || 'N/A'}</td>
+                                <td>{{cliente?.persona.emailPersona || 'N/A'}}</td>
                                 <td>{{cliente?.telefonoCliente || 'N/A'}}</td>
-                                <td>{{cliente?.tipoCliente || 'N/A'}}</td>
+                                <td>{{cliente?.tipoCliente.descripcionTipoCliente || 'N/A'}}</td>
                                 <td>
                                     <div class="field-checkbox">
                                         <p-checkbox [(ngModel)]="cliente.estadoCliente" [binary]="true" inputId="binary" (onChange)="actualizarEstado(cliente)">
