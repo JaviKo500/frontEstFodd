@@ -154,8 +154,6 @@ export class GestionClienteComponent implements OnInit {
                 this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo eliminar el cliente');
               }
             });
-        },
-        reject: () => {
         }
     });
   }
