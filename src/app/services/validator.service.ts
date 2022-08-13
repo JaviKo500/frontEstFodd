@@ -10,21 +10,13 @@ export class ValidatorService {
 
   constructor() { }
 
-  noPuedeSerStrider = (control: FormControl): ValidationErrors | null => {
-    const valor: string = control.value?.trim().toLowerCase();
-    if (valor === 'strider') {
-      return {
-        noStrider: true
-      };
-    }
-    return null
-  }
-  validadorDeCedula(control: FormControl): ValidationErrors | null {
+  validadorDeCedula = (control: FormControl): ValidationErrors | null => {
     let cedula: string = control?.value?.trim() || '';
+    if (cedula.length < 10) return {cedulaInvalida: true}
+    if (cedula.length > 10) return {cedulaInvalida: true}
+
     let cedulaCorrecta = this.validarCedula(cedula);
-    if (cedulaCorrecta) {
-      console.log('ok');
-      
+    if (cedulaCorrecta) {      
       return null;
     }
     return {
@@ -49,7 +41,7 @@ export class ValidatorService {
     };
   }
 
-  validarCedula = (cedula: string): boolean => {
+  validarCedula = (cedula: string): boolean => {    
     let cedulaCorrecta = false;
     if (cedula.length == 10) {
       let tercerDigito = parseInt(cedula.substring(2, 3));

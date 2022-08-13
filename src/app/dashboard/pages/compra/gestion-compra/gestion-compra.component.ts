@@ -102,7 +102,7 @@ export class GestionCompraComponent implements OnInit {
       }
     });
   }
-  getFormasPago = () => this._formaPagoService.compras().subscribe({
+  getFormasPago = () => this._formaPagoService.formasPago().subscribe({
       next: (resp: RespuestaServer) =>  this.formasPago = resp.respuesta, 
       error: (err: HttpErrorResponse) => this.formasPago = []
   });
