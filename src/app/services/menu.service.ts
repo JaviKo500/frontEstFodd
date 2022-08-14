@@ -45,7 +45,12 @@ export class MenuService {
       {
         label: 'Configuración',
         items: [
-            {label: 'Administrar Usuarios', icon: PrimeIcons.USER},
+            { 
+              label: 'Administrar Usuarios', 
+              icon: PrimeIcons.USER,
+              command: () => this.display = !this.display,
+              routerLink: 'usuario'
+            },
         ]
       }
     ];

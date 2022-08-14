@@ -15,6 +15,8 @@ import { ListarCompraComponent } from './pages/compra/listar-compra/listar-compr
 import { GestionCompraComponent } from './pages/compra/gestion-compra/gestion-compra.component';
 import { ListarClienteComponent } from './pages/cliente/listar-cliente/listar-cliente.component';
 import { GestionClienteComponent } from './pages/cliente/gestion-cliente/gestion-cliente.component';
+import { GestionUsuaComponent } from './pages/usuario/gestion-usua/gestion-usua.component';
+import { ListarUsuaComponent } from './pages/usuario/listar-usua/listar-usua.component';
 
 
 
@@ -23,7 +25,14 @@ import { GestionClienteComponent } from './pages/cliente/gestion-cliente/gestion
     DashboardComponent, 
     GestionProdComponent, 
     ListarProdComponent, 
-    ListarProvComponent, GestionProvComponent, ListarCompraComponent, GestionCompraComponent, ListarClienteComponent, GestionClienteComponent, 
+    ListarProvComponent, 
+    GestionProvComponent, 
+    ListarCompraComponent, 
+    GestionCompraComponent, 
+    ListarClienteComponent, 
+    GestionClienteComponent, 
+    GestionUsuaComponent, 
+    ListarUsuaComponent, 
   ],
   imports: [
     CommonModule,

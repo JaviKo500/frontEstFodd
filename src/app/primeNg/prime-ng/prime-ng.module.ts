@@ -13,6 +13,7 @@ import {InputNumberModule} from 'primeng/inputnumber';
 import {InputTextareaModule} from 'primeng/inputtextarea';
 import {InputTextModule} from 'primeng/inputtext';
 import {MenuModule} from 'primeng/menu';
+import {PasswordModule} from 'primeng/password';
 import {SidebarModule} from 'primeng/sidebar';
 import {TableModule} from 'primeng/table';
 import {ToolbarModule} from 'primeng/toolbar';
@@ -33,6 +34,7 @@ import {ToolbarModule} from 'primeng/toolbar';
     InputTextareaModule,
     InputTextModule,
     MenuModule,
+    PasswordModule,
     SidebarModule,
     TableModule,
     ToolbarModule,

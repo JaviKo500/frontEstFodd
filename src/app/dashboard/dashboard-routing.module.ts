@@ -10,6 +10,8 @@ import { ListarCompraComponent } from './pages/compra/listar-compra/listar-compr
 import { GestionCompraComponent } from './pages/compra/gestion-compra/gestion-compra.component';
 import { ListarClienteComponent } from './pages/cliente/listar-cliente/listar-cliente.component';
 import { GestionClienteComponent } from './pages/cliente/gestion-cliente/gestion-cliente.component';
+import { GestionUsuaComponent } from './pages/usuario/gestion-usua/gestion-usua.component';
+import { ListarUsuaComponent } from './pages/usuario/listar-usua/listar-usua.component';
 
 const routes: Routes = [
   {
@@ -63,6 +65,18 @@ const routes: Routes = [
       {
         path: 'cliente/gestion/editar/:id',
         component: GestionClienteComponent
+      },
+      {
+        path: 'usuario',
+        component: ListarUsuaComponent
+      },
+      {
+        path: 'usuario/gestion/crear',
+        component: GestionUsuaComponent
+      },
+      {
+        path: 'usuario/gestion/editar/:id',
+        component: GestionUsuaComponent
       },
       {
         path: '**',
