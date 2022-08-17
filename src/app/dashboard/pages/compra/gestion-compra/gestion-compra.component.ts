@@ -185,6 +185,7 @@ export class GestionCompraComponent implements OnInit {
         this.crearCompra(this.compra!)
       }
     } else {
+      this._msgSweetAlertService.mensajeAdvertencia('Por favor...', 'Ingrese los datos de la parte superior');
       this.compraForm.markAllAsTouched();
     }
   }
@@ -216,16 +217,13 @@ export class GestionCompraComponent implements OnInit {
 
   actualizarProducto = () => {
     this.compra!.estadoCompra = this.selectedCompra?.estadoCompra;
-    this.compra!.items = this.detallesCompra;
-    console.log(this.compra!.items);
-    
+    this.compra!.items = this.detallesCompra;    
     this._compraService.actualizar(this.id!, this.compra!).subscribe({
       next: (resp: RespuestaServer) => {
         this._msgSweetAlertService.mensajeOk('Compra Guardada');
         this._router.navigate(['/dashboard/compra']);
       }, 
       error: (err: HttpErrorResponse) => {
-        console.log(err);
         if (err.status === 400) {
           this.productosError = err.error.error as Producto[]; 
           this.showDialog();

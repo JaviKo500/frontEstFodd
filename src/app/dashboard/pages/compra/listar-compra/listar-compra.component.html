@@ -35,9 +35,6 @@
                                 <th pSortableColumn="totalCompra">Total
                                     <p-sortIcon field="totalCompra"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="estadoCompra">Estado
-                                    <p-sortIcon field="estadoCompra"></p-sortIcon>
-                                </th>
                                 <th>Acciones</th>
                             </tr>
                         </ng-template>
@@ -48,21 +45,6 @@
                                 <td>{{compra.subTotalCompra | currency: 'USD'}}</td>
                                 <td>{{compra.ivaTotalCompra | currency: 'USD'}}</td>
                                 <td>{{compra.totalCompra | currency: 'USD'}}</td>
-                                <td>
-                                    <div class="field-checkbox">
-                                        <p-checkbox *ngIf="compra.estadoCompra === true" [(ngModel)]="compra.estadoCompra" [binary]="true" inputId="binary" (onChange)="actualizarEstado(compra)">
-                                        </p-checkbox>
-                                        <div class=" ml-2" *ngIf="compra.estadoCompra; else baja">
-                                            Disponible
-                                        </div>
-                                        <ng-template #baja>
-                                            <div class="ml-2">
-                                                No Disponible
-                                            </div>
-                                        </ng-template>
-                                    </div>
-
-                                </td>
                                 <td>
                                     <div class="grid">
                                         <div class="col-12">

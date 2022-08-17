@@ -32,8 +32,6 @@ export class ListarCompraComponent implements OnInit {
     this._compraService.compras().subscribe({
       next: ( resp : RespuestaServer ) => {        
         this.compras = resp.respuesta as Compra[]; 
-        console.log(this.compras);
-               
       },
       error: (err) => this.compras= []
     })
@@ -62,16 +60,6 @@ export class ListarCompraComponent implements OnInit {
     }
   }
 
-  actualizarEstado = (compra: Compra) => {
-    this._compraService.actualizarEstado( compra.idCompra! ).subscribe({
-      next: ( resp: RespuestaServer ) => {
-        this._msgSweetAlertService.mensajeOk( compra.estadoCompra? 'La compra se encuentra disponible' : 'Compra dada de baja');
-      },
-      error: (err) => {
-        this._msgSweetAlertService.mensajeAdvertencia('Upps!', 'No se pudo cambiar el estado');
-      }
-    })
-  }
   showDialog = (compra: Compra) => {
     this.displayDetalles = true;
     this.selectedCompra= compra;
