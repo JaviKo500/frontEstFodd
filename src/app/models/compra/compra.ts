@@ -1,6 +1,6 @@
-import { FormaPago } from './formaPago';
+import { FormaPago } from '../formaPago';
 import { Proveedor } from '../proveedor/proveedor';
-import { DetalleCompraProducto } from './detalleCompra.Producto';
+import { DetalleCompraProducto } from './detalleCompraProducto';
 export class Compra{
     idCompra?:       number;
     codigoCompra?:   string;
