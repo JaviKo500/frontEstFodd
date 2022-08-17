@@ -39,6 +39,7 @@ export class GestionCompraComponent implements OnInit {
     cantidadDetalleCompraProducto: [ , [ Validators.required ] ],
     precioDetalleCompraProducto: [ , [ Validators.required ]],
     ivaDetalleCompraProducto: [ 12 , [ Validators.required ]],
+    idDetalleCompraProducto: [],
   });
   
   
@@ -57,6 +58,7 @@ export class GestionCompraComponent implements OnInit {
   public id?: number;
   public compra?: Compra;
   public selectedCompra?: Compra;
+  public productosError: Producto [] = [];
   constructor(
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
@@ -80,6 +82,7 @@ export class GestionCompraComponent implements OnInit {
     this._activatedRoute.paramMap.subscribe( params => {      
       this.id = +params.get('id')!;
       if ( this.id && !isNaN(this.id)) {
+        this.productos = [];
         this.getCompraPorId( this.id );
       } else {
         this._router.navigate(['/dashboard/compra/gestion/crear']);
@@ -94,6 +97,7 @@ export class GestionCompraComponent implements OnInit {
         this.compraForm.patchValue(resp.respuesta);
         this.ivaGeneral = this.selectedCompra?.ivaCompra!;
         this.detallesCompra = this.selectedCompra?.items!;
+        this.productos = this.detallesCompra.map( item => item.producto!);
         this.calcularTotalFooter();
       },
       error: (error: HttpErrorResponse) => {
@@ -213,13 +217,20 @@ export class GestionCompraComponent implements OnInit {
   actualizarProducto = () => {
     this.compra!.estadoCompra = this.selectedCompra?.estadoCompra;
     this.compra!.items = this.detallesCompra;
+    console.log(this.compra!.items);
+    
     this._compraService.actualizar(this.id!, this.compra!).subscribe({
       next: (resp: RespuestaServer) => {
         this._msgSweetAlertService.mensajeOk('Compra Guardada');
         this._router.navigate(['/dashboard/compra']);
       }, 
       error: (err: HttpErrorResponse) => {
-        if (err.status === 409) {
+        console.log(err);
+        if (err.status === 400) {
+          this.productosError = err.error.error as Producto[]; 
+          this.showDialog();
+          return;
+        } if (err.status === 409) {
           this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Código  de la compra repetido');
           return;
         } else if(err.status === 404){
@@ -244,13 +255,28 @@ export class GestionCompraComponent implements OnInit {
                 this._msgSweetAlertService.mensajeOk('Compra Eliminada')
                 this._router.navigate(['/dashboard/compra']);
               }, 
-              error: (err: HttpErrorResponse) => {
+              error: (err: HttpErrorResponse) => {                
+                if (err.status === 400) {
+                  this.productosError = err.error.error as Producto[]; 
+                  this.showDialog();
+                  return;
+                }
                 this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo eliminar la compra');
               }
             });
         }
     });
   }
+
+  showDialog = () => {
+    this.displayDetalles = true;
+  }
+  
+  closeDialog = () => {
+    this.displayDetalles = false;
+  }
+
+  regresarPagina = () => window.history.back();
 
   vaciarTotales = () => {
     this.subTotal = 0;

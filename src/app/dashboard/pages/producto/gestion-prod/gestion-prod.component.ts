@@ -163,7 +163,7 @@ export class GestionProdComponent implements OnInit {
       next: (resp: RespuestaServer) => {
         this.subirImagen(this.id!);
         this._msgSweetAlertService.mensajeOk('Producto Guardado');
-        this._router.navigate(['/dashboard/producto']);
+        this.regresarPagina()
       }, 
       error: (err: HttpErrorResponse) => {
         if (err.status === 409) {
@@ -244,6 +244,7 @@ export class GestionProdComponent implements OnInit {
     this.displayDetalles = false;
   }
 
+  regresarPagina = () => window.history.back();
   verificarCampo  = ( campo: string ): boolean => {
     return ( this.productoForm.controls?.[campo].invalid || false) && ( this.productoForm.controls?.[campo].touched || false );
   }
