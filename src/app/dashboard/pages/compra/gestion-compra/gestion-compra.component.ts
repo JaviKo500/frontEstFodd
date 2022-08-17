@@ -5,8 +5,6 @@ import { ConfirmationService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Compra } from '../../../../models/compra/compra';
-import { DetalleCompraProducto } from '../../../../models/compra/detalleCompra.Producto';
-import { FormaPago } from '../../../../models/compra/formaPago';
 import { Proveedor } from '../../../../models/proveedor/proveedor';
 import { Producto } from '../../../../models/producto/producto';
 
@@ -16,14 +14,18 @@ import { FormaPagoService } from '../../../../services/forma-pago.service';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
 import { ProductoService } from '../../../../services/producto.service';
 import { ProveedorService } from '../../../../services/proveedor.service';
+import { DetalleCompraProducto } from '../../../../models/compra/detalleCompraProducto';
+import { FormaPago } from '../../../../models/formaPago';
 
 @Component({
   selector: 'app-gestion-compra',
   templateUrl: './gestion-compra.component.html',
   styleUrls: ['./gestion-compra.component.css'],
   providers: [ConfirmationService]
+  
 })
 export class GestionCompraComponent implements OnInit {
+  
   
   public compraForm: FormGroup = this._formBuilder.group({
     codigoCompra: [ , [ Validators.required ]],

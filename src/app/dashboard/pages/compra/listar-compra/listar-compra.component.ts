@@ -12,7 +12,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ListarCompraComponent implements OnInit {
   
-  public diaActual: Date = new Date()
+  public diaActual: Date = new Date();
 
   public compras: Compra [] = [];
   public termino: string = '';
