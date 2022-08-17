@@ -13,46 +13,78 @@ export class MenuService {
     return [
       {
         label: 'Menú',
+
+      },
+      {
+        label: 'Productos', 
+        icon: PrimeIcons.TH_LARGE,
+        command: () => this.display = !this.display,
+        routerLink: 'productos'
+      },
+      {
+        label: 'Proveedores', 
+        icon: PrimeIcons.BRIEFCASE,
+        command: () => this.display = !this.display,
+        routerLink: 'proveedor'
+      },
+      {
+        label: 'Compras', 
+        icon: PrimeIcons.SHOPPING_CART,
+        expanded: true,
         items: [
             {
-              label: 'Productos', 
-              icon: PrimeIcons.TH_LARGE,
+              label: 'Agregar Compras', 
+              icon: PrimeIcons.SHOPPING_CART,
               command: () => this.display = !this.display,
-              routerLink: 'productos'
+              routerLink: 'compra/gestion/crear'
             },
             {
-              label: 'Proveedores', 
-              icon: PrimeIcons.BRIEFCASE,
-              command: () => this.display = !this.display,
-              routerLink: 'proveedor'
-            },
-            {
-              label: 'Compras', 
+              label: 'Listar Compras', 
               icon: PrimeIcons.SHOPPING_CART,
               command: () => this.display = !this.display,
               routerLink: 'compra'
-            },
-            {
-              label: 'Clientes', 
-              icon: PrimeIcons.USERS,
-              command: () => this.display = !this.display,
-              routerLink: 'cliente'
-            },
-            {
-              label: 'Ventas',
-              icon: PrimeIcons.MONEY_BILL,
-              command: () => this.display = !this.display,
-              routerLink: 'venta/gestion/crear'
-            },
-             
-            {label: 'Reportes', icon: PrimeIcons.CHART_BAR},
+            }
         ]
       },
       {
+        label: 'Clientes', 
+        icon: PrimeIcons.USERS,
+        command: () => this.display = !this.display,
+        routerLink: 'cliente'
+      },
+      {
+        label: 'Ventas',
+        icon: PrimeIcons.MONEY_BILL,
+        expanded: false,
+        items: [
+          {
+            label: 'Agregar Venta',
+            command: () => this.display = !this.display,
+            routerLink: 'venta/gestion/crear'
+          },
+          {
+            label: 'Listar Venta',
+            command: () => this.display = !this.display,
+            routerLink: 'venta'
+          }
+        ]
+      },
+       
+      {label: 'Reportes', icon: PrimeIcons.CHART_BAR},
+      {
         label: 'Configuración',
+      },
+      {
+        label: 'Usuarios',
         items: [
             { 
-              label: 'Administrar Usuarios', 
+              label: 'Agregar Usuarios', 
+              icon: PrimeIcons.USER,
+              command: () => this.display = !this.display,
+              routerLink: 'usuario/gestion/crear'
+            },
+            { 
+              label: 'Listar Usuarios', 
               icon: PrimeIcons.USER,
               command: () => this.display = !this.display,
               routerLink: 'usuario'
