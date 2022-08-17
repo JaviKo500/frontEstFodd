@@ -50,7 +50,7 @@
                                 <td>{{compra.totalCompra    | currency: 'USD'}}</td>
                                 <td>
                                     <div class="field-checkbox">
-                                        <p-checkbox [(ngModel)]="compra.estadoCompra" [binary]="true" inputId="binary" (onChange)="actualizarEstado(compra)">
+                                        <p-checkbox *ngIf="compra.estadoCompra === true" [(ngModel)]="compra.estadoCompra" [binary]="true" inputId="binary" (onChange)="actualizarEstado(compra)">
                                         </p-checkbox>
                                         <div class=" ml-2" *ngIf="compra.estadoCompra; else baja">
                                             Disponible
@@ -69,7 +69,13 @@
                                             <div class="flex justify-content-between flex-wrap">
                                                 <button pButton pRipple type="button" class="p-button-help" icon="pi pi-eye" (click)="showDialog(compra)">
                                                 </button>
-                                                <button pButton pRipple type="button" class="p-button-warning" icon="pi pi-pencil" [routerLink]="['/dashboard/compra/gestion/editar', compra.idCompra]">
+                                                <button pButton 
+                                                        pRipple 
+                                                        type="button" 
+                                                        class="p-button-warning" 
+                                                        icon="pi pi-pencil" 
+                                                        *ngIf="compra.estadoCompra === true"
+                                                        [routerLink]="['/dashboard/compra/gestion/editar', compra.idCompra]">
                                                 </button>
                                             </div>
                                         </div>

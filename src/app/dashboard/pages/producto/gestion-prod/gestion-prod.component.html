@@ -92,7 +92,7 @@
                 <div class="col-12 flex justify-content-evenly mt-2">
                     <button pButton pRipple type="button" label="Guardar" class="w-2" (click)="realizarAccion()"></button>
                     <button pButton pRipple type="button" label="Eliminar" class="p-button-danger w-2" *ngIf="id && selectedProducto" (click)="eliminar($event)"></button>
-                    <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-text w-2" [routerLink]="'/dashboard/producto'"></button>
+                    <button pButton pRipple type="button" label="Cancelar" class="p-button-raised p-button-text w-2" (click)="regresarPagina()"></button>
                 </div>
             </div>
         </p-card>
