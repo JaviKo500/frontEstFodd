@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CompraService } from '../../../../services/compra.service';
 import { RespuestaServer } from '../../../../models/response';
-import { venta } from '../../../../models/venta/venta';
+import { Venta } from '../../../../models/venta/venta';
 import { VentaService } from '../../../../services/venta.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
@@ -13,10 +13,10 @@ import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.servi
 })
 export class ListarVentaComponent implements OnInit {
   public diaActual: Date = new Date();
-  public ventas: venta [] = [];
+  public ventas: Venta [] = [];
   public termino: string = '';
   public displayDetalles: boolean= false;
-  public selectedVenta?: venta| null;
+  public selectedVenta?: Venta| null;
 
   constructor(
     private _ventaService: VentaService,
@@ -29,7 +29,7 @@ export class ListarVentaComponent implements OnInit {
   listarVenta = () => {
     this._ventaService.ventas().subscribe({
       next: ( resp : RespuestaServer ) => {        
-        this.ventas = resp.respuesta as venta[]; 
+        this.ventas = resp.respuesta as Venta[]; 
         console.log(this.ventas);
                
       },
@@ -58,7 +58,7 @@ export class ListarVentaComponent implements OnInit {
       })
     }
   }
-  actualizarEstado = (venta: venta) => {
+  actualizarEstado = (venta: Venta) => {
     this._ventaService.actualizarEstado( venta.idVenta! ).subscribe({
       next: ( resp: RespuestaServer ) => {
         this._msgSweetAlertService.mensajeOk( venta.estadoVenta? 'La venta se encuentra disponible' : 'Venta dada de baja');
@@ -68,7 +68,7 @@ export class ListarVentaComponent implements OnInit {
       }
     })
   }
-  showDialog = (venta: venta) => {
+  showDialog = (venta: Venta) => {
     this.displayDetalles = true;
     this.selectedVenta= venta;
   }

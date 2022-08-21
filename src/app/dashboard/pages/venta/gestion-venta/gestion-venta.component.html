@@ -18,8 +18,21 @@
                                     </div>
                                 </ng-template> 
                                 <div class="flex justify-content-around w-full">
-                                    <p-dropdown [options]="['ok', 'ok']" placeholder="Cédula" class="w-full" styleClass="w-7" optionLabel="string" [showClear]="true"></p-dropdown>
-                                    <input type="text" pInputText [disabled]="true" class="w-full">
+                                    <p-dropdown [options]="clientes" 
+                                                placeholder="Cédula" 
+                                                class="w-full" 
+                                                styleClass="w-7" 
+                                                optionLabel="persona.cedulaPersona"
+                                                [filter]="true" filterBy="persona.cedulaPersona"
+                                                [showClear]="true"
+                                                (onChange)="seleccionCliente($event.value)">
+                                        <ng-template let-cliente pTemplate="item">
+                                            <div>
+                                                <div>{{cliente.persona.cedulaPersona}} - {{cliente.persona.nombresPersona}} {{cliente.persona.apellidosPersona}}</div>
+                                            </div>
+                                        </ng-template>
+                                    </p-dropdown>
+                                    <input type="text" pInputText [disabled]="true" class="w-full" [value]="mostrarNombre()">
                                 </div>
                             </p-panel>
                         </div>
@@ -34,14 +47,22 @@
                                     </div>
                                 </ng-template>  
                                 <div class="flex justify-content-around w-full">
-                                    <p-dropdown [options]="['ok', 'ok']" placeholder="Producto" class="w-full" styleClass="w-7" optionLabel="string" [showClear]="true"></p-dropdown>
-                                    <input type="text" pInputText [disabled]="true" class="w-12">
+                                    <p-dropdown [options]="productos" 
+                                                placeholder="Producto" 
+                                                class="w-full" 
+                                                styleClass="w-7" 
+                                                optionLabel="descripcionProducto" 
+                                                [showClear]="true"
+                                                [filter]="true" filterBy="descripcionProducto"
+                                                (onChange)="seleccionProducto($event.value)">
+                                    </p-dropdown>
+                                    <input type="text" pInputText [disabled]="true" class="w-12" [value]="showProducto?.descripcionProducto || ''">
                                 </div>
                                 <div class="flex justify-content-between w-full mt-2">
                                     <input type="text" pInputText placeholder="Cantidad" class="w-12rem"/>
                                     <div class="flex justify-content-between w-21rem">
-                                        <input type="text" pInputText [disabled]="true"  class="w-5">
-                                        <input type="text" pInputText [disabled]="true"  class="w-5">
+                                        <input type="text" pInputText [disabled]="true"  class="w-5" [value]="showProducto?.precioVentaProducto || ''">
+                                        <input type="text" pInputText [disabled]="true"  class="w-5" [value]="showProducto?.precioVentaProducto! * 5 || ''" >
                                     </div>
                                 </div>
                             </p-panel>

@@ -2,7 +2,7 @@ import { FormaPago } from '../formaPago';
 import { Cliente } from '../cliente/cliente';
 import { DetalleVentaProducto } from './detalleVentaProducto';
 
-export class venta{
+export class Venta{
     idVenta?:        number;
     codigoVenta?:    string;
     totalVenta?:     number;
