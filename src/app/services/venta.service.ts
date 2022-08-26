@@ -3,13 +3,13 @@ import { HttpClient } from '@angular/common/http';
 import { RespuestaServer } from '../models/response';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
-import { venta } from '../models/venta/venta';
+import { Venta } from '../models/venta/venta';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VentaService {
-  private _url: string = `${environment.baseUrl}/ventas`;
+  private _url: string = `${environment.baseUrl}/venta`;
 
   constructor(
     private _http: HttpClient 
@@ -20,18 +20,21 @@ export class VentaService {
     }
   
     getPorId = (id: number): Observable<RespuestaServer> => {
-      return this._http.get<RespuestaServer>(`${this._url}/${id}`)
+      return this._http.get<RespuestaServer>(`${this._url}/${id}`);
+    }
+    getUltimaVenta = (): Observable<RespuestaServer> => {
+      return this._http.get<RespuestaServer>(`${this._url}/ultima`);
     }
   
     getPorTermino = (termino: string): Observable<RespuestaServer> => {
-      return this._http.get<RespuestaServer>(`${this._url}/buscar/${termino}`)
+      return this._http.get<RespuestaServer>(`${this._url}/buscar/${termino}`);
     }
   
-    crear = (ventas: venta): Observable<RespuestaServer> => {
+    crear = (ventas: Venta): Observable<RespuestaServer> => {
       return this._http.post<RespuestaServer>(`${this._url}`, ventas);
     }
   
-    actualizar = (id: number, ventas: venta): Observable<RespuestaServer> => {
+    actualizar = (id: number, ventas: Venta): Observable<RespuestaServer> => {
       return this._http.put<RespuestaServer>(`${this._url}/${id}`, ventas);
     }
     actualizarEstado = (id: number): Observable<RespuestaServer> => {

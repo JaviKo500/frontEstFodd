@@ -103,7 +103,6 @@ export class GestionProdComponent implements OnInit {
     if (this.productoForm.valid) {
       this.producto = this.productoForm.value;
       this.verificarCamposDetalle();      
-      // TODO: verificar si tiene id
       if (this.id) {
         this.actualizarProducto();
       }else {

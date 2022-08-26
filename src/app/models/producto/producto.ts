@@ -10,6 +10,7 @@ export class Producto {
     ivaProducto?:         number;
     precioVentaProducto?: number;
     estadoProducto?:      boolean;
+    stockProducto?:       number;
     menuClienteProducto?: boolean;
     marca?:               Marca;
     presentacion?:        Presentacion;

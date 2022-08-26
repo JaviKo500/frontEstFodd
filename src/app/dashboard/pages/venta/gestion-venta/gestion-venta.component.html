@@ -25,7 +25,7 @@
                                                 optionLabel="persona.cedulaPersona"
                                                 [filter]="true" filterBy="persona.cedulaPersona"
                                                 [showClear]="true"
-                                                (onChange)="seleccionCliente($event.value)">
+                                                [(ngModel)]="showCliente">
                                         <ng-template let-cliente pTemplate="item">
                                             <div>
                                                 <div>{{cliente.persona.cedulaPersona}} - {{cliente.persona.nombresPersona}} {{cliente.persona.apellidosPersona}}</div>
@@ -50,30 +50,69 @@
                                     <p-dropdown [options]="productos" 
                                                 placeholder="Producto" 
                                                 class="w-full" 
-                                                styleClass="w-7" 
+                                                styleClass="w-8" 
                                                 optionLabel="descripcionProducto" 
                                                 [showClear]="true"
                                                 [filter]="true" filterBy="descripcionProducto"
-                                                (onChange)="seleccionProducto($event.value)">
+                                                [(ngModel)]="showProducto">
                                     </p-dropdown>
                                     <input type="text" pInputText [disabled]="true" class="w-12" [value]="showProducto?.descripcionProducto || ''">
                                 </div>
                                 <div class="flex justify-content-between w-full mt-2">
-                                    <input type="text" pInputText placeholder="Cantidad" class="w-12rem"/>
-                                    <div class="flex justify-content-between w-21rem">
-                                        <input type="text" pInputText [disabled]="true"  class="w-5" [value]="showProducto?.precioVentaProducto || ''">
-                                        <input type="text" pInputText [disabled]="true"  class="w-5" [value]="showProducto?.precioVentaProducto! * 5 || ''" >
+                                    <div class="w-6" >
+                                        <div class="grid" >
+                                            <div class="col-4" >
+                                                <span class="p-input-icon-left w-full "  >
+                                                    <i class="pi pi-plus"></i>
+                                                    <input type="number" min="0" pInputText placeholder="0" class="w-full" [(ngModel)]="cantidad" />
+                                                </span>
+                                            </div>
+                                            <div class="col-6">
+                                                <span class="p-input-icon-left w-full">
+                                                    <i class="pi pi-th-large"></i>
+                                                    <input type="number" pInputText [disabled]="true"  class="w-8" [value]="showProducto?.stockProducto || '0'" >
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="w-22rem">
+                                        <div class="grid">
+                                            <div class="col-6">
+                                                <span class="p-input-icon-left w-full">
+                                                    <i class="pi pi-dollar"></i>
+                                                    <input type="number" pInputText [disabled]="true"  class="w-full" [value]="showProducto?.precioVentaProducto || '0'">
+                                                </span>
+                                            </div>
+                                            <div class="col-6 flex justify-content-end">
+                                                <span class="p-input-icon-left w-full">
+                                                    <i class="pi pi-money-bill"></i>
+                                                    <input type="number" pInputText [disabled]="true"  class="w-full" [value]="(showProducto?.precioVentaProducto! * +cantidad).toFixed(2) || '0'">
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </p-panel>
                             <div class="mt-5">
-                                <button pButton icon="pi pi-shopping-cart" pRipple type="button" label="Agregar Producto" class="p-button-outlined p-button-help"></button>
+                                <button pButton 
+                                        icon="pi pi-shopping-cart" pRipple 
+                                        type="button" label="Agregar Producto" 
+                                        class="p-button-outlined p-button-help"
+                                        (click)="agregarItem()">
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-6">
-                    <p-table [value]="['sasa', 'asas', 'asas', 'asas', 'asas', 'asas', 'asas', 'asas', 'asas', 'asas', 'asas']" [scrollable]="true" scrollHeight="300px">
+                    <div class="flex justify-content-end mb-2">
+                        <label for="" class="mt-2">Cod venta: </label>
+                        <span class="p-input-icon-left ">
+                            <i class="pi pi-tag"></i>
+                            <input type="text" pInputText [disabled]="true"   [value]="'000'+codVenta" >
+                        </span>
+                    </div>
+                    <p-table [value]="itemsVenta" [scrollable]="true" scrollHeight="300px">
                         <ng-template pTemplate="header">
                             <tr>
                                 <th style="min-width:200px">NRO</th>
@@ -82,16 +121,26 @@
                                 <th style="min-width:200px">Precio</th>
                                 <th style="min-width:200px">Cantidad</th>
                                 <th style="min-width:200px">Total</th>
-                                <th style="min-width:200px"></th>
+                                <th style="min-width:200px">Acciones</th>
                             </tr>
                         </ng-template>
-                        <ng-template pTemplate="body" let-customer>
+                        <ng-template pTemplate="body" let-itemVenta let-rowIndex="rowIndex">
                             <tr>
-                                <td style="min-width:200px">{{customer}}</td>
-                                <td style="min-width:200px">{{customer}}</td>
-                                <td style="min-width:200px">{{customer}}</td>
-                                <td style="min-width:200px">{{customer}}</td>
-                                <td style="min-width:200px"></td>
+                                <td style="min-width:200px">{{rowIndex + 1}}</td>
+                                <td style="min-width:200px">{{itemVenta.producto.descripcionProducto}}</td>
+                                <td style="min-width:200px">{{itemVenta.producto.codigoProducto}}</td>
+                                <td style="min-width:200px">{{itemVenta.precioDetalleProductoVenta}}</td>
+                                <td style="min-width:200px">{{itemVenta.cantidadDetalleProductoVenta}}</td>
+                                <td style="min-width:200px">{{itemVenta.totalDetalleProductoVenta}}</td>
+                                <td >
+                                    <div class="flex justify-content-between">
+                                        <button pButton pRipple 
+                                                type="button" icon="pi pi-trash" 
+                                                class="p-button-rounded p-button-danger p-button-outlined"
+                                                (click)="quitarProductoItem(itemVenta.producto.idProducto)">
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         </ng-template>
                     </p-table>
@@ -99,10 +148,14 @@
                         <div class="grid">
                             <div class="col-5 flex justify-content-between">
                                 <button pButton pRipple type="button" icon="pi pi-save" label="Generar venta" class="p-button-raised p-button-success"></button>
-                                <button pButton pRipple type="button" icon="pi pi-ban" label="Cancelar" class="p-button-raised p-button-danger"></button>
+                                <button pButton pRipple type="button" icon="pi pi-ban" label="Cancelar" class="p-button-raised p-button-danger" (click)="limpiar()"></button>
                             </div>
                             <div class="col-7  align-content-center flex justify-content-end ">
-                                <label for="" class="mr-2">Total a Pagar: </label><input type="text" pInputText [disabled]="true"  class="w-5">
+                                <label for="" class="mr-2">Total a Pagar: </label>
+                                <span class="p-input-icon-left ">
+                                    <i class="pi pi-dollar"></i>
+                                    <input type="text" pInputText [disabled]="true"   [value]="totalVenta" >
+                                </span>
                             </div>
                         </div>
                     </div>
