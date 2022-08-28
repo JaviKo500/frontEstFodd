@@ -59,7 +59,7 @@ export class ListarProdComponent implements OnInit {
         error: (err: HttpErrorResponse) => {
           if (err.status === 404) {
             this.listarProductos();
-            this._msgSweetAlertService.mensajeIfo('Upps!', 'No hay productos con ese nombre');
+            this._msgSweetAlertService.mensajeInfo('Upps!', 'No hay productos con ese nombre');
           }else {
             this.listarProductos();
           }

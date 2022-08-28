@@ -27,7 +27,7 @@ export class MsgSweetAlertService {
     text
   });
 
-  mensajeIfo = (title: string, text: string) => Swal.fire({
+  mensajeInfo = (title: string, text: string) => Swal.fire({
     icon: 'info',
     title,
     text

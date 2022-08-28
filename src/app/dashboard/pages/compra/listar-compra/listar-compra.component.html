@@ -88,18 +88,20 @@
             <span>HORA: {{ diaActual | date: 'mediumTime'}}</span>
         </div>
         <div class="col-12">
+            Cod. Fact: {{selectedCompra.codigoCompra}}
+            <br>
             Proveedor: {{selectedCompra.proveedor?.nombreProveedor}}
             <br> RUC: {{selectedCompra.proveedor?.rucProveedor}}
             <br> Tel/Mov: {{selectedCompra.proveedor?.telefonoProveedor || selectedCompra.proveedor?.movilProveedor || 'N/A'}}
             <hr>
         </div>
-        <table>
+        <table class="w-full">
             <thead>
                 <tr>
-                    <th>Cant.</th>
-                    <th>Producto</th>
-                    <th>Precio Uni.</th>
-                    <th>Valor</th>
+                    <th class="text-left">Cant.</th>
+                    <th class="text-left">Producto</th>
+                    <th class="text-left">Precio Uni.</th>
+                    <th class="text-left">Valor</th>
                 </tr>
             </thead>
             <tbody>
@@ -121,7 +123,7 @@
                 </tr>
                 <tr>
                     <td colspan="2"></td>
-                    <td>TOTAL:</td>
+                    <td><b>TOTAL:</b></td>
                     <td>{{selectedCompra.totalCompra}}</td>
                 </tr>
             </tbody>

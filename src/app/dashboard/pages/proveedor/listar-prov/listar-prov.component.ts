@@ -50,7 +50,7 @@ export class ListarProvComponent implements OnInit {
         error: (err: HttpErrorResponse) => {
           if (err.status === 404) {
             this.listarProveedores();
-            this._msgSweetAlertService.mensajeIfo('Upps!', 'No hay proveedores con ese nombre');
+            this._msgSweetAlertService.mensajeInfo('Upps!', 'No hay proveedores con ese nombre');
           }else {
             this.listarProveedores();
           }

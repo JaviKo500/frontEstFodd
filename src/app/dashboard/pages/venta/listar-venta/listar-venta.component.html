@@ -23,14 +23,10 @@
                                 <th pSortableColumn="codigoVenta">Código Fact.
                                     <p-sortIcon field="codigoCompra"></p-sortIcon>
                                 </th>
+                                <th pSortableColumn="cliente.persona.nombresPersona">Cliente
+                                    <p-sortIcon field="cliente.persona.nombresPersona"></p-sortIcon>
                                 <th pSortableColumn="fechaVenta">Fecha
                                     <p-sortIcon field="fechaVenta"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="subTotalVenta">Subtotal
-                                    <p-sortIcon field="subTotalVenta"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="ivaTotalVenta">IVA
-                                    <p-sortIcon field="ivaTotalVenta"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="totalVenta">Total
                                     <p-sortIcon field="totalVenta"></p-sortIcon>
@@ -44,13 +40,19 @@
                         <ng-template pTemplate="body" let-venta>
                             <tr>
                                 <td>{{venta.codigoVenta}}</td>
-                                <td>{{venta.fechaVenta}}</td>
-                                <td>{{venta.subTotalVenta | currency: 'USD'}}</td>
-                                <td>{{venta.ivaTotalVenta | currency: 'USD'}}</td>
+                                <td>{{venta.cliente.persona.nombresPersona | titlecase}} {{venta.cliente.persona.apellidosPersona | titlecase}}</td>
+                                <td>
+                                    <p-calendar dateFormat="yy-mm-dd" appendTo="body" 
+                                                inputId="dateformat" placeholder="yyyy/mm/dd" 
+                                                [(ngModel)]="venta.fechaVenta"
+                                                [disabled]="!venta.estadoVenta"
+                                                (onSelect)="actualizarFecha($event, venta.idVenta)">
+                                    </p-calendar>
+                                </td>
                                 <td>{{venta.totalVenta | currency: 'USD'}}</td>
                                 <td>
                                     <div class="field-checkbox">
-                                        <p-checkbox [(ngModel)]="venta.estadoVenta" [binary]="true" inputId="binary" (onChange)="actualizarEstado(venta)">
+                                        <p-checkbox [(ngModel)]="venta.estadoVenta" *ngIf="venta.estadoVenta" [binary]="true" inputId="binary" (onChange)="actualizarEstado(venta)">
                                         </p-checkbox>
                                         <div class=" ml-2" *ngIf="venta.estadoVenta; else baja">
                                             Disponible
@@ -69,7 +71,9 @@
                                             <div class="flex justify-content-between flex-wrap">
                                                 <button pButton pRipple type="button" class="p-button-help" icon="pi pi-eye" (click)="showDialog(venta)">
                                                 </button>
-                                                <button pButton pRipple type="button" class="p-button-warning" icon="pi pi-pencil" [routerLink]="['/dashboard/venta/gestion/editar', venta.idVenta]">
+                                                <button pButton pRipple type="button" class="p-button-danger" icon="pi pi-trash" (click)="eliminar($event, venta.idVenta)">
+                                                </button>
+                                                <button pButton pRipple type="button" class="p-button-warning" icon="pi pi-pencil" [routerLink]="['/dashboard/venta/gestion/editar', venta.idVenta]" *ngIf="venta.estadoVenta">
                                                 </button>
                                             </div>
                                         </div>
@@ -88,7 +92,8 @@
         </p-card>
     </div>
 </div>
-
+<!-- popup de confirmacion de eliminar  -->
+<p-confirmPopup></p-confirmPopup>
 <p-dialog header="Detalles" [(visible)]="displayDetalles" [breakpoints]="[{'960px': '75vw'}]" [style]="{width: '30vw'}" [baseZIndex]="10000" [draggable]="false" [resizable]="false" (onHide)="closeDialog()">
     <div class="grid" *ngIf="selectedVenta">
         <div class="col-12 text-center">
@@ -99,13 +104,22 @@
             <span>{{diaActual | date: 'YYYY-M-dd'}}</span>
             <span>HORA: {{ diaActual | date: 'mediumTime'}}</span>
         </div>
-        <table>
+        <div class="col-12">
+            Cod. Venta: {{selectedVenta.codigoVenta}}
+            <br>
+            Cliente: {{selectedVenta.cliente?.persona?.nombresPersona}}  {{selectedVenta.cliente?.persona?.nombresPersona}}
+            <br> CI: {{selectedVenta.cliente?.persona?.cedulaPersona}}
+            <br> Tel/Mov: {{selectedVenta.cliente?.telefonoCliente || 'N/A'}}
+            <br> E-mail: {{selectedVenta.cliente?.persona?.emailPersona}}
+            <hr>
+        </div>
+        <table class="w-full">
             <thead>
                 <tr>
-                    <th>Cant.</th>
-                    <th>Producto</th>
-                    <th>Precio Uni.</th>
-                    <th>Valor</th>
+                    <th class="text-left">Cant.</th>
+                    <th class="text-left">Producto</th>
+                    <th class="text-left">Precio Uni.</th>
+                    <th class="text-left">Valor</th>
                 </tr>
             </thead>
             <tbody>
@@ -115,20 +129,10 @@
                     <td>{{item.precioDetalleProductoVenta}}</td>
                     <td>{{item.totalDetalleProductoVenta}}</td>
                 </tr>
-                <!-- <tr>
-                    <td colspan="2"></td>
-                    <td>SUBTOTAL:</td>
-                    <td>{{selectedVenta.subTotalVenta}}</td>
-                </tr> -->
-                <!-- <tr>
-                    <td colspan="2"></td>
-                    <td>IVA{{selectedVenta.ivaVenta}}%:</td>
-                    <td>{{selectedCompra.ivaTotalCompra}}</td>
-                </tr> -->
                 <tr>
                     <td colspan="2"></td>
-                    <td>TOTAL:</td>
-                    <td>{{selectedVenta.totalVenta}</td>
+                    <td><b>TOTAL:</b></td>
+                    <td>{{selectedVenta.totalVenta}}</td>
                 </tr>
             </tbody>
         </table>

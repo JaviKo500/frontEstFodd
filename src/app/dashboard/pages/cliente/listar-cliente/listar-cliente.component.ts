@@ -49,7 +49,7 @@ export class ListarClienteComponent implements OnInit {
         error: (err: HttpErrorResponse) => {
           if (err.status === 404) {
             this.listarClientes();
-            this._msgSweetAlertService.mensajeIfo('Upps!', 'No existen clientes con esa cédula');
+            this._msgSweetAlertService.mensajeInfo('Upps!', 'No existen clientes con esa cédula');
           }else {
             this.listarClientes();
           }

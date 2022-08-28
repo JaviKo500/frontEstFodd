@@ -5,11 +5,13 @@ import { Venta } from '../../../../models/venta/venta';
 import { VentaService } from '../../../../services/venta.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-listar-venta',
   templateUrl: './listar-venta.component.html',
-  styleUrls: ['./listar-venta.component.css']
+  styleUrls: ['./listar-venta.component.css'],
+  providers: [ConfirmationService]
 })
 export class ListarVentaComponent implements OnInit {
   public diaActual: Date = new Date();
@@ -19,11 +21,13 @@ export class ListarVentaComponent implements OnInit {
   public selectedVenta?: Venta| null;
 
   constructor(
+    private _confirmationService: ConfirmationService,
     private _ventaService: VentaService,
     private _msgSweetAlertService: MsgSweetAlertService,
   ) { }
 
   ngOnInit(): void {
+    this.listarVenta();
   }
 
   listarVenta = () => {
@@ -49,7 +53,7 @@ export class ListarVentaComponent implements OnInit {
         error: (err: HttpErrorResponse) => {
           if (err.status === 404) {
             this.listarVenta();
-            this._msgSweetAlertService.mensajeIfo('Upps!', 'No existe ventas con ese código');
+            this._msgSweetAlertService.mensajeInfo('Upps!', 'No existe ventas con ese código');
           }else {
             this.listarVenta();
           }
@@ -57,6 +61,39 @@ export class ListarVentaComponent implements OnInit {
         }
       })
     }
+  }
+
+  eliminar = (event: Event, id: number) => {    
+    this._confirmationService.confirm({
+        target: event.target!,
+        message: '¿Desea eliminar este producto?',
+        icon: 'pi pi-exclamation-triangle',
+        acceptLabel: 'Si',
+        accept: () => {
+            this._ventaService.eliminar(id).subscribe({
+              next: (resp: RespuestaServer) => {
+                this._msgSweetAlertService.mensajeOk('Producto Eliminado');
+                this.listarVenta();
+              }, 
+              error: (err: HttpErrorResponse) => {
+                this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo eliminar el producto');
+              }
+            });
+        },
+        reject: () => {
+        }
+    });
+  }
+  actualizarFecha = (fecha: Date, id: number) => {
+    this._ventaService.actualizarFecha( id, fecha ).subscribe({
+      next: ( resp: RespuestaServer ) => {
+        this._msgSweetAlertService.mensajeOk('Fecha Actualizada');
+      },
+      error: (err) => {
+        this._msgSweetAlertService.mensajeAdvertencia('Upps!', 'No se pudo cambiar la Fecha');
+      }
+    });
+    
   }
   actualizarEstado = (venta: Venta) => {
     this._ventaService.actualizarEstado( venta.idVenta! ).subscribe({
@@ -66,7 +103,7 @@ export class ListarVentaComponent implements OnInit {
       error: (err) => {
         this._msgSweetAlertService.mensajeAdvertencia('Upps!', 'No se pudo cambiar el estado');
       }
-    })
+    });
   }
   showDialog = (venta: Venta) => {
     this.displayDetalles = true;

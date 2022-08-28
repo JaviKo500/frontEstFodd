@@ -55,7 +55,7 @@ export class MenuService {
       {
         label: 'Ventas',
         icon: PrimeIcons.MONEY_BILL,
-        expanded: false,
+        expanded: true,
         items: [
           {
             label: 'Agregar Venta',

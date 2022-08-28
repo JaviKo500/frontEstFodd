@@ -34,8 +34,11 @@ export class VentaService {
       return this._http.post<RespuestaServer>(`${this._url}`, ventas);
     }
   
-    actualizar = (id: number, ventas: Venta): Observable<RespuestaServer> => {
-      return this._http.put<RespuestaServer>(`${this._url}/${id}`, ventas);
+    actualizar = (id: number, venta: Venta): Observable<RespuestaServer> => {
+      return this._http.put<RespuestaServer>(`${this._url}/${id}`, venta);
+    }
+    actualizarFecha = (id: number, fecha: Date): Observable<RespuestaServer> => {
+      return this._http.put<RespuestaServer>(`${this._url}/fecha/${id}`, fecha);
     }
     actualizarEstado = (id: number): Observable<RespuestaServer> => {
       return this._http.put<RespuestaServer>(`${this._url}/estado/${id}`, {});

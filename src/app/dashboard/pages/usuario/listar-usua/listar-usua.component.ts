@@ -48,7 +48,7 @@ export class ListarUsuaComponent implements OnInit {
         error: (err: HttpErrorResponse) => {
           if (err.status === 404) {
             this.listarUsuarios();
-            this._msgSweetAlertService.mensajeIfo('Upps!', 'No hay usuarios con ese nombre');
+            this._msgSweetAlertService.mensajeInfo('Upps!', 'No hay usuarios con ese nombre');
           }else {
             this.listarUsuarios();
           }
