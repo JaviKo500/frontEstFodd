@@ -18,6 +18,9 @@ export class VentaService {
     ventas = (): Observable<RespuestaServer> => {    
       return this._http.get<RespuestaServer>(`${this._url}`);
     }
+    ventasPorEstado = (): Observable<RespuestaServer> => {    
+      return this._http.get<RespuestaServer>(`${this._url}/estado`);
+    }
   
     getPorId = (id: number): Observable<RespuestaServer> => {
       return this._http.get<RespuestaServer>(`${this._url}/${id}`);
@@ -29,11 +32,16 @@ export class VentaService {
     getPorTermino = (termino: string): Observable<RespuestaServer> => {
       return this._http.get<RespuestaServer>(`${this._url}/buscar/${termino}`);
     }
-  
+    getPorCedulaTermino = (termino: string): Observable<RespuestaServer> => {
+      return this._http.get<RespuestaServer>(`${this._url}/buscar/cedula/${termino}`);
+    }
+
+    getPorFechas = (fechaInicio: Date, fechaFin: Date): Observable<RespuestaServer> => {
+      return this._http.get<RespuestaServer>(`${this._url}/fechas/${fechaInicio}/${fechaFin}`);
+    }
     crear = (ventas: Venta): Observable<RespuestaServer> => {
       return this._http.post<RespuestaServer>(`${this._url}`, ventas);
     }
-  
     actualizar = (id: number, venta: Venta): Observable<RespuestaServer> => {
       return this._http.put<RespuestaServer>(`${this._url}/${id}`, venta);
     }

@@ -23,11 +23,14 @@ export class ProductoService {
   }
 
   getPorId = (id: number): Observable<RespuestaServer> => {
-    return this._http.get<RespuestaServer>(`${this._url}/${id}`)
+    return this._http.get<RespuestaServer>(`${this._url}/${id}`);
   }
 
   getPorTermino = (termino: string): Observable<RespuestaServer> => {
-    return this._http.get<RespuestaServer>(`${this._url}/buscar/${termino}`)
+    return this._http.get<RespuestaServer>(`${this._url}/buscar/${termino}`);
+  }
+  getPorFechas = (fechaInicio: Date, fechaFin: Date): Observable<RespuestaServer> => {
+    return this._http.get<RespuestaServer>(`${this._url}/fechas/${fechaInicio}/${fechaFin}`);
   }
 
   crear = (producto: Producto): Observable<RespuestaServer> => {

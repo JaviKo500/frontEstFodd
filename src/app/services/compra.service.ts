@@ -19,12 +19,24 @@ export class CompraService {
     return this._http.get<RespuestaServer>(`${this._url}`);
   }
 
+  comprasPorEstado = (): Observable<RespuestaServer> => {    
+    return this._http.get<RespuestaServer>(`${this._url}/estado`);
+  }
+
   getPorId = (id: number): Observable<RespuestaServer> => {
     return this._http.get<RespuestaServer>(`${this._url}/${id}`)
   }
 
   getPorTermino = (termino: string): Observable<RespuestaServer> => {
     return this._http.get<RespuestaServer>(`${this._url}/buscar/${termino}`)
+  }
+
+  getPorCedulaTermino = (termino: string): Observable<RespuestaServer> => {
+    return this._http.get<RespuestaServer>(`${this._url}/buscar/ruc/${termino}`);
+  }
+
+  getPorFechas = (fechaInicio: Date, fechaFin: Date): Observable<RespuestaServer> => {
+    return this._http.get<RespuestaServer>(`${this._url}/fechas/${fechaInicio}/${fechaFin}`);
   }
 
   crear = (compra: Compra): Observable<RespuestaServer> => {

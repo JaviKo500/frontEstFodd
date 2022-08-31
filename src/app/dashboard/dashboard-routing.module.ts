@@ -14,6 +14,9 @@ import { GestionUsuaComponent } from './pages/usuario/gestion-usua/gestion-usua.
 import { ListarUsuaComponent } from './pages/usuario/listar-usua/listar-usua.component';
 import { ListarVentaComponent } from './pages/venta/listar-venta/listar-venta.component';
 import { GestionVentaComponent } from './pages/venta/gestion-venta/gestion-venta.component';
+import { ReporProductoComponent } from './pages/reporte/repor-producto/repor-producto.component';
+import { ReporVentaComponent } from './pages/reporte/repor-venta/repor-venta.component';
+import { ReporCompraComponent } from './pages/reporte/repor-compra/repor-compra.component';
 
 const routes: Routes = [
   {
@@ -80,7 +83,18 @@ const routes: Routes = [
         path: 'venta/gestion/editar/:id',
         component: GestionVentaComponent
       },
-      
+      {
+        path: 'reporte/producto',
+        component: ReporProductoComponent
+      },
+      {
+        path: 'reporte/venta',
+        component: ReporVentaComponent
+      },
+      {
+        path: 'reporte/compra',
+        component: ReporCompraComponent
+      },
       {
         path: 'usuario',
         component: ListarUsuaComponent

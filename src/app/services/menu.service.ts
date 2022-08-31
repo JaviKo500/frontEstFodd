@@ -70,7 +70,27 @@ export class MenuService {
         ]
       },
        
-      {label: 'Reportes', icon: PrimeIcons.CHART_BAR},
+      { 
+        label: 'Reportes', 
+        icon: PrimeIcons.CHART_BAR,
+        items: [
+          {
+            label: 'Producto',
+            command: () => this.display = !this.display,
+            routerLink: 'reporte/producto'
+          },
+          {
+            label: 'Venta',
+            command: () => this.display = !this.display,
+            routerLink: 'reporte/venta'
+          },
+          {
+            label: 'Compra',
+            command: () => this.display = !this.display,
+            routerLink: 'reporte/compra'
+          }
+        ]
+      },
       {
         label: 'Configuración',
       },

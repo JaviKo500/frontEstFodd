@@ -65,9 +65,8 @@ export class ListarProdComponent implements OnInit {
           }
           this.termino = '';
         }
-      })
+      });
     }
-    
   }
 
   actualizarEstado = (producto: Producto) => {

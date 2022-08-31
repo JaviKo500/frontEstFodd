@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { PrimeNgModule } from '../primeNg/prime-ng/prime-ng.module';
 
 import { DashboardComponent } from './dashboard.component';
 import { GestionProdComponent } from './pages/producto/gestion-prod/gestion-prod.component';
 import { ListarProdComponent } from './pages/producto/listar-prod/listar-prod.component';
 import { ListarProvComponent } from './pages/proveedor/listar-prov/listar-prov.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GestionProvComponent } from './pages/proveedor/gestion-prov/gestion-prov.component';
 import { ListarCompraComponent } from './pages/compra/listar-compra/listar-compra.component';
 import { GestionCompraComponent } from './pages/compra/gestion-compra/gestion-compra.component';
@@ -19,6 +20,9 @@ import { GestionUsuaComponent } from './pages/usuario/gestion-usua/gestion-usua.
 import { ListarUsuaComponent } from './pages/usuario/listar-usua/listar-usua.component';
 import { GestionVentaComponent } from './pages/venta/gestion-venta/gestion-venta.component';
 import { ListarVentaComponent } from './pages/venta/listar-venta/listar-venta.component';
+import { ReporProductoComponent } from './pages/reporte/repor-producto/repor-producto.component';
+import { ReporVentaComponent } from './pages/reporte/repor-venta/repor-venta.component';
+import { ReporCompraComponent } from './pages/reporte/repor-compra/repor-compra.component';
 
 
 
@@ -35,7 +39,7 @@ import { ListarVentaComponent } from './pages/venta/listar-venta/listar-venta.co
     ListarClienteComponent, 
     GestionClienteComponent, 
     GestionUsuaComponent, 
-    ListarUsuaComponent, GestionVentaComponent, ListarVentaComponent, 
+    ListarUsuaComponent, GestionVentaComponent, ListarVentaComponent, ReporProductoComponent, ReporVentaComponent, ReporCompraComponent, 
   ],
   imports: [
     CommonModule,
