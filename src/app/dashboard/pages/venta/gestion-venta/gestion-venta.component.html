@@ -127,24 +127,24 @@
                         <p-table [value]="itemsVenta" [scrollable]="true" scrollHeight="300px">
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th style="min-width:200px">NRO</th>
-                                    <th style="min-width:200px">Producto</th>
-                                    <th style="min-width:200px">COD</th>
-                                    <th style="min-width:200px">Precio</th>
-                                    <th style="min-width:200px">Cantidad</th>
-                                    <th style="min-width:200px">Total</th>
-                                    <th style="min-width:200px" *ngIf="!id">Acciones</th>
+                                    <th >NRO</th>
+                                    <th >Producto</th>
+                                    <th >COD</th>
+                                    <th >Precio</th>
+                                    <th >Cantidad</th>
+                                    <th >Total</th>
+                                    <th *ngIf="!id">Acciones</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-itemVenta let-rowIndex="rowIndex">
                                 <tr>
-                                    <td style="min-width:200px">{{rowIndex + 1}}</td>
-                                    <td style="min-width:200px">{{itemVenta.producto.descripcionProducto}}</td>
-                                    <td style="min-width:200px">{{itemVenta.producto.codigoProducto}}</td>
-                                    <td style="min-width:200px">{{itemVenta.precioDetalleProductoVenta}}</td>
-                                    <td style="min-width:200px">{{itemVenta.cantidadDetalleProductoVenta}}</td>
-                                    <td style="min-width:200px">{{itemVenta.totalDetalleProductoVenta}}</td>
-                                    <td >
+                                    <td>{{rowIndex + 1}}</td>
+                                    <td>{{itemVenta.producto.descripcionProducto}}</td>
+                                    <td>{{itemVenta.producto.codigoProducto}}</td>
+                                    <td>{{itemVenta.precioDetalleProductoVenta}}</td>
+                                    <td>{{itemVenta.cantidadDetalleProductoVenta}}</td>
+                                    <td>{{itemVenta.totalDetalleProductoVenta}}</td>
+                                    <td *ngIf="!id">
                                         <div class="flex justify-content-between">
                                             <button pButton pRipple 
                                                     type="button" icon="pi pi-trash" 

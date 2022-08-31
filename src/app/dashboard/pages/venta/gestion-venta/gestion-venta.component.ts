@@ -250,7 +250,8 @@ export class GestionVentaComponent implements OnInit {
       }
     });
   }
-
+  // TODO: Realizar bien el actualizar de un item
+  // TODO: si no es posible agregar mensaje de info
   actualizarVenta = () => {
     this.selectedVenta = {
       cliente: this.showCliente!,
