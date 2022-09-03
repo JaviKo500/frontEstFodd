@@ -18,6 +18,10 @@ export class ProductoService {
     return this._http.get<RespuestaServer>(`${this._url}`);
   }
 
+  productosSinStock = (): Observable<RespuestaServer> => {    
+    return this._http.get<RespuestaServer>(`${this._url}/stock`);
+  }
+  
   productosPorEstado = (): Observable<RespuestaServer> => {    
     return this._http.get<RespuestaServer>(`${this._url}/estado`);
   }

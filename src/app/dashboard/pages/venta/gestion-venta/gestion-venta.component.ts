@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Route, Router, ActivatedRoute } from '@angular/router';
+import {  Router, ActivatedRoute } from '@angular/router';
 
 import { Producto } from '../../../../models/producto/producto';
 import { DetalleVentaProducto } from '../../../../models/venta/detalleVentaProducto';
@@ -10,10 +9,10 @@ import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.servi
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmationService } from 'primeng/api';
 import { ProductoService } from '../../../../services/producto.service';
-import { FormaPagoService } from '../../../../services/forma-pago.service';
 import { Cliente } from '../../../../models/cliente/cliente';
 import { ClienteService } from '../../../../services/cliente.service';
 import { Venta } from '../../../../models/venta/venta';
+import { NotificacionesService } from '../../../../services/notificaciones.service';
 
 @Component({
   selector: 'app-gestion-venta',
@@ -37,13 +36,11 @@ export class GestionVentaComponent implements OnInit {
   public id?: number;
   public selectedVenta?: Venta;
   constructor(
-    private _formBuilder: FormBuilder,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
-    private _confirmationService: ConfirmationService,
     private _productoService: ProductoService,
     private _clienteService: ClienteService,
-    private _formaPagoService: FormaPagoService,
+    private _notificacionesService: NotificacionesService,
     private _ventaService: VentaService,
     private _msgSweetAlertService: MsgSweetAlertService,
   ) { }
@@ -239,6 +236,8 @@ export class GestionVentaComponent implements OnInit {
         this.limpiar();
         this._msgSweetAlertService.mensajeOk('Venta realizada');
         this.getUltimaVenta();
+        // para las notifi
+        this._notificacionesService.notificacionesMenu$.emit();
       },
       error: ( err: HttpErrorResponse ) => {
         if (err.status === 409) {
@@ -267,6 +266,8 @@ export class GestionVentaComponent implements OnInit {
     this._ventaService.actualizar(this.id!, this.selectedVenta!).subscribe({
       next: (resp: RespuestaServer) => {
         this._msgSweetAlertService.mensajeOk('Venta Guardada');
+        // para las notifi
+        this._notificacionesService.notificacionesMenu$.emit();
         this._router.navigate(['/dashboard/venta']);
       }, 
       error: (err: HttpErrorResponse) => {

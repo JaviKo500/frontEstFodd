@@ -2,13 +2,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { FileUpload } from 'primeng/fileupload';
 
 import { Producto } from '../../../../models/producto/producto';
 import { ProductoService } from '../../../../services/producto.service';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
 import { RespuestaServer } from '../../../../models/response';
+import { NotificacionesService } from '../../../../services/notificaciones.service';
 
 @Component({
   selector: 'app-gestion-prod',
@@ -53,6 +54,7 @@ export class GestionProdComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
     private _confirmationService: ConfirmationService,
+    private _notificacionesService: NotificacionesService,
     private _productoService: ProductoService,
     private _msgSweetAlertService: MsgSweetAlertService
   ) { }
@@ -145,6 +147,8 @@ export class GestionProdComponent implements OnInit {
         this.productoForm.get('ivaProducto')?.patchValue(12);
         this._msgSweetAlertService.mensajeOk('Producto Guardado');        
         this.subirImagen(resp.respuesta.idProducto);
+        // emitir para buscar productos sin stock
+        this._notificacionesService.notificacionesMenu$.emit();
       }, 
       error: (err: HttpErrorResponse) => {
         if (err.status === 409) {
@@ -161,6 +165,8 @@ export class GestionProdComponent implements OnInit {
     this._productoService.actualizar(this.id!, this.producto!).subscribe({
       next: (resp: RespuestaServer) => {
         this.subirImagen(this.id!);
+        // emitir para buscar productos sin stock
+        this._notificacionesService.notificacionesMenu$.emit();
         this._msgSweetAlertService.mensajeOk('Producto Guardado');
         this.regresarPagina()
       }, 

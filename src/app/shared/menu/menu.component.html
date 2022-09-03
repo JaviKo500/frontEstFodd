@@ -1,7 +1,6 @@
-<p-sidebar [(visible)]="menuService.display" [modal]="false">
+<p-sidebar [(visible)]="menuService.display" [modal]="false" styleClass="surface-300" >
     <br>
     <br>
-    <!-- <p-menu [styleClass]="'w-full mt-2 border-none'" [model]="items"></p-menu> -->
     <p-panelMenu [model]="items"></p-panelMenu>
 </p-sidebar>
-<button pButton pRipple (click)="menuService.display = !menuService.display" type="button" icon="pi pi-bars" class="p-button-text"></button>
+<button pButton pRipple (click)="menuService.display = !menuService.display" type="button" icon="pi pi-bars" class="p-button-text p-button-help"></button>

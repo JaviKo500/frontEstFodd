@@ -23,3 +23,7 @@ html, body {
 .p-galleria-mask.p-component-overlay {
     background-color: rgba(0, 0, 0, 0.1) !important;
 }
+
+.p-badge.p-badge-warning {
+    color: #fff !important;
+}

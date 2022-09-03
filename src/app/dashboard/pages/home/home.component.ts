@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     if (this._authService.hasRole('ROLE_ADMINISTRADOR')) {
-      this.menu = this._menuService.itemsMenu();
+      this.menu = this._menuService.itemsMenuAdmin();
     } else if ( this._authService.hasRole('ROLE_VENDEDOR')) {
       this.menu = this._menuService.itemsMenuVendedor();
     } else {

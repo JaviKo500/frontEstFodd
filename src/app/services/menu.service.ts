@@ -15,8 +15,7 @@ export class MenuService {
   itemsMenu = (): MenuItem[] => {
     return [
       {
-        label: 'Menú',
-        styleClass: 'bg-color1',
+        label: 'Home',
         command: () => this.display = !this.display,
         routerLink: 'home'
       },
@@ -41,7 +40,6 @@ export class MenuService {
       {
         label: 'Compras', 
         icon: PrimeIcons.SHOPPING_CART,
-        routerLink: 'compra/gestion/crear',
         visible: this.hasRolUser(
           ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR']
         ),
@@ -72,7 +70,6 @@ export class MenuService {
       {
         label: 'Ventas',
         icon: PrimeIcons.MONEY_BILL,
-        routerLink: 'venta/gestion/crear',
         visible: this.hasRolUser(
           ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR']
         ),
@@ -94,7 +91,6 @@ export class MenuService {
       { 
         label: 'Reportes', 
         icon: PrimeIcons.CHART_BAR,
-        routerLink: 'reporte/producto',
         visible: this.hasRolUser(
           ['ROLE_ADMINISTRADOR']
         ),
@@ -118,14 +114,14 @@ export class MenuService {
       },
       {
         label: 'Configuración',
-        routerLink: 'usuario/gestion/crear',
+        icon: PrimeIcons.COG,
         visible: this.hasRolUser(
           ['ROLE_ADMINISTRADOR']
         ),
       },
       {
         label: 'Usuarios',
-        routerLink: 'usuario',
+        icon: PrimeIcons.USER,
         visible: this.hasRolUser(
           ['ROLE_ADMINISTRADOR']
         ),
@@ -155,7 +151,56 @@ export class MenuService {
         }
     }
     return false;
-}
+  }
+  itemsMenuAdmin = (): MenuItem[] => {
+    return [
+      {
+        label: 'Menú',
+        routerLink: 'home'
+      },
+      {
+        label: 'Productos', 
+        icon: PrimeIcons.TH_LARGE,
+        routerLink: 'producto'
+      },
+      {
+        label: 'Proveedores', 
+        icon: PrimeIcons.BRIEFCASE,
+        routerLink: 'proveedor'
+      },
+      {
+        label: 'Compras', 
+        icon: PrimeIcons.SHOPPING_CART,
+        routerLink: 'compra/gestion/crear',
+      },
+      {
+        label: 'Clientes', 
+        icon: PrimeIcons.USERS,
+        routerLink: 'cliente'
+      },
+      {
+        label: 'Ventas',
+        icon: PrimeIcons.MONEY_BILL,
+        routerLink: 'venta/gestion/crear',
+      },
+       
+      { 
+        label: 'Reportes', 
+        icon: PrimeIcons.CHART_BAR,
+        routerLink: 'reporte/producto',
+      },
+      {
+        label: 'Configuración',
+        icon: PrimeIcons.COG,
+        routerLink: 'usuario/gestion/crear',
+      },
+      {
+        label: 'Usuarios',
+        routerLink: 'usuario',
+        icon: PrimeIcons.USER,
+      }
+    ];
+  }
 
 itemsMenuVendedor = (): MenuItem[] => {
   return [
@@ -165,23 +210,28 @@ itemsMenuVendedor = (): MenuItem[] => {
       },
       {
         label: 'Proveedores', 
+        icon: PrimeIcons.BRIEFCASE,
         routerLink: 'proveedor'
       },
       {
-        label: 'Compras', 
+        label: 'Compras',
+        icon: PrimeIcons.SHOPPING_CART,
         routerLink: 'compra/gestion/crear',
       },
       {
-        label: 'Clientes', 
+        label: 'Clientes',
+        icon: PrimeIcons.USERS,
         routerLink: 'cliente'
       },
       {
         label: 'Ventas',
+        icon: PrimeIcons.MONEY_BILL,
         routerLink: 'venta/gestion/crear',
       },
 
       { 
         label: 'Reportes', 
+        icon: PrimeIcons.CHART_BAR,
         routerLink: 'reporte/venta',
       },
     ]
@@ -193,15 +243,18 @@ itemsMenuVendedor = (): MenuItem[] => {
         routerLink: 'home'
       },
       {
-        label: 'Productos', 
+        label: 'Productos',
+        icon: PrimeIcons.TH_LARGE, 
         routerLink: 'producto'
       },
       {
-        label: 'Proveedores', 
+        label: 'Proveedores',
+        icon: PrimeIcons.BRIEFCASE,
         routerLink: 'proveedor'
       },
       { 
-        label: 'Reportes', 
+        label: 'Reportes',
+        icon: PrimeIcons.CHART_BAR,
         routerLink: 'reporte/producto'
       }
     ];
