@@ -23,6 +23,7 @@ import { ListarVentaComponent } from './pages/venta/listar-venta/listar-venta.co
 import { ReporProductoComponent } from './pages/reporte/repor-producto/repor-producto.component';
 import { ReporVentaComponent } from './pages/reporte/repor-venta/repor-venta.component';
 import { ReporCompraComponent } from './pages/reporte/repor-compra/repor-compra.component';
+import { HomeComponent } from './pages/home/home.component';
 
 
 
@@ -39,7 +40,7 @@ import { ReporCompraComponent } from './pages/reporte/repor-compra/repor-compra.
     ListarClienteComponent, 
     GestionClienteComponent, 
     GestionUsuaComponent, 
-    ListarUsuaComponent, GestionVentaComponent, ListarVentaComponent, ReporProductoComponent, ReporVentaComponent, ReporCompraComponent, 
+    ListarUsuaComponent, GestionVentaComponent, ListarVentaComponent, ReporProductoComponent, ReporVentaComponent, ReporCompraComponent, HomeComponent, 
   ],
   imports: [
     CommonModule,

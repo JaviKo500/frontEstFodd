@@ -5,5 +5,5 @@ export class Usuario {
     passwordUsuario?: string;
     estadoUsuario?:   boolean;
     persona?:         Persona;
-    roles?:           Rol[];
+    roles?:           string [] = [];
 }

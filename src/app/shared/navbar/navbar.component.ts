@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { AuthService } from '../../services/auth.service';
+import { MsgSweetAlertService } from '../../services/msg-sweet-alert.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -9,35 +13,41 @@ import { MenuItem } from 'primeng/api';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private _router: Router,
+    private _authService: AuthService,
+    private _msgSweetAlertService: MsgSweetAlertService,
+  ) { }
 
-  items?: MenuItem[];
+  items: MenuItem[] = [];
 
     ngOnInit() {
+        let nombre = `${this._authService.usuario.persona?.nombresPersona?.toUpperCase() || ''} ${this._authService.usuario.persona?.apellidosPersona?.toUpperCase() || ''}`;
         this.items = [
             {
-                label: 'File',
-                items: [{
-                        label: 'New', 
-                        icon: 'pi pi-fw pi-plus',
-                        items: [
-                            {label: 'Project'},
-                            {label: 'Other'},
-                        ]
-                    },
-                    {label: 'Open'},
-                    {label: 'Quit'}
-                ]
+                label: nombre,
+                disabled: true
             },
             {
-                label: 'Edit',
-                icon: 'pi pi-fw pi-pencil',
-                items: [
-                    {label: 'Delete', icon: 'pi pi-fw pi-trash'},
-                    {label: 'Refresh', icon: 'pi pi-fw pi-refresh'}
-                ]
+                label: 'Perfil',
+                icon: 'pi pi-fw pi-user-edit',
+                routerLink: `usuario/gestion/editar/${this._authService.usuario.idUsuario || ''}`
+            },
+            {
+                label: 'Cerrar Sesión',
+                icon: 'pi pi-fw pi-sign-out',
+                command: () => this.cerrarSesion()
             }
         ];
     }
+
+    cerrarSesion = () => {
+        this._msgSweetAlertService.showLoading(false, 'Cerrando sessión', 'Espere por favor');
+        this._authService.logOut();
+        setTimeout(() => {
+          Swal.close();
+          this._router.navigate(['/auth']);
+        }, 200);
+      }
 
 }

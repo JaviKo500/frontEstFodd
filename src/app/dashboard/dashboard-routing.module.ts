@@ -17,12 +17,17 @@ import { GestionVentaComponent } from './pages/venta/gestion-venta/gestion-venta
 import { ReporProductoComponent } from './pages/reporte/repor-producto/repor-producto.component';
 import { ReporVentaComponent } from './pages/reporte/repor-venta/repor-venta.component';
 import { ReporCompraComponent } from './pages/reporte/repor-compra/repor-compra.component';
+import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
     children: [
+      {
+        path: 'home',
+        component: HomeComponent
+      },
       {
         path: 'producto',
         component: ListarProdComponent
@@ -109,7 +114,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        redirectTo: 'producto'
+        redirectTo: 'home'
       }
     ]
   }

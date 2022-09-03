@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { RolGuard } from './guards/rol.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,11 +10,13 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule)
+    loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
+    canActivate: [AuthGuard, RolGuard],
+    data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR', 'ROLE_INVENTARIO'] },
   },
   {
     path: '**',
-    redirectTo: 'dashboard'
+    redirectTo: 'auth'
   }
 ];
 

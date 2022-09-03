@@ -4,6 +4,10 @@ import { UsuarioService } from '../../../../services/usuario.service';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
 import { RespuestaServer } from '../../../../models/response';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Rol } from '../../../../models/usuario/rol';
+import { RolService } from '../../../../services/rol.service';
+import { UsuarioRol } from '../../../../models/usuario/usuarioRol';
+import { UsuarioRolService } from '../../../../services/usuario-rol.service';
 
 @Component({
   selector: 'app-listar-usua',
@@ -16,14 +20,32 @@ export class ListarUsuaComponent implements OnInit {
 
   public termino: string = '';
 
+  public displayRol: boolean = false;
+  public roles: Rol[] = [];
   public selectedUsuario?: Usuario | null;
+  public selectedRol?: Rol | null;
   constructor(
     private _usuarioService: UsuarioService,
+    private _rolService: RolService,
+    private _usuarioRolService: UsuarioRolService,
     private _msgSweetAlertService: MsgSweetAlertService,
   ) { }
 
   ngOnInit(): void {
     this.listarUsuarios();
+    this.getRoles();
+  }
+
+  getRoles = () => {
+    this._rolService.roles().subscribe({
+      next: (resp: RespuestaServer) => {
+        this.roles = resp.respuesta;
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+        
+      }
+    });
   }
 
   listarUsuarios = () => {
@@ -67,6 +89,58 @@ export class ListarUsuaComponent implements OnInit {
         this._msgSweetAlertService.mensajeAdvertencia('Upps!', 'No se pudo cambiar el estado');
       }
     })
+  }
+
+  agregarRol(){
+    if(this.selectedRol ){
+      let rolUsuario:UsuarioRol ={
+        rol:this.selectedRol!,
+        usuario: this.selectedUsuario!
+      }
+      this._usuarioRolService.crear(rolUsuario).subscribe({
+        next:(resp: RespuestaServer)=>{
+          console.log(this.selectedUsuario!.roles!);
+          this.roles = this.roles.filter( rol => rol.idRol !== this.selectedRol?.idRol);
+          let roles= [...this.selectedUsuario!.roles!, resp.respuesta];
+          //@ts-ignore
+          this.selectedUsuario.roles = roles;
+          this._msgSweetAlertService.mensajeOk('Rol agregado');
+        },
+        error: (error)=>console.log(error)
+        
+      });
+    }
+  }
+
+  eliminarRol(usuarioRol : UsuarioRol){
+    console.log(usuarioRol);
+    this._usuarioRolService.eliminar(usuarioRol.idUsuarioRol!).subscribe({
+      next:(resp)=>{
+        console.log(resp);
+        //@ts-ignore
+        this.selectedUsuario?.roles= this.selectedUsuario?.roles.filter( rolU => rolU.idUsuarioRol !== usuarioRol.idUsuarioRol);
+        this.roles.push(usuarioRol.rol!);
+        this._msgSweetAlertService.mensajeOk('Rol removido');
+      },
+      error: (error)=>console.log(error)
+    });
+  
+  }
+
+  showDialog = (usuario: Usuario) => {
+    this.displayRol = true;
+    this.selectedUsuario = usuario;
+    for (const usuRol of this.selectedUsuario.roles!) {
+      //@ts-ignore
+      this.roles = this.roles.filter( rol => rol.idRol !== usuRol.rol.idRol);
+    }
+  }
+  
+  closeDialog = () => {
+    this.displayRol = false;
+    this.selectedUsuario = null;
+    this.selectedRol = null;
+    this.getRoles();
   }
 
 }

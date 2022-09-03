@@ -6,7 +6,7 @@
                     <h1>Gestión Usuarios</h1>
                 </div>
             </ng-template>
-            <form [formGroup]="usuarioForm">
+            <form [formGroup]="usuarioForm" autocomplete="off">
                 <div class="grid border-1 border-300 border-round">
                     <div class="col-6">
                         <div class="field">
@@ -37,7 +37,7 @@
                     <div class="col-6">
                         <div class="field">
                             <label for="emailPersona" class="block">E-mail:</label>
-                            <input type="email" Class="w-5" pInputText placeholder="Email" formControlName="emailPersona"/>
+                            <input type="email" Class="w-5" pInputText placeholder="Email" formControlName="emailPersona" autocomplete="off"  />
                             <small  class="p-error block"
                                 *ngIf="verificarCampo('emailPersona')">
                                 Campo requerido
@@ -45,7 +45,27 @@
                         </div>
                         <div class="field">
                             <label for="passwordUsuario" class="block">Password:</label>
-                            <p-password  [toggleMask]="true" styleClass="w-5" inputStyleClass="w-full" formControlName="passwordUsuario" ></p-password>
+                            <p-password formControlName="passwordUsuario" 
+                                        weakLabel="Débil"
+                                        mediumLabel="Media"
+                                        strongLabel="Fuerte"
+                                        [toggleMask]="true"
+                                        styleClass="w-5" 
+                                        inputStyleClass="w-full">
+                                <ng-template pTemplate="header">
+                                    <h5>Ingrese una contraseña</h5>
+                                </ng-template>
+                                <ng-template pTemplate="footer">
+                                    <hr>
+                                    <p class="mt-2">Sugerencias</p>
+                                    <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+                                        <li>Mínimo 8 caracteres</li>
+                                        <li>Al menos una minúscula</li>
+                                        <li>Al menos una mayúscula</li>
+                                        <li>Al menos un número</li>
+                                    </ul>
+                                </ng-template>
+                            </p-password>
                             <small  class="p-error block"
                                 *ngIf="verificarCampo('passwordUsuario')">
                                 Campo requerido

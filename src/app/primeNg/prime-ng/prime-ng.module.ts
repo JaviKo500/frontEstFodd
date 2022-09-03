@@ -18,6 +18,7 @@ import {PanelMenuModule} from 'primeng/panelmenu';
 import {PasswordModule} from 'primeng/password';
 import {SidebarModule} from 'primeng/sidebar';
 import {TableModule} from 'primeng/table';
+import {TieredMenuModule} from 'primeng/tieredmenu';
 import {ToolbarModule} from 'primeng/toolbar';
 
 
@@ -41,6 +42,7 @@ import {ToolbarModule} from 'primeng/toolbar';
     PasswordModule,
     SidebarModule,
     TableModule,
+    TieredMenuModule,
     ToolbarModule,
   ]
 })

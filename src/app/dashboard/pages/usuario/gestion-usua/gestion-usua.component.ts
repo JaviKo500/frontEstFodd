@@ -91,12 +91,13 @@ export class GestionUsuaComponent implements OnInit {
   crearUsuario = () => {
     this._usuarioService.crear( this.usuario! ).subscribe({
       next: (resp: RespuestaServer) => {
-        this.usuarioForm.reset();
         this._msgSweetAlertService.mensajeOk('Usuario Guardado');
+        this.usuarioForm.reset();
+        this.usuarioForm.get('passwordUsuario')?.setValue('');
       }, 
-      error: (err: HttpErrorResponse) => {        
+      error: (err: HttpErrorResponse) => {                
         if (err.status === 409) {
-          this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Cédula repetido');
+          this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Número de cédula repetido');
         } else {
           this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo guardar el usuario');
         }
@@ -110,6 +111,7 @@ export class GestionUsuaComponent implements OnInit {
       next: (resp: RespuestaServer) => {
         this._msgSweetAlertService.mensajeOk('Usuario Guardado');
         this._router.navigate(['/dashboard/usuario']);
+        this.usuarioForm.reset();
       }, 
       error: (err: HttpErrorResponse) => {
         if (err.status === 409) {
