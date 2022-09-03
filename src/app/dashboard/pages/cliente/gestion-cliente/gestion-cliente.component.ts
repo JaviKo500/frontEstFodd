@@ -28,7 +28,7 @@ export class GestionClienteComponent implements OnInit {
     cedulaPersona: [ , [ Validators.required, this._validatorService.validadorDeCedula]],
     emailPersona: [ , [  Validators.pattern(Patter.emailPattern) ]],
     tipoCliente: [ , [ Validators.required ]],
-    telefonoCliente: [ ],
+    telefonoCliente: [ ,[Validators.pattern(Patter.phonePattern)]],
   });
 
   public tiposCliente: TipoCliente [] = [];
@@ -176,6 +176,13 @@ export class GestionClienteComponent implements OnInit {
       return 'Campo requerido';
     } else if ( errors?.cedulaInvalida){
       return 'Cédula inválida'
+    }
+    return '';
+  }
+  numErrorMsg(campo: string): string {
+    const errors = this.clienteForm.get(campo)?.errors;
+    if (errors?.pattern) {
+      return 'Número inválido';
     }
     return '';
   }

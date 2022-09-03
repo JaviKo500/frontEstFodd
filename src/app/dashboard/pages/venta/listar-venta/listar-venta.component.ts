@@ -33,9 +33,7 @@ export class ListarVentaComponent implements OnInit {
   listarVenta = () => {
     this._ventaService.ventas().subscribe({
       next: ( resp : RespuestaServer ) => {        
-        this.ventas = resp.respuesta as Venta[]; 
-        console.log(this.ventas);
-               
+        this.ventas = resp.respuesta as Venta[];                
       },
       error: (err) => this.ventas= []
     })

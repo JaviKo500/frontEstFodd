@@ -11,7 +11,7 @@
                     <div class="flex justify-content-between flex-wrap">
                         <button pButton pRipple type="button" class="p-button-success" label="Nuevo" [routerLink]="['/dashboard/venta/gestion/crear']" icon="pi pi-plus"></button>
                         <div class="">
-                            <input type="text" pInputText placeholder="Buscar" [(ngModel)]="termino" (keyup)="verificarTermino()" (keyup.enter)="buscarPorTermino()">
+                            <input type="text" pInputText placeholder="Buscar por código" [(ngModel)]="termino" (keyup)="verificarTermino()" (keyup.enter)="buscarPorTermino()">
                             <button pButton pRipple type="button" icon="pi pi-search" (click)="buscarPorTermino()"></button>
                         </div>
                     </div>
@@ -20,7 +20,7 @@
                     <p-table [value]="ventas" [autoLayout]="true" [rows]="5" [paginator]="true" responsiveLayout="scroll" [rowHover]="true" dataKey="id" currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} ventas" [showCurrentPageReport]="true">
                         <ng-template pTemplate="header">
                             <tr>
-                                <th pSortableColumn="codigoVenta">Código Fact.
+                                <th pSortableColumn="codigoVenta">Código Venta
                                     <p-sortIcon field="codigoCompra"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="cliente.persona.nombresPersona">Cliente

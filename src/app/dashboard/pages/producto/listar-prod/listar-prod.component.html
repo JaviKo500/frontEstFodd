@@ -11,7 +11,7 @@
                     <div class="flex justify-content-between flex-wrap">
                         <button pButton pRipple type="button" class="p-button-success" label="Nuevo" [routerLink]="['/dashboard/producto/gestion/crear']" icon="pi pi-plus"></button>
                         <div class="">
-                            <input type="text" pInputText placeholder="Buscar" [(ngModel)]="termino" (keyup)="verificarTermino()" (keyup.enter)="buscarPorTermino()">
+                            <input type="text" pInputText placeholder="Buscar por nombre" [(ngModel)]="termino" (keyup)="verificarTermino()" (keyup.enter)="buscarPorTermino()">
                             <button pButton pRipple type="button" icon="pi pi-search" (click)="buscarPorTermino()"></button>
                         </div>
                     </div>

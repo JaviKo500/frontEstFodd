@@ -65,7 +65,7 @@
                                     placeholder="número" formControlName="telefonoCliente"> 
                             <small  class="p-error block"
                                 *ngIf="verificarCampo('telefonoCliente')">
-                                Campo requerido
+                                {{numErrorMsg('telefonoCliente')}}
                             </small>
                         </div>
                     </div>

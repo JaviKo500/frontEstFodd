@@ -36,8 +36,8 @@ export class GestionCompraComponent implements OnInit {
 
   public detalleCompraForm: FormGroup = this._formBuilder.group({
     producto: [, [ Validators.required]],
-    cantidadDetalleCompraProducto: [ , [ Validators.required ] ],
-    precioDetalleCompraProducto: [ , [ Validators.required ]],
+    cantidadDetalleCompraProducto: [ , [ Validators.required, Validators.min(0) ] ],
+    precioDetalleCompraProducto: [ , [ Validators.required, Validators.min(0) ]],
     ivaDetalleCompraProducto: [ 12 , [ Validators.required ]],
     idDetalleCompraProducto: [],
   });
@@ -283,5 +283,15 @@ export class GestionCompraComponent implements OnInit {
   }
   verificarCampo  = ( campo: string , form: FormGroup ): boolean => {
     return ( form.controls?.[campo].invalid || false) && ( form.controls?.[campo].touched || false );
+  }
+
+  numErrorMsg(campo: string): string {
+    const errors = this.detalleCompraForm.get(campo)?.errors;
+    if (errors?.required){
+      return 'Campo requerido';
+    } else if (errors?.min) {
+      return 'Solo números positivos';
+    }
+    return '';
   }
 }

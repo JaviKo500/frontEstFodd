@@ -6,8 +6,6 @@ import { AbstractControl, FormControl, FormGroup, ValidationErrors } from '@angu
 })
 export class ValidatorService {
 
-  public nombreApellidoPatter: string = '([a-zA-Z]+) ([a-zA-z]+)';
-
   constructor() { }
 
   validadorDeCedula = (control: FormControl): ValidationErrors | null => {
@@ -26,6 +24,13 @@ export class ValidatorService {
 
   validadorDeRuc = (control: FormControl): ValidationErrors | null => {
     let ruc: string = control?.value?.trim() || '';
+    if (ruc.length === 10) {
+      let cedulaCorrecta = this.validarCedula(ruc);
+
+      if (cedulaCorrecta) {      
+        return null;
+      }
+    }
     if (ruc.length < 13) return {rucInvalida: true}
     if ( ruc.substring(10,ruc.length) != '001') return {rucInvalida: true};
     

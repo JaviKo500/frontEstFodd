@@ -68,18 +68,18 @@
                     <div class="col-3">
                         <div class="field">
                             <label for="cantidadDetalleCompraProducto" class="block">Cantidad:</label>
-                            <input type="number" pInputText placeholder="Cantidad" formControlName="cantidadDetalleCompraProducto" />
+                            <input type="number" min="0" pInputText placeholder="Cantidad" formControlName="cantidadDetalleCompraProducto" />
                             <small class="p-error block" *ngIf="verificarCampo('cantidadDetalleCompraProducto', detalleCompraForm)">
-                                Campo requerido.
+                                {{numErrorMsg('cantidadDetalleCompraProducto')}}
                             </small>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="field">
                             <label for="precioDetalleCompraProducto" class="block">Precio:</label>
-                            <input type="number" pInputText placeholder="Precio" formControlName="precioDetalleCompraProducto" />
+                            <input type="number" min="0"  pInputText placeholder="Precio" formControlName="precioDetalleCompraProducto" />
                             <small class="p-error block" *ngIf="verificarCampo('precioDetalleCompraProducto', detalleCompraForm)">
-                                Campo requerido.
+                                {{numErrorMsg('precioDetalleCompraProducto')}}
                             </small>
                         </div>
                     </div>

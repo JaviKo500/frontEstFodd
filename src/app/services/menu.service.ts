@@ -134,7 +134,7 @@ export class MenuService {
             },
             { 
               label: 'Listar Usuarios', 
-              icon: PrimeIcons.USER,
+              icon: PrimeIcons.USERS,
               command: () => this.display = !this.display,
               routerLink: 'usuario'
             },

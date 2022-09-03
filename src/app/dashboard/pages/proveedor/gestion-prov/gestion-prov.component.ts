@@ -21,7 +21,7 @@ export class GestionProvComponent implements OnInit {
 
   public proveedorForm: FormGroup = this._formBuilder.group({
     nombreProveedor: [ , [ Validators.required ] ],
-    rucProveedor: [ , [ Validators.required, this._validatorService.validadorDeRuc ]],
+    rucProveedor: [ , [ Validators.required, this._validatorService.validadorDeRuc]],
     emailProveedor: [ , [ Validators.required, Validators.pattern(Patter.emailPattern) ]],
     telefonoProveedor: [ , [  Validators.pattern(Patter.telefonoPattern) ]],
     movilProveedor: [, [ Validators.pattern(Patter.movilPattern)]],
@@ -211,7 +211,7 @@ export class GestionProvComponent implements OnInit {
     if (errors?.required) {
       return 'Campo requerido';
     } else if ( errors?.rucInvalida){
-      return 'Ruc inválido'
+      return 'Ruc o Cédula inválido'
     }
     return '';
   }
