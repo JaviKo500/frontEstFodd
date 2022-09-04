@@ -32,7 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }
         // no tiene acceso a los endpoints
         if ( e.status == 403 ) {
-          this._msgSweetAlertService.mensajeAdvertencia('Oops!', 'No tienes acceso');
+          this._msgSweetAlertService.mensajeAdvertencia('No tienes acceso', 'Pide al administrador que te asigne un rol');
           this._router.navigate(['/dashboard']);
         }
         return throwError(e);

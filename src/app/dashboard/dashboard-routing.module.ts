@@ -18,6 +18,10 @@ import { ReporProductoComponent } from './pages/reporte/repor-producto/repor-pro
 import { ReporVentaComponent } from './pages/reporte/repor-venta/repor-venta.component';
 import { ReporCompraComponent } from './pages/reporte/repor-compra/repor-compra.component';
 import { HomeComponent } from './pages/home/home.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { RolGuard } from '../guards/rol.guard';
+import { PerfilComponent } from './pages/usuario/perfil/perfil.component';
+import { ProdMenuComponent } from './pages/producto/prod-menu/prod-menu.component';
 
 const routes: Routes = [
   {
@@ -26,91 +30,147 @@ const routes: Routes = [
     children: [
       {
         path: 'home',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'producto',
-        component: ListarProdComponent
+        component: ListarProdComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO'] }
+      },
+      {
+        path: 'prodmenu',
+        component: ProdMenuComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR'] }
       },
       {
         path: 'producto/gestion/crear',
-        component: GestionProdComponent
+        component: GestionProdComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'producto/gestion/editar/:id',
-        component: GestionProdComponent
+        component: GestionProdComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'proveedor',
-        component: ListarProvComponent
+        component: ListarProvComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'proveedor/gestion/crear',
-        component: GestionProvComponent
+        component: GestionProvComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'proveedor/gestion/editar/:id',
-        component: GestionProvComponent
+        component: GestionProvComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'compra',
-        component: ListarCompraComponent
+        component: ListarCompraComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'compra/gestion/crear',
-        component: GestionCompraComponent
+        component: GestionCompraComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'compra/gestion/editar/:id',
-        component: GestionCompraComponent
+        component: GestionCompraComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'cliente',
-        component: ListarClienteComponent
+        component: ListarClienteComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR'] }
       },
       {
         path: 'cliente/gestion/crear',
-        component: GestionClienteComponent
+        component: GestionClienteComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR'] }
       },
       {
         path: 'cliente/gestion/editar/:id',
-        component: GestionClienteComponent
+        component: GestionClienteComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR'] }
       },
       {
         path: 'venta',
-        component: ListarVentaComponent
+        component: ListarVentaComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR'] }
       },
       {
         path: 'venta/gestion/crear',
-        component: GestionVentaComponent
+        component: GestionVentaComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR'] }
       },
       {
         path: 'venta/gestion/editar/:id',
-        component: GestionVentaComponent
+        component: GestionVentaComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR'] }
       },
       {
         path: 'reporte/producto',
-        component: ReporProductoComponent
+        component: ReporProductoComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'reporte/venta',
-        component: ReporVentaComponent
+        component: ReporVentaComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR'] }
       },
       {
         path: 'reporte/compra',
-        component: ReporCompraComponent
+        component: ReporCompraComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: 'usuario',
-        component: ListarUsuaComponent
+        component: ListarUsuaComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', ] },
       },
       {
         path: 'usuario/gestion/crear',
-        component: GestionUsuaComponent
+        component: GestionUsuaComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', ] },
       },
       {
         path: 'usuario/gestion/editar/:id',
-        component: GestionUsuaComponent
+        component: GestionUsuaComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR'] }
+      },
+      {
+        path: 'usuario/gestion/perfil/:id',
+        component: PerfilComponent,
+        canActivate: [AuthGuard, RolGuard],
+        data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR', 'ROLE_INVENTARIO'] }
       },
       {
         path: '**',

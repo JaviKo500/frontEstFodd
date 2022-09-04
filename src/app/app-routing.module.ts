@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { RolGuard } from './guards/rol.guard';
 import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
@@ -9,10 +8,13 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {
+    path: 'menu',
+    loadChildren: () => import('./menu/menu.module').then(m => m.MenuModule)
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
-    canActivate: [AuthGuard, RolGuard],
-    data: { role: ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR', 'ROLE_INVENTARIO'] },
+    canActivate: [AuthGuard],
   },
   {
     path: '**',

@@ -19,6 +19,10 @@ export class RolGuard implements CanActivate {
       return false;
     }
     let role = route.data['role'];
+    if (!this._authService.usuario.roles) {
+      this._router.navigate(['/dashboard/sinrol']);
+      return false;
+    }
     for (let i = 0; i < role.length; i++) {
       // vemos si un rol hace match con los del token
       if ( this._authService.hasRole(role[i])) {
@@ -26,8 +30,7 @@ export class RolGuard implements CanActivate {
       }
     }
     // si no tiene ningun rol redireccionamos al home
-    this._msgSweetAlertService.mensajeAdvertencia('Ooops!', 'Acceso denegado');
-    this._router.navigate(['/dashboard']);
+    this._router.navigate(['/dashboard/home']);
     return false;
   }
   

@@ -24,6 +24,8 @@ import { ReporProductoComponent } from './pages/reporte/repor-producto/repor-pro
 import { ReporVentaComponent } from './pages/reporte/repor-venta/repor-venta.component';
 import { ReporCompraComponent } from './pages/reporte/repor-compra/repor-compra.component';
 import { HomeComponent } from './pages/home/home.component';
+import { PerfilComponent } from './pages/usuario/perfil/perfil.component';
+import { ProdMenuComponent } from './pages/producto/prod-menu/prod-menu.component';
 
 
 
@@ -40,7 +42,7 @@ import { HomeComponent } from './pages/home/home.component';
     ListarClienteComponent, 
     GestionClienteComponent, 
     GestionUsuaComponent, 
-    ListarUsuaComponent, GestionVentaComponent, ListarVentaComponent, ReporProductoComponent, ReporVentaComponent, ReporCompraComponent, HomeComponent, 
+    ListarUsuaComponent, GestionVentaComponent, ListarVentaComponent, ReporProductoComponent, ReporVentaComponent, ReporCompraComponent, HomeComponent, PerfilComponent, ProdMenuComponent, 
   ],
   imports: [
     CommonModule,

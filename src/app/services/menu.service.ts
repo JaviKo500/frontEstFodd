@@ -29,6 +29,15 @@ export class MenuService {
         routerLink: 'producto'
       },
       {
+        label: 'Productos - Menú', 
+        icon: PrimeIcons.LIST,
+        command: () => this.display = !this.display,
+        visible: this.hasRolUser(
+          ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR']
+        ),
+        routerLink: 'prodmenu'
+      },
+      {
         label: 'Proveedores', 
         icon: PrimeIcons.BRIEFCASE,
         command: () => this.display = !this.display,
@@ -41,7 +50,7 @@ export class MenuService {
         label: 'Compras', 
         icon: PrimeIcons.SHOPPING_CART,
         visible: this.hasRolUser(
-          ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR']
+          ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO']
         ),
         items: [
             {
@@ -92,23 +101,32 @@ export class MenuService {
         label: 'Reportes', 
         icon: PrimeIcons.CHART_BAR,
         visible: this.hasRolUser(
-          ['ROLE_ADMINISTRADOR']
+          ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR', 'ROLE_INVENTARIO']
         ),
         items: [
           {
             label: 'Producto',
             command: () => this.display = !this.display,
-            routerLink: 'reporte/producto'
+            routerLink: 'reporte/producto',
+            visible: this.hasRolUser(
+              ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO']
+            ),
           },
           {
             label: 'Venta',
             command: () => this.display = !this.display,
-            routerLink: 'reporte/venta'
+            routerLink: 'reporte/venta',
+            visible: this.hasRolUser(
+              ['ROLE_ADMINISTRADOR', 'ROLE_VENDEDOR']
+            ),
           },
           {
             label: 'Compra',
             command: () => this.display = !this.display,
-            routerLink: 'reporte/compra'
+            routerLink: 'reporte/compra',
+            visible: this.hasRolUser(
+              ['ROLE_ADMINISTRADOR', 'ROLE_INVENTARIO']
+            ),
           }
         ]
       },
@@ -214,11 +232,6 @@ itemsMenuVendedor = (): MenuItem[] => {
         routerLink: 'proveedor'
       },
       {
-        label: 'Compras',
-        icon: PrimeIcons.SHOPPING_CART,
-        routerLink: 'compra/gestion/crear',
-      },
-      {
         label: 'Clientes',
         icon: PrimeIcons.USERS,
         routerLink: 'cliente'
@@ -251,6 +264,11 @@ itemsMenuVendedor = (): MenuItem[] => {
         label: 'Proveedores',
         icon: PrimeIcons.BRIEFCASE,
         routerLink: 'proveedor'
+      },
+      {
+        label: 'Compras',
+        icon: PrimeIcons.SHOPPING_CART,
+        routerLink: 'compra/gestion/crear',
       },
       { 
         label: 'Reportes',

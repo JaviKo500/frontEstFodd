@@ -12,6 +12,7 @@ export class Producto {
     estadoProducto?:      boolean;
     stockProducto?:       number;
     menuClienteProducto?: boolean;
+    destacarProducto?: boolean;
     marca?:               Marca;
     presentacion?:        Presentacion;
     zona?:                Zona;

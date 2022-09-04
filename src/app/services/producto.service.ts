@@ -25,6 +25,12 @@ export class ProductoService {
   productosPorEstado = (): Observable<RespuestaServer> => {    
     return this._http.get<RespuestaServer>(`${this._url}/estado`);
   }
+  productosMenuCliente = (): Observable<RespuestaServer> => {    
+    return this._http.get<RespuestaServer>(`${this._url}/menu/cliente`);
+  }
+  productosDestacados = (): Observable<RespuestaServer> => {    
+    return this._http.get<RespuestaServer>(`${this._url}/menu/destacado`);
+  }
 
   getPorId = (id: number): Observable<RespuestaServer> => {
     return this._http.get<RespuestaServer>(`${this._url}/${id}`);
@@ -32,6 +38,9 @@ export class ProductoService {
 
   getPorTermino = (termino: string): Observable<RespuestaServer> => {
     return this._http.get<RespuestaServer>(`${this._url}/buscar/${termino}`);
+  }
+  getPorTerminoAndEstado = (termino: string): Observable<RespuestaServer> => {
+    return this._http.get<RespuestaServer>(`${this._url}/buscar/estado/${termino}`);
   }
   getPorFechas = (fechaInicio: Date, fechaFin: Date): Observable<RespuestaServer> => {
     return this._http.get<RespuestaServer>(`${this._url}/fechas/${fechaInicio}/${fechaFin}`);
@@ -46,6 +55,12 @@ export class ProductoService {
   }
   actualizarEstado = (id: number): Observable<RespuestaServer> => {
     return this._http.put<RespuestaServer>(`${this._url}/estado/${id}`, {});
+  }
+  actualizarEstadoMenu = (id: number): Observable<RespuestaServer> => {
+    return this._http.put<RespuestaServer>(`${this._url}/menu/${id}`, {});
+  }
+  actualizarEstadoDestacar = (id: number): Observable<RespuestaServer> => {
+    return this._http.put<RespuestaServer>(`${this._url}/destacar/${id}`, {});
   }
 
   subirFoto = (archivo: File, id: number): Observable<HttpEvent<{}>> => {

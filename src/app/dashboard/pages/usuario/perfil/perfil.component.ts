@@ -1,29 +1,29 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ConfirmationService } from 'primeng/api';
-import { ValidatorService } from '../../../../services/validator.service';
-import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Patter } from '../../../../models/patters';
 import { Usuario } from '../../../../models/usuario/usuario';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UsuarioService } from '../../../../services/usuario.service';
+import { ValidatorService } from '../../../../services/validator.service';
+import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
+import { AuthService } from '../../../../services/auth.service';
 import { RespuestaServer } from '../../../../models/response';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from '../../../../services/auth.service';
 
 @Component({
-  selector: 'app-gestion-usua',
-  templateUrl: './gestion-usua.component.html',
-  styleUrls: ['./gestion-usua.component.css'],
-  providers: [ ConfirmationService ]
+  selector: 'app-perfil',
+  templateUrl: './perfil.component.html',
+  styleUrls: ['./perfil.component.css']
 })
-export class GestionUsuaComponent implements OnInit {
+export class PerfilComponent implements OnInit {
+
   public usuarioForm: FormGroup = this._formBuilder.group({
     nombresPersona: [ , [ Validators.required ]],
     apellidosPersona: [, [ Validators.required ]],
     cedulaPersona: [ , [ Validators.required, this._validatorService.validadorDeCedula]],
     emailPersona: [ , [  Validators.pattern(Patter.emailPattern) ]],
-    passwordUsuario: [ , [ Validators.required ]],
+    passwordUsuario: [ , [  ]],
+    anteriorPasswordUsuario: [ , [ ]],
   });
 
   public usuario?: Usuario;
@@ -33,10 +33,10 @@ export class GestionUsuaComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _confirmationService: ConfirmationService,
     private _usuarioService: UsuarioService,
     private _validatorService: ValidatorService,
     private _msgSweetAlertService: MsgSweetAlertService,
+    public authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +49,7 @@ export class GestionUsuaComponent implements OnInit {
       if ( this.id && !isNaN(this.id)) {
         this.getUsuarioPorId( this.id );
       } else {        
-        this._router.navigate(['/dashboard/usuario/gestion/crear']);
+        this._router.navigate(['/dashboard/home']);
       }
     });
   }
@@ -64,7 +64,7 @@ export class GestionUsuaComponent implements OnInit {
       error: (error: HttpErrorResponse) => {
         if (error.status === 404) {
           this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo encontrar ese usuario',);
-          this._router.navigate(['/dashboard/usuario']);
+          this._router.navigate(['/dashboard/home']);
         }
       }
     });
@@ -73,82 +73,43 @@ export class GestionUsuaComponent implements OnInit {
   realizarAccion = () => {
     if (this.usuarioForm.valid) {
       
-      let { nombresPersona, apellidosPersona, cedulaPersona, emailPersona, passwordUsuario } = this.usuarioForm.value;
-      this.usuario! = {passwordUsuario};
+      let { nombresPersona, apellidosPersona, cedulaPersona, emailPersona, passwordUsuario, anteriorPasswordUsuario  } = this.usuarioForm.value;
+      this.usuario! = {passwordUsuario,anteriorPassword: anteriorPasswordUsuario};
       this.usuario!.persona = {nombresPersona, apellidosPersona, cedulaPersona, emailPersona};
       if (this.id) {
         this.usuario.persona.idPersona = this.selectedUsuario?.persona?.idPersona;
         this.actualizarUsuario();
-      } else {
-        this.usuario.estadoUsuario = true;
-        this.crearUsuario();
-      }
+      } 
     } else {
       this.usuarioForm.markAllAsTouched();
     }
-  }
-
-
-  crearUsuario = () => {
-    this._usuarioService.crear( this.usuario! ).subscribe({
-      next: (resp: RespuestaServer) => {
-        this._msgSweetAlertService.mensajeOk('Usuario Guardado');
-        this.usuarioForm.reset();
-        this.usuarioForm.get('passwordUsuario')?.setValue('');
-      }, 
-      error: (err: HttpErrorResponse) => {                
-        if (err.status === 409) {
-          this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Número de cédula repetido');
-        } else {
-          this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo guardar el usuario');
-        }
-      }
-    });
   }
 
   actualizarUsuario = () => {
     this.usuario!.estadoUsuario = this.selectedUsuario?.estadoUsuario;
     this._usuarioService.actualizar(this.id!, this.usuario!).subscribe({
       next: (resp: RespuestaServer) => {
-        this._msgSweetAlertService.mensajeOk('Usuario Guardado');
-        this._router.navigate(['/dashboard/usuario']);
+        this._msgSweetAlertService.mensajeOk('Perfil Actualizado');
+        this.authService.nombreUsuario$.emit(this.usuario);
+        this._router.navigate(['/dashboard/home']);
         this.usuarioForm.reset();
       }, 
       error: (err: HttpErrorResponse) => {
-        if (err.status === 409) {
+        if (err.status === 400) {
+          this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Contraseña anterior no coincide');
+          return;
+        } else if (err.status === 409) {
           this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Cédula repetido');
           return;
         } else if(err.status === 404){
           this._msgSweetAlertService.mensajeError('Upss!', 'Ese usuario no existe');
-          this._router.navigate(['/dashboard/usuario']);
+          this._router.navigate(['/dashboard/Home']);
         } 
         this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo actualizar el usuario');
-        this._router.navigate(['/dashboard/usuario']);
+        this._router.navigate(['/dashboard/home']);
       }
     });
   }
-
-  eliminar = (event: Event) => {    
-    this._confirmationService.confirm({
-        target: event.target!,
-        message: '¿Desea eliminar este cliente?',
-        icon: 'pi pi-exclamation-triangle',
-        acceptLabel: 'Si',
-        accept: () => {
-            this._usuarioService.eliminar(this.id!).subscribe({
-              next: (resp: RespuestaServer) => {
-                this._msgSweetAlertService.mensajeOk('Usuario Eliminado');
-                this._router.navigate(['/dashboard/usuario']);
-              }, 
-              error: (err: HttpErrorResponse) => {
-                this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo eliminar el usuario');
-              }
-            });
-        }
-    });
-  }
-
-
   verificarCampo  = ( campo: string ): boolean => {
     return ( this.usuarioForm.controls?.[campo].invalid || false) && ( this.usuarioForm.controls?.[campo].touched || false );
   }

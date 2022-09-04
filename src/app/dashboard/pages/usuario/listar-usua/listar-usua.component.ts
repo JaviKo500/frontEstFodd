@@ -42,8 +42,6 @@ export class ListarUsuaComponent implements OnInit {
         this.roles = resp.respuesta;
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err);
-        
       }
     });
   }
@@ -99,30 +97,27 @@ export class ListarUsuaComponent implements OnInit {
       }
       this._usuarioRolService.crear(rolUsuario).subscribe({
         next:(resp: RespuestaServer)=>{
-          console.log(this.selectedUsuario!.roles!);
           this.roles = this.roles.filter( rol => rol.idRol !== this.selectedRol?.idRol);
           let roles= [...this.selectedUsuario!.roles!, resp.respuesta];
           //@ts-ignore
           this.selectedUsuario.roles = roles;
           this._msgSweetAlertService.mensajeOk('Rol agregado');
         },
-        error: (error)=>console.log(error)
+        error: (error)=>{}
         
       });
     }
   }
 
   eliminarRol(usuarioRol : UsuarioRol){
-    console.log(usuarioRol);
     this._usuarioRolService.eliminar(usuarioRol.idUsuarioRol!).subscribe({
       next:(resp)=>{
-        console.log(resp);
         //@ts-ignore
         this.selectedUsuario?.roles= this.selectedUsuario?.roles.filter( rolU => rolU.idUsuarioRol !== usuarioRol.idUsuarioRol);
         this.roles.push(usuarioRol.rol!);
         this._msgSweetAlertService.mensajeOk('Rol removido');
       },
-      error: (error)=>console.log(error)
+      error: (error)=>{}
     });
   
   }

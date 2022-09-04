@@ -9,6 +9,8 @@ import { ProductoService } from '../../services/producto.service';
 import { RespuestaServer } from '../../models/response';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NotificacionesService } from '../../services/notificaciones.service';
+import { Usuario } from '../../models/usuario/usuario';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-navbar',
@@ -22,39 +24,62 @@ export class NavbarComponent implements OnInit {
   public notificacionesMenu: MenuItem [] = [];
   public menuNoti: MenuItem [] = [];
   public items: MenuItem[] = [];
+  public usuario?: Usuario;
 
     constructor(
       private _router: Router,
       private _notificacionesService: NotificacionesService,
       private _productoService: ProductoService,
+      private _usuarioService: UsuarioService,
       private _authService: AuthService,
       private _msgSweetAlertService: MsgSweetAlertService,
     ) { }
 
     ngOnInit() {
+      this.getDatosUsuario();
         this.menuUsuario();
         this.productosSinStock();
         this.notificaciones();
     }
 
+    getDatosUsuario = () => {
+      this._usuarioService.getPorId(this._authService.usuario.idUsuario!).subscribe({
+        next: (resp: RespuestaServer) => {
+          this.usuario= resp.respuesta;
+          let nombre = `${this.usuario!.persona?.nombresPersona?.toUpperCase() || ''} ${this.usuario!.persona?.apellidosPersona?.toUpperCase() || ''}`;
+          this.cargarMenu(nombre);
+        },
+        error: (err:HttpErrorResponse) => {
+          this._authService.logOut();
+        }
+      });
+    }
+
     menuUsuario = () => {
-      let nombre = `${this._authService.usuario.persona?.nombresPersona?.toUpperCase() || ''} ${this._authService.usuario.persona?.apellidosPersona?.toUpperCase() || ''}`;
-        this.items = [
-            {
-                label: nombre,
-                disabled: true
-            },
-            {
-                label: 'Perfil',
-                icon: 'pi pi-fw pi-user-edit',
-                routerLink: `usuario/gestion/editar/${this._authService.usuario.idUsuario || ''}`
-            },
-            {
-                label: 'Cerrar Sesión',
-                icon: 'pi pi-fw pi-sign-out',
-                command: () => this.cerrarSesion()
-            }
-        ];
+      this._authService.nombreUsuario$.subscribe( (usuario: Usuario) => {
+        let nombre = `${usuario.persona?.nombresPersona?.toUpperCase() || ''} ${usuario.persona?.apellidosPersona?.toUpperCase() || ''}`;
+        this.cargarMenu(nombre);
+      });
+        
+    }
+
+    cargarMenu = (nombre:string) => {
+      this.items = [
+        {
+            label: nombre,
+            disabled: true
+        },
+        {
+            label: 'Perfil',
+            icon: 'pi pi-fw pi-user-edit',
+            routerLink: `usuario/gestion/perfil/${this._authService.usuario.idUsuario || ''}`
+        },
+        {
+            label: 'Cerrar Sesión',
+            icon: 'pi pi-fw pi-sign-out',
+            command: () => this.cerrarSesion()
+        }
+    ];
     }
     notificaciones = () => {
       this._notificacionesService.notificacionesMenu$.subscribe(
@@ -78,7 +103,7 @@ export class NavbarComponent implements OnInit {
             let item: MenuItem = {
               label: `${prod.descripcionProducto} solo hay ${prod.stockProducto} en Stock`, 
               icon: PrimeIcons.EXCLAMATION_CIRCLE,
-              routerLink: `producto/gestion/editar/${prod.idProducto}`
+              routerLink: this.editarStockRol(prod.idProducto!)
             };
             return item;
           });
@@ -89,6 +114,12 @@ export class NavbarComponent implements OnInit {
           this.menuNoti.push({label: 'No hay notificaciones'});
         }
       });
+    }
+    editarStockRol = (id:number) => {
+      if (this._authService.hasRole('ROLE_ADMINISTRADOR') || this._authService.hasRole('ROLE_INVENTARIO')) {
+        return `producto/gestion/editar/${id}`
+      }
+      return '';
     }
 
     cerrarSesion = () => {

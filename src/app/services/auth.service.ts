@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from 'src/environments/environment.prod';
 import { Usuario } from '../models/usuario/usuario';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
+
+  public nombreUsuario$ = new EventEmitter<Usuario>();
   private _usuario?: Usuario | null;
   private _token?: string | null;
   private _baseUrl: string = environment.urlAuth;
@@ -22,7 +24,6 @@ export class AuthService {
       this._usuario = JSON.parse(sessionStorage.getItem('usuario') || '') as Usuario;      
       return this._usuario;
     }
-
     return new Usuario();
   }
   public get token(): string | null {
@@ -55,9 +56,7 @@ export class AuthService {
 
   guardarUsuario = ( access_token: string ): void => {
     let payload = this.obtenerDatosToken( access_token );
-    let {id, nombres, apellidos, user_name , authorities} = payload;
-    console.log(payload);
-    
+    let {id, nombres, apellidos, user_name , authorities} = payload;    
     this._usuario = new Usuario();
     this._usuario.idUsuario = id;
     this.usuario.persona = {cedulaPersona: user_name, nombresPersona: nombres, apellidosPersona: apellidos};

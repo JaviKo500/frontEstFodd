@@ -4,6 +4,7 @@ import {BadgeModule} from 'primeng/badge';
 import {ButtonModule} from 'primeng/button';
 import {CalendarModule} from 'primeng/calendar';
 import {CardModule} from 'primeng/card';
+import {CarouselModule} from 'primeng/carousel';
 import {CheckboxModule} from 'primeng/checkbox';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
 import {DialogModule} from 'primeng/dialog';
@@ -29,6 +30,7 @@ import {ToolbarModule} from 'primeng/toolbar';
     ButtonModule,
     CalendarModule,
     CardModule,
+    CarouselModule,
     CheckboxModule,
     ConfirmPopupModule,
     DialogModule,
