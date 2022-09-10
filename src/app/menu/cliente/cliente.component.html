@@ -13,7 +13,7 @@
                                 <div class="grid">
                                     <div *ngIf="producto.imgProducto; else noImage"  class="col-12 flex justify-content-center">
                                         <div class="img-container-car">
-                                            <img    src="{{ baseUrl }}/{{ producto.imgProducto }}" 
+                                            <img    src="{{ producto.imgProducto }}" 
                                                     [alt]="producto.descripcionPresentacion" 
                                                     class="img-container-car p-shadow-4"/>
                                         </div>
@@ -49,7 +49,7 @@
                                     >
                                     <div class="grid mt-3">
                                         <div *ngIf="item.imgProducto; else noImage"  class="col-12 flex justify-content-center ">
-                                            <img    src="{{ baseUrl }}/{{ item.imgProducto }}" 
+                                            <img    src="{{ item.imgProducto }}" 
                                             [alt]="item.descripcionProducto" 
                                             class="img-container  p-shadow-4"/>
                                         </div>

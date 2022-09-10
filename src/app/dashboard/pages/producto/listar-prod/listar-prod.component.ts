@@ -32,15 +32,16 @@ export class ListarProdComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.listarProductos();
-    console.log('hola');
-    
+    this.listarProductos();    
   }
 
   listarProductos = () => {
     this._productoService.productos().subscribe({
       next: ( resp : RespuestaServer ) => {        
+
         this.productos = resp.respuesta as Producto[];        
+        console.log(this.productos);
+        
       },
       error: (err) => this.productos = []
     })

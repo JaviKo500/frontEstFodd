@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { ProductoService } from '../../../../services/producto.service';
 import { MsgSweetAlertService } from '../../../../services/msg-sweet-alert.service';
 import { RespuestaServer } from '../../../../models/response';
 import { NotificacionesService } from '../../../../services/notificaciones.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-gestion-prod',
@@ -108,6 +109,7 @@ export class GestionProdComponent implements OnInit {
       if (this.id) {
         this.actualizarProducto();
       }else {
+        this.producto!.destacarProducto = false;
         this.producto!.menuClienteProducto = false;
         this.producto!.estadoProducto = true;
         this.producto!.imgProducto = '';
@@ -146,8 +148,7 @@ export class GestionProdComponent implements OnInit {
         this.detallesForm.reset();
         this.productoForm.get('ivaProducto')?.patchValue(12);
         this._msgSweetAlertService.mensajeOk('Producto Guardado');        
-        // this.subirImagen(resp.respuesta.idProducto);
-        this.subirImagenCloudinary(resp.respuesta.idProducto);
+        this.subirImagen(resp.respuesta.idProducto);
         // emitir para buscar productos sin stock
         this._notificacionesService.notificacionesMenu$.emit();
       }, 
@@ -168,8 +169,6 @@ export class GestionProdComponent implements OnInit {
         this.subirImagen(this.id!);
         // emitir para buscar productos sin stock
         this._notificacionesService.notificacionesMenu$.emit();
-        this._msgSweetAlertService.mensajeOk('Producto Guardado');
-        this.regresarPagina()
       }, 
       error: (err: HttpErrorResponse) => {
         if (err.status === 409) {
@@ -208,7 +207,6 @@ export class GestionProdComponent implements OnInit {
   }
   selecionarImagen = (event: any) => {
     this.imagenSeleccionada = event.currentFiles[0];
-    
     if ( !this.imagenSeleccionada ) {
       this.imagenSeleccionada = null;
       return;
@@ -218,29 +216,21 @@ export class GestionProdComponent implements OnInit {
 
   subirImagen = (id: number) => {    
     if (this.imagenSeleccionada) {
+      this._msgSweetAlertService.showLoading(false, 'Guardando producto', 'Espere por favor....');
       this._productoService.subirFoto(this.imagenSeleccionada, id).subscribe({
-        next: (resp) => {
-          this.upLoad?.clear()
+        next: (resp: RespuestaServer) => {
+          this.upLoad?.clear();
           this.imagenSeleccionada = null;
+          Swal.close();
+          if (this.id) {
+            this.regresarPagina();
+          }
         },
         error: (err) => {
+          Swal.close();
           this.upLoad?.clear();
           this.imagenSeleccionada = null;
         }
-      })
-    }
-  }
-
-  subirImagenCloudinary = (id:number) => {
-    if ( this.imagenSeleccionada) {
-      let data  = new FormData();
-      data.append('file', this.imagenSeleccionada);
-      data.append('upload_preset', 'eccq85of');
-      data.append('cloud_name', 'dxffwzcn1');
-      data.append('public_id', `${this.imagenSeleccionada.name}${Date.now()}`);
-      this._productoService.subirImagenCloudinary( data ).subscribe({
-        next:( resp ) => { console.log(resp)},
-        error: ( err: HttpErrorResponse ) => console.log(err)
       })
     }
   }

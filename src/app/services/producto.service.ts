@@ -1,4 +1,4 @@
-import { HttpClient, HttpEvent, HttpRequest, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
@@ -63,24 +63,15 @@ export class ProductoService {
     return this._http.put<RespuestaServer>(`${this._url}/destacar/${id}`, {});
   }
 
-  subirFoto = (archivo: File, id: number): Observable<HttpEvent<{}>> => {
+  subirFoto = (archivo: File, id: number): Observable<RespuestaServer> => {
     let formData = new FormData();
     formData.append("archivo", archivo);
     formData.append("id", id.toString());
-    const req = new HttpRequest('POST',`${this._url}/upload`, formData);
-    return this._http.request(req);
+    // const req = new HttpRequest('POST',`${this._url}/upload`, formData);
+    return this._http.post<RespuestaServer>(`${this._url}/upload`, formData);
   }
 
-  subirImagenCloudinary = (vals: FormData): Observable<any> => {
-    // return this._http.request(req);
-    let data = vals;
-    return this._http.post('https://api.cloudinary.com/v1_1/dxffwzcn1/image/upload', data);
-    
-
-  }
   eliminar = (id: number): Observable<RespuestaServer> => {
     return this._http.delete<RespuestaServer>(`${this._url}/${id}`);
   }
-
-
 }

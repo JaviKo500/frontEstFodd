@@ -47,7 +47,7 @@
                                 <td>
                                     <div *ngIf="producto.imgProducto; else noImage" class="grid" style="max-width: 400px;">
                                         <div class="col-12" >
-                                            <img    src="{{ baseUrl }}/{{ producto.imgProducto }}" 
+                                            <img    src="{{ producto.imgProducto }}" 
                                                     [alt]="producto.descripcionPresentacion" 
                                                     style="cursor: pointer" 
                                                     class="img-container p-shadow-4"
@@ -160,7 +160,7 @@
     [draggable]="false" [resizable]="false" (onHide)="closeDialog()" >
     <div *ngIf="selectedProducto" class="grid" >
         <div class="col-12 w-full text-center" >
-            <img    src="{{ baseUrl }}/{{ selectedProducto.imgProducto }}" 
+            <img    src="{{ selectedProducto.imgProducto }}" 
                     [alt]="selectedProducto.descripcionProducto" 
                     style="max-width: 400px; max-height: 400px;"
                     class="w-full p-shadow-4" />
