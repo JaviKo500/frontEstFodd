@@ -19,10 +19,13 @@ export class RolGuard implements CanActivate {
       return false;
     }
     let role = route.data['role'];
+    
     if (!this._authService.usuario.roles) {
-      this._router.navigate(['/dashboard/sinrol']);
+      this._msgSweetAlertService.mensajeAdvertencia('Lo sentimos', 'No tienes un rol de acceso asignado');
+      this._authService.logOut();
       return false;
     }
+
     for (let i = 0; i < role.length; i++) {
       // vemos si un rol hace match con los del token
       if ( this._authService.hasRole(role[i])) {

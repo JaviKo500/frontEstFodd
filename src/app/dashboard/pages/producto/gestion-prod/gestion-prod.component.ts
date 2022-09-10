@@ -146,7 +146,8 @@ export class GestionProdComponent implements OnInit {
         this.detallesForm.reset();
         this.productoForm.get('ivaProducto')?.patchValue(12);
         this._msgSweetAlertService.mensajeOk('Producto Guardado');        
-        this.subirImagen(resp.respuesta.idProducto);
+        // this.subirImagen(resp.respuesta.idProducto);
+        this.subirImagenCloudinary(resp.respuesta.idProducto);
         // emitir para buscar productos sin stock
         this._notificacionesService.notificacionesMenu$.emit();
       }, 
@@ -207,6 +208,7 @@ export class GestionProdComponent implements OnInit {
   }
   selecionarImagen = (event: any) => {
     this.imagenSeleccionada = event.currentFiles[0];
+    
     if ( !this.imagenSeleccionada ) {
       this.imagenSeleccionada = null;
       return;
@@ -225,6 +227,20 @@ export class GestionProdComponent implements OnInit {
           this.upLoad?.clear();
           this.imagenSeleccionada = null;
         }
+      })
+    }
+  }
+
+  subirImagenCloudinary = (id:number) => {
+    if ( this.imagenSeleccionada) {
+      let data  = new FormData();
+      data.append('file', this.imagenSeleccionada);
+      data.append('upload_preset', 'eccq85of');
+      data.append('cloud_name', 'dxffwzcn1');
+      data.append('public_id', `${this.imagenSeleccionada.name}${Date.now()}`);
+      this._productoService.subirImagenCloudinary( data ).subscribe({
+        next:( resp ) => { console.log(resp)},
+        error: ( err: HttpErrorResponse ) => console.log(err)
       })
     }
   }
