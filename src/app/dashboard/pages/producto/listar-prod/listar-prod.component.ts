@@ -24,7 +24,7 @@ export class ListarProdComponent implements OnInit {
 
 
   public baseUrl: string = `${environment.baseUrl}/uploads/img`;
-  public urlNoImage: string = `${environment.UlrNoImage}/images/no-image.jpg`;
+  public urlNoImage: string = `${environment.UlrNoImage}images/no-image.jpg`;
 
   constructor(
     private _productoService: ProductoService,
