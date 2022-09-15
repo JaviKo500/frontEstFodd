@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost:8080/api',
-  UlrNoImage: 'http://localhost:8080',
+  baseUrl: 'https://app-estfood.herokuapp.com/api',
+  UlrNoImage: 'https://app-estfood.herokuapp.com/',
   credenciales: 'appEstFood' + ':' + 'app@EstFood12',
-  urlAuth: 'http://localhost:8080/oauth/token'
+  urlAuth: 'https://app-estfood.herokuapp.com/oauth/token'
 };

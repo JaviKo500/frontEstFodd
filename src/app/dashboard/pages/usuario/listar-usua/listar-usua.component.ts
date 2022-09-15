@@ -40,6 +40,8 @@ export class ListarUsuaComponent implements OnInit {
     this._rolService.roles().subscribe({
       next: (resp: RespuestaServer) => {
         this.roles = resp.respuesta;
+        console.log(resp);
+        
       },
       error: (err: HttpErrorResponse) => {
       }
