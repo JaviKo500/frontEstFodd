@@ -38,10 +38,7 @@ export class ListarProdComponent implements OnInit {
   listarProductos = () => {
     this._productoService.productos().subscribe({
       next: ( resp : RespuestaServer ) => {        
-
         this.productos = resp.respuesta as Producto[];        
-        console.log(this.productos);
-        
       },
       error: (err) => this.productos = []
     })

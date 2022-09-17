@@ -26,24 +26,24 @@
                             </small>
                         </div>
                         <div class="field">
-                            <label for="cedulaPersona" class="block">Cédula:</label>
-                            <input type="text" pInputText placeholder="cédula" formControlName="cedulaPersona" />
-                            <small  class="p-error block"
-                                *ngIf="verificarCampo('cedulaPersona')">
-                                {{cedulaErrorMsg()}}
-                            </small>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="field">
                             <label for="emailPersona" class="block">E-mail:</label>
-                            <input type="email" Class="w-5" pInputText placeholder="Email" formControlName="emailPersona" autocomplete="off"  />
+                            <input type="email" pInputText placeholder="Email" formControlName="emailPersona" autocomplete="off"  />
                             <small  class="p-error block"
                                 *ngIf="verificarCampo('emailPersona')">
                                 Campo requerido
                             </small>
                         </div>
+                    </div>
+                    <div class="col-6">
                         <div class="field">
+                            <label for="cedulaPersona" class="block">Cédula(Usuario):</label>
+                            <input type="text" class="w-5" pInputText placeholder="Cédula( Usuario )" formControlName="cedulaPersona" />
+                            <small  class="p-error block"
+                                *ngIf="verificarCampo('cedulaPersona')">
+                                {{cedulaErrorMsg()}}
+                            </small>
+                        </div>
+                        <div class="field" *ngIf="!id">
                             <label for="passwordUsuario" class="block">Password:</label>
                             <p-password formControlName="passwordUsuario" 
                                         weakLabel="Débil"

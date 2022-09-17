@@ -164,11 +164,16 @@ export class GestionProdComponent implements OnInit {
 
   actualizarProducto = () => {
     this.producto!.estadoProducto = this.selectedProducto?.estadoProducto;
+    this.producto!.imgProducto = this.selectedProducto?.imgProducto;
     this._productoService.actualizar(this.id!, this.producto!).subscribe({
       next: (resp: RespuestaServer) => {
+        this._msgSweetAlertService.mensajeOk('Producto actualizado');  
         this.subirImagen(this.id!);
         // emitir para buscar productos sin stock
         this._notificacionesService.notificacionesMenu$.emit();
+        if (!this.imagenSeleccionada) {
+          this.regresarPagina();
+        }
       }, 
       error: (err: HttpErrorResponse) => {
         if (err.status === 409) {
@@ -214,9 +219,9 @@ export class GestionProdComponent implements OnInit {
     
   }
 
-  subirImagen = (id: number) => {    
+  subirImagen = (id: number) => { 
     if (this.imagenSeleccionada) {
-      this._msgSweetAlertService.showLoading(false, 'Guardando producto', 'Espere por favor....');
+      this._msgSweetAlertService.showLoading(false, 'Producto guardado', 'Espere por favor....');
       this._productoService.subirFoto(this.imagenSeleccionada, id).subscribe({
         next: (resp: RespuestaServer) => {
           this.upLoad?.clear();

@@ -64,17 +64,17 @@ export class ListarVentaComponent implements OnInit {
   eliminar = (event: Event, id: number) => {    
     this._confirmationService.confirm({
         target: event.target!,
-        message: '¿Desea eliminar este producto?',
+        message: '¿Desea eliminar esta venta?',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: 'Si',
         accept: () => {
             this._ventaService.eliminar(id).subscribe({
               next: (resp: RespuestaServer) => {
-                this._msgSweetAlertService.mensajeOk('Producto Eliminado');
+                this._msgSweetAlertService.mensajeOk('Venta eliminada');
                 this.listarVenta();
               }, 
               error: (err: HttpErrorResponse) => {
-                this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo eliminar el producto');
+                this._msgSweetAlertService.mensajeError('Upss!', 'No se pudo eliminar la venta');
               }
             });
         },

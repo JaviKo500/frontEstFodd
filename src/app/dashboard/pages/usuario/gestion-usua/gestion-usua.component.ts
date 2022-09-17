@@ -9,7 +9,6 @@ import { Usuario } from '../../../../models/usuario/usuario';
 import { UsuarioService } from '../../../../services/usuario.service';
 import { RespuestaServer } from '../../../../models/response';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-gestion-usua',
@@ -23,7 +22,7 @@ export class GestionUsuaComponent implements OnInit {
     apellidosPersona: [, [ Validators.required ]],
     cedulaPersona: [ , [ Validators.required, this._validatorService.validadorDeCedula]],
     emailPersona: [ , [  Validators.pattern(Patter.emailPattern) ]],
-    passwordUsuario: [ , [ Validators.required ]],
+    passwordUsuario: [ ],
   });
 
   public usuario?: Usuario;
@@ -115,6 +114,8 @@ export class GestionUsuaComponent implements OnInit {
         this.usuarioForm.reset();
       }, 
       error: (err: HttpErrorResponse) => {
+        console.log(err);
+        
         if (err.status === 409) {
           this._msgSweetAlertService.mensajeAdvertencia('Upss!', 'Cédula repetido');
           return;
@@ -131,7 +132,7 @@ export class GestionUsuaComponent implements OnInit {
   eliminar = (event: Event) => {    
     this._confirmationService.confirm({
         target: event.target!,
-        message: '¿Desea eliminar este cliente?',
+        message: '¿Desea eliminar este usuario?',
         icon: 'pi pi-exclamation-triangle',
         acceptLabel: 'Si',
         accept: () => {
