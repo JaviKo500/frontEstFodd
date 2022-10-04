@@ -31,17 +31,20 @@ export class ReporVentaService {
       head: [[ 'Código', 'Nombres', 'Apellidos', 'Cédula', 'Fecha', 'Total Venta']],
       body: this.dataInput(ventas),
     });
-    doc.save('table.pdf')
+    doc.save(`rep_venta_${formatDate(Date(), 'YYYY-MM-dd:H:mm', 'es-EC').toUpperCase()}.pdf`);
   }
 
   dataInput = (ventas: Venta[]): RowInput[] => {
     let data: RowInput [] = [];
+    let suma: number = 0;
     for (const desc of ventas) {
       let nombres = desc.cliente?.persona?.nombresPersona?.toUpperCase();
       let apellidos = desc.cliente?.persona?.apellidosPersona?.toUpperCase();
       let cedula = desc.cliente?.persona?.cedulaPersona?.toUpperCase();
-      data.push([ desc.codigoVenta!, nombres!, apellidos!, cedula!, desc.fechaVenta?.toString()!, (`$${desc.totalVenta!}`)])
+      data.push([ desc.codigoVenta!, nombres!, apellidos!, cedula!, desc.fechaVenta?.toString()!, (`$${desc.totalVenta!}`)]);
+      suma += desc.totalVenta!;
     }
+    data.push([ '', '', '', '', 'Total', (`$${suma}`)]);
     return data;
   }
 }

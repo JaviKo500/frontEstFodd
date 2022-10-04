@@ -28,17 +28,20 @@ export class ReporProductoService {
     }
     autoTable(doc, {
       startY: 60,
-      head: [[ 'Código', 'Nombre', 'Fecha', 'Precio', 'Stock']],
+      head: [[ 'Código', 'Nombre', 'Fecha', 'Stock', 'Precio']],
       body: this.dataInput(productos),
     });
-    doc.save('table.pdf')
+    doc.save(`rep_producto_${formatDate(Date(), 'YYYY-MM-dd:H:mm', 'es-EC').toUpperCase()}.pdf`);
   }
 
   dataInput = (productos: Producto[]): RowInput[] => {
     let data: RowInput [] = [];
+    let suma: number = 0;
     for (const desc of productos) {
-      data.push([ desc.codigoProducto!, desc.descripcionProducto!, desc.fechaIngreso?.toString()!, (`$${desc.precioVentaProducto!}`), desc.stockProducto!])
+      data.push([ desc.codigoProducto!, desc.descripcionProducto!, desc.fechaIngreso?.toString()!, desc.stockProducto!, (`$${desc.precioVentaProducto!}`)])
+      suma += desc.precioVentaProducto!;
     }
+    data.push([ '', '', '', 'Total', (`$${suma}`)]);
     return data;
   }
 }

@@ -4,6 +4,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import localeES from '@angular/common/locales/es-EC';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +25,7 @@ registerLocaleData(localeES);
     HttpClientModule,
   ],
   providers: [
+    { provide: LocationStrategy, useClass: HashLocationStrategy},
     { provide: LOCALE_ID, useValue: 'es-EC' },
     // configuro los interceptores en el main de la app
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

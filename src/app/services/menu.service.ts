@@ -16,6 +16,7 @@ export class MenuService {
     return [
       {
         label: 'Home',
+        icon: PrimeIcons.HOME,
         command: () => this.display = !this.display,
         routerLink: 'home'
       },
@@ -133,6 +134,8 @@ export class MenuService {
       {
         label: 'Configuración',
         icon: PrimeIcons.COG,
+        separator: true,
+        disabled: true,
         visible: this.hasRolUser(
           ['ROLE_ADMINISTRADOR']
         ),

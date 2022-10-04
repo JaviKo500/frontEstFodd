@@ -86,7 +86,7 @@
                     <div class="col-3">
                         <div class="field">
                             <label for="ivaDetalleCompraProducto" class="block">IVA:</label>
-                            <input type="number" pInputText placeholder="IVA" formControlName="ivaDetalleCompraProducto" />
+                            <input type="number" pInputText placeholder="IVA" min="0" formControlName="ivaDetalleCompraProducto" />
                             <small class="p-error block" *ngIf="verificarCampo('ivaDetalleCompraProducto', detalleCompraForm)">
                                 Campo requerido.
                             </small>

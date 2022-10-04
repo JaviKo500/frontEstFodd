@@ -29,14 +29,21 @@ export class ReporCompraService {
       head: [[ 'Código', 'Proveedor', 'RUC/CI', 'Fecha',  'SubTotal', 'IVA', 'Total' ]],
       body: this.dataInput(compras),
     });
-    doc.save('table.pdf')
+    doc.save(`rep_compra_${formatDate(Date(), 'YYYY-MM-dd:H:mm', 'es-EC').toUpperCase()}.pdf`);
   }
 
   dataInput = (compras: Compra[]): RowInput[] => {
     let data: RowInput [] = [];
+    let sumaSubTotal: number = 0;
+    let sumaIva: number = 0;
+    let sumaTotal: number = 0;
     for (const desc of compras) {
-      data.push([ desc.codigoCompra!, desc.proveedor?.nombreProveedor!,  desc.proveedor?.rucProveedor!, desc.fechaCompra?.toString()!, (`$${desc.subTotalCompra!}`), (`$${desc.ivaTotalCompra!}`), (`$${desc.totalCompra!}`)])
+      data.push([ desc.codigoCompra!, desc.proveedor?.nombreProveedor!,  desc.proveedor?.rucProveedor!, desc.fechaCompra?.toString()!, (`$${desc.subTotalCompra!}`), (`$${desc.ivaTotalCompra!}`), (`$${desc.totalCompra!}`)]);
+      sumaSubTotal  += desc.subTotalCompra!;
+      sumaIva       += desc.ivaTotalCompra!;
+      sumaTotal     += desc.totalCompra!;
     }
+    data.push([ '', '',  '', 'Total', (`$${sumaSubTotal}`), (`$${sumaIva}`), (`$${sumaTotal}`)]);
     return data;
   }
 }
